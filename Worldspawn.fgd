@@ -1,0 +1,86 @@
+//Worldspawn, removed obsolete things, made musicpostfix and skyname a choice based listing, made timeofday do what it should
+@BaseClass = worldbase
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	
+	vscripts(scriptlist) : "Entity Scripts" : "" : "Name(s) of script files that are executed after all entities have spawned."
+	thinkfunction(string) : "Script think function" : "" : "Name of a function in this entity's script scope which will be called automatically."
+
+	// Inputs
+	input RunScriptFile(script) : "Execute a game script file from disk"
+	input RunScriptCode(string) : "Execute a string of script source code"
+
+
+	comment(string) : "Comment"
+	startdark(choices) : "Level Fade In" : 0 =
+	[	
+		0 : "No"
+		1 : "Yes"
+	]
+	maxoccludeearea(float) : "Max occludee area" : "0" : "[Used on PC] Prevents occlusion testing for entities that take up more than X% of the screen." 
+	minoccluderarea(float) : "Min occluder area" : "0" : "[Used on PC] Prevents occluders from being used if they take up less than X% of the screen." 
+	maxoccludeearea_x360(float) : "Max occludee area (Xbox)" : "0" : "[Used on 360] Prevents occlusion testing for entities that take up more than X% of the screen." 
+	minoccluderarea_x360(float) : "Min occluder area (Xbox)" : "0" : "[Used on 360] Prevents occluders from being used if they take up less than X% of the screen." 
+	maxpropscreenwidth(float) : "Start Fade Pixels" : -1 : "Number of pixels wide at which all props in the level start to fade (<0 = use fademaxdist). This number is ignored if the prop has a specific fade distance specified."
+	minpropscreenwidth(float) : "End Fade Pixels" : 0 : "Minimum number of pixels wide at which the prop is visible (0 = don't fade out). This number is ignored if the prop has a specific fade distance specified."
+	detailvbsp(string) : "Detail.vbsp file" : "detail.vbsp" : "Detail.vbsp file to use for emitting detail props (found in directory <root>/modname)"
+	detailmaterial(string) : "Detail material file" : "detail/detailsprites" : "Material for detail sprites to use for drawing detail props"
+	timeofday(choices) : "Witch behaviour (Time Of Day)" : 2 =
+	[
+		2 : "Sitting Witch"
+		3 : "Walking Witch"
+	]
+	startmusictype(choices) : "Start Music Type" : 0 =
+	[
+		0 : "Mission Start"
+		1 : "Check Point"
+	]
+
+	musicpostfix(choices) : "Music Post-Fix String" : "Waterfront" : "Music type, for Hordes and general mood. Pick an existing strin or enter your own custom name instead of an existing choice."=
+	[
+	"Waterfront" 	: "The Parish (Waterfront unused by campaign, but is default.)"
+	"BigEasy" 		: "The Parish (BigEasy) " 		
+	"Mall" 			: "Dead Center (Mall)"
+	"Fairgrounds" 	: "Dark Carnival (Fairgrounds)" 	
+	"Plankcountry" 	: "Swamp Fever (Plankcountry)" 	
+	"Milltown" 		: "Hard Rain (Milltown)" 		
+	"DeadLight" 	: "The Passing (DeadLight)" 	
+	"ThePassing" 	: "The Passing Finale (ThePassing)" 	
+	"Sacrifice" 	: "The Sacrifice (Sacrifice)" 		
+	"NoMercy" 		: "No Mercy (NoMercy)" 		
+	"Garage" 		: "Crash Course (Garage)" 		
+	"SmallTown" 	: "Death Toll (SmallTown)" 	
+	"Airport" 		: "Dead Air (Airport)" 		
+	"Farm" 			: "Blood Harvest (Farm)" 			
+	"ColdStream" 	: "Cold Stream (ColdStream)" 	
+	"Lighthouse" 	: "The LAst Stand (Lighthouse)" 	
+	]	
+
+	skyname(choices) : "SkyBox Texture Name" : "sky_l4d_rural02_hdr" : "Skybox name.                                              " +
+	"Pick an existing or enter your own VMT names, MINUS the lft, bk, up, ect. suffixes.               " +
+	"Check the VDC https://developer.valvesoftware.com/wiki/Left_4_Dead_2_Sky_List"=
+	[
+	"docks_hdr"				: "docks_hdr"					
+	"highrise_hdr"			: "highrise_hdr"			
+	"river_hdr"				: "river_hdr"				
+	"sky_coldstream_1_hdr"	: "sky_coldstream_1_hdr"	
+	"sky_coldstream_2_hdr"	: "sky_coldstream_2_hdr"	
+	"sky_day01_09_hdr"		: "sky_day01_09_hdr"		
+	"sky_l4d_c1_1_hdr"		: "sky_l4d_c1_1_hdr"		
+	"sky_l4d_c1_2_hdr"		: "sky_l4d_c1_2_hdr"		
+	"sky_l4d_c2m1_hdr"		: "sky_l4d_c2m1_hdr"		
+	"sky_l4d_c4m1_hdr"		: "sky_l4d_c4m1_hdr"		
+	"sky_l4d_c4m4_hdr"		: "sky_l4d_c4m4_hdr"		
+	"sky_l4d_c5_1_hdr"		: "sky_l4d_c5_1_hdr"		
+	"sky_l4d_c6m1_hdr"		: "sky_l4d_c6m1_hdr"		
+	"sky_l4d_night02_hdr"	: "sky_l4d_night02_hdr"	
+	"sky_l4d_predawn02_hdr"	: "sky_l4d_predawn02_hdr"	
+	"sky_l4d_rural02_hdr"	: "sky_l4d_rural02_hdr"	
+	"sky_l4d_urban01_hdr"	: "sky_l4d_urban01_hdr"	
+	"urbannightburning_hdr"	: "urbannightburning_hdr"		
+	]
+]
+@SolidClass base( worldbase, ResponseContext) = worldspawn : 
+	"This is the world entity. Each map can only contain one, and it's automatically created for you."
+[
+]
