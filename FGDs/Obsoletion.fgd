@@ -122,12 +122,7 @@
 [
 	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
-// This is obsolete, info_target is all you need now.
-@PointClass color(255 0 0) base(obsolete, Targetname, Parentname, Angles, PlayerClass) studio("models/editor/playerstart.mdl") = info_teleport_destination : 
-	"An entity that does nothing itself, but can be used to specify the destination for a trigger_teleport entity. An info_target can be used instead."
-[
-	obsolete(string) : "Use info_target" : : " "
-]
+
 
 
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = info_npc_spawn_destination : 
@@ -388,47 +383,46 @@
 [
 	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
-////////////////////////////////////////////////////////////////////////////////////////////////////////
 @PointClass color(255 0 0) base(obsolete,Targetname, Angles) iconsprite("editor/obsolete.vmt")= trigger_standoff :
 	"use 'trigger_finale'"
 [
 	obsolete(string) : "use trigger_finale" : : " "
 ]
 
-@PointClass base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = info_ambient_mob_start : "potential starting location for an ambient mob"
+@PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = info_ambient_mob_start : "potential starting location for an ambient mob"
 [                          
 	obsolete(string) : "Unused, Deprecated or just broken" : : " "
 ]                          
 						   
-@PointClass base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = info_ambient_mob_end : "end location for an ambient mob"
+@PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = info_ambient_mob_end : "end location for an ambient mob"
 [                          
 	obsolete(string) : "Unused, Deprecated or just broken" : : " "
 ]                          
 						   
-@PointClass base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = info_ambient_mob : "Universal ambient mob start/end (use with care)"
+@PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = info_ambient_mob : "Universal ambient mob start/end (use with care)"
 [
 	obsolete(string) : "Unused, Deprecated or just broken" : : " "
 ]
 
-@PointClass base(obsolete,Angles) iconsprite("editor/obsolete.vmt") = test_traceline : 
+@PointClass color(255 0 0) base(obsolete,Angles) iconsprite("editor/obsolete.vmt") = test_traceline : 
 	"A debugging tool for testing tracelines."
 [
 	obsolete(string) : "Unused, Deprecated or just broken" : : " "
 ]
 
-@KeyFrameClass base(obsolete,Targetname, Parentname, Angles, KeyFrame) iconsprite("editor/obsolete.vmt") keyframe() = keyframe_track : 
+@KeyFrameClass color(255 0 0) base(obsolete,Targetname, Parentname, Angles, KeyFrame) iconsprite("editor/obsolete.vmt") keyframe() = keyframe_track : 
 	"Animation KeyFrame"
 [
 	obsolete(string) : "Unused, Deprecated or just broken" : : " "
 ]
 
-@MoveClass base(obsolete,Targetname, Parentname, KeyFrame, Mover) iconsprite("editor/obsolete.vmt") animator() = move_keyframed : 
+@MoveClass color(255 0 0) base(obsolete,Targetname, Parentname, KeyFrame, Mover) iconsprite("editor/obsolete.vmt") animator() = move_keyframed : 
 	"Keyframed Move Behavior"
 [
 	obsolete(string) : "Unused, Deprecated or just broken" : : " "
 ]
 
-@MoveClass base(obsolete,Targetname, Parentname, Mover, KeyFrame) iconsprite("editor/obsolete.vmt") animator() = move_track : 
+@MoveClass color(255 0 0) base(obsolete,Targetname, Parentname, Mover, KeyFrame) iconsprite("editor/obsolete.vmt") animator() = move_track : 
 	"Track Move Behavior"
 [
 	obsolete(string) : "Unused, Deprecated or just broken" : : " "
@@ -440,7 +434,7 @@
 		1 : "No"
 	]
 ]
-@PointClass base(obsolete,Targetname, Parentname) iconsprite("editor/obsolete.vmt") = point_message : 
+@PointClass color(255 0 0) base(obsolete,Targetname, Parentname) iconsprite("editor/obsolete.vmt") = point_message : 
 	"An entity that displays a text message in the world, at its origin."
 [
 	obsolete(string) : "Unused, Deprecated or just broken" : : " "
@@ -461,7 +455,7 @@
 	input Enable(void) : "Start displaying the message text, if the player is within the message radius."
 	input Disable(void) : "Stop displaying the message text."
 ]
-@PointClass base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = env_zoom : 
+@PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = env_zoom : 
 	"An entity that can be used to control the player's FOV. Useful for scenes where the player's view is being controlled, or player-usable binoculars/telescopes, etc."
 [
 	obsolete(string) : "Unused, Deprecated or just broken" : : " "
@@ -477,7 +471,7 @@
 		1: "Allow Suit Zoom" : 0
 	]
 ]
-@PointClass base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = env_screeneffect :
+@PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = env_screeneffect :
 	"Allows screenspace effects to be played on the player's view."
 [
 	obsolete(string) : "CRASHES L4D2" : : " "
@@ -493,7 +487,7 @@
 	input   StopEffect(float) : "Stop the effect."
 ]
 
-@PointClass base(obsolete, Targetname, Parentname, Angles) iconsprite("editor/obsolete.vmt") sphere(distance) lightcone()  = light_dynamic : 
+@PointClass color(255 0 0) base(obsolete, Targetname, Parentname, Angles) iconsprite("editor/obsolete.vmt") sphere(distance) lightcone()  = light_dynamic : 
 	"An invisible lightsource that changes in some way over time." 
 [
 	obsolete(string) : "Does not function at all." : : " "
@@ -542,7 +536,7 @@
 	input Toggle(void) : "Toggle the light on/off."
 ]
 
-@PointClass base(obsolete, Targetname,Angles,Parentname) studioprop("models/editor/camera.mdl") = point_viewcontrol : 
+@PointClass color(255 0 0) base(obsolete, Targetname,Angles,Parentname) studioprop("models/editor/camera.mdl") = point_viewcontrol : 
 	"Use point_viewcontrol_survivor for individual survivors or point_viewcontrol_multiplayer for all survivors at once" 
 [
 	obsolete(string) : "Obsolete" : : " "

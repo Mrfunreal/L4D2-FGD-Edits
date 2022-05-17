@@ -2,7 +2,26 @@
 //weapon_item_spawn with helper model 
 @PointClass base(Targetname,Angles) studioprop() = weapon_item_spawn
 [
-	model(studio) : "Helper Model" : "models/w_models/weapons/w_eq_bile_flask.mdl" : "ONLY for visual aid."
+	//model(studio) : "Helper Model" : "models/w_models/weapons/w_eq_bile_flask.mdl" : "ONLY for visual aid."
+	model(choices) : "Helper Model" : "models/editor/item_helper.mdl" : "Visual aid. Does not determine what spawns here." =
+  	[
+  	"models/editor/item_helper.mdl" 					: "Generic Helper" 
+	"models\props\terror\ammo_stack.mdl"                : "Ammo pile (Only pile model spawns)"
+	"models\w_models\weapons\w_eq_medkit.mdl"           : "First aid kit"
+	"models\w_models\weapons\w_eq_molotov.mdl"          : "Molotov Cocktail"
+	"models\w_models\weapons\w_eq_painpills.mdl"		: "Pain Pills"
+	"models/w_models/weapons/w_eq_pipebomb.mdl"			: "Pipe Bomb"
+	"models\props_equipment\oxygentank01.mdl"			: "Oxygen Tank"
+	"models\props_junk\propanecanister001a.mdl"			: "Propane Tank"
+	"models\props_junk\gas"                				: "Gasoline Can"
+	"models\w_models\weapons\w_eq_adrenaline.mdl"   	: "Adrenaline"
+	"models\w_models\weapons\w_eq_defibrillator.mdl"	: "Defibrillator"
+  	"models/w_models/weapons/w_eq_bile_flask.mdl"		: "Boomer Bile"
+	"models\weapons\melee\w_chainsaw.mdl"               : "Chainsaw"
+	"models\w_models\weapons\w_grenade_launcher.mdl"    : "Grenade Launcher"
+	"models\w_models\weapons\w_m60.mdl"                 : "M60 Machinegun"
+	]
+	
 	weaponskin(integer) : "Weapon Skin" : -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
 	skin(integer) : "Skin" : 1 : "Some weapons have multiple versions of their textures, called skins."
 	glowrange(float) : "Glow Range" : 0 : "Set a custom glow range for this spawner. 0 means use the default range."
@@ -120,4 +139,77 @@
 	output OnCarAlarmEnd(void) : "Car alarm has shut off"
 	output OnCarAlarmChirpStart(void) : ""
 	output OnCarAlarmChirpEnd(void) : ""
+]
+
+
+//Camera's
+@PointClass base(Targetname,Angles,Parentname) studioprop("models/editor/camera_multi.mdl") = point_viewcontrol_multiplayer : 
+	"A camera entity that controls all players' views. While it's active, the players will see out of the camera." 
+[
+	fov(float) : "Field of view" : "90" : "Player FOV"
+	fov_rate(float) : "Seconds to reach FOV target" : "1.0" : "Amount of time it should take to reach the specified FOV"
+	target_entity(target_destination): "Target Entity" : "" : "Entity to move to. (End of move will match origin and angles)."
+	interp_time(float) : "Seconds to reach target entity" : "1.0" : "Amount of time it should take to reach the target entity's origin and angles."
+	
+	spawnflags(flags) =
+	[
+		1: "Disable when move finished" : 1
+		2: "Set FOV" : 0
+	]
+
+	// Inputs
+	input Enable(void) : "Enable the point_viewcontrol_multiplayer, and start controlling the players' view."
+	input Disable(void) : "Disable the point_viewcontrol_multiplayer, and stop controlling the players' view."
+	input StartMovement(void) : "Start the movement to the target entity."
+]
+
+@PointClass base(Targetname,Angles,Parentname) studioprop("models/editor/camera_survivor.mdl") = point_viewcontrol_survivor : 
+	"A camera entity that controls the player's view. Travels from camera position to a first-person view on input." 
+[
+	fov(float) : "Field of view" : "90" : "Player FOV (if Set FOV spawnflag is set)"
+	fov_rate(float) : "Seconds to reach FOV target" : "1.0" : "Amount of time it should take to reach the specified FOV"
+
+	spawnflags(flags) =
+	[
+		1: "Disable when move finished" : 1
+		2: "Set FOV" : 0
+	]
+
+	// Inputs
+	input Enable(string) : "Enable the point_viewcontrol, and start controlling the player's view. Pass a survivor name to control that survivor's view.(ie '!zoey')"
+	input Disable(void) : "Disable the point_viewcontrol, and stop controlling the player's view."
+	input StartMovement(void) : "Start the movement to first-person view."
+]
+
+@PointClass base(Targetname,Angles,Parentname) studioprop("models/editor/camera_deathfall.mdl") = point_deathfall_camera : 
+	"A camera entity that players falling to their deaths look through." 
+[
+	fov(float) : "Field of view" : "90" : "Player FOV"
+	fov_rate(float) : "Seconds to reach FOV target" : "1.0" : "Amount of time it should take to reach the specified FOV"
+]
+//Different model, to distinguish from info_player_Start
+@PointClass base(Targetname, Parentname, Angles, PlayerClass) studio("models/editor/info_teleport_destination.mdl") = info_teleport_destination : 
+	"An entity that does nothing itself, but can be used to specify the destination for a trigger_teleport entity. An info_target can be used instead."
+[
+]
+
+//Upgrade_spawn with helper model
+@PointClass base(Targetname, Angles)studioprop() = upgrade_spawn
+[
+	laser_sight(integer) : "Laser Sight" : 1
+	upgradepack_incendiary(integer) : "UpgradePack - Incendiary" : 1
+	upgradepack_explosive(integer) : "UpgradePack - Explosive" : 1
+	
+	spawnflags(Flags) =
+	[
+		1 : "Enable Physics on spawned item" : 0
+		2 : "Spawned Item Must Exist" : 0
+	]
+	model(choices) : "Helper Model (Visual aid only)" : "models/w_models/weapons/w_laser_sights.mdl" =
+	[
+	"models/editor/upgrade_helper.mdl" 						: "Generic Helper" 
+	"models/w_models/weapons/w_laser_sights.mdl" 			: "Laser"
+	"models/w_models/weapons/w_eq_explosive_ammopack.mdl" 	: "Explosive Ammo"
+	"models/w_models/weapons/w_eq_incendiary_ammopack.mdl"	: "Incendiary Ammo"
+	]	
 ]

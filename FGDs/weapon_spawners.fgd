@@ -1,5 +1,27 @@
-//Weapon_Spawn with helper model
-@PointClass base(Parentname, Global, Targetname, Angles) studioprop() = weapon_spawn : "Configurable Weapon Spawner"
+//weapon_spawn_single with better listing of keyvalues. such as distinguishing skin and weaponskin.
+@BaseClass color(0 255 0) base(Parentname, Global, Targetname, Angles, Studiomodel) = WeaponSpawnSingle
+[
+	skin(integer) 		: "Skin               (Worldmodel)" : 0 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
+	weaponskin(integer) : "Weapon Skin (Viewmodel)" : -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
+	glowrange(float) : "Glow Range" : 0 : "Set a custom glow range for this spawner. 0 means use the default range."
+
+	solid(choices) : "Collisions" : 6 =
+	[
+		0: "Not Solid"
+		2: "Use Bounding Box"
+		6: "Use VPhysics"
+	]
+
+	spawnflags(Flags) =
+	[
+		1 : "Enable Physics" : 0
+		2 : "Must Exist" : 0
+		8 : "Infinite items (overrides count)" : 0
+	]
+]
+
+//Weapon_Spawn with helper model picker
+@PointClass color(255 255 0) base(Parentname, Global, Targetname, Angles) studioprop() = weapon_spawn : "Configurable Weapon Spawner"
 [	
 	weapon_selection(choices) : "Selection" : "any_primary" : "Spawn the selected weapon or weapon category" =
 	[
@@ -39,9 +61,11 @@
 		"weapon_sniper_awp" : "Sniper AWP"
 		"weapon_sniper_scout" : "Sniper Scout"
 	]	
-	model(choices) : "Helper Model" : "models/w_models/Weapons/w_rifle_ak47.mdl" : "Visual aid. Does not determine what spawns here." =
+	model(choices) : "Helper Model" : "models/editor/gun_helper.mdl" : "Visual aid. Does not determine what spawns here." =
   	[
-  	"models/w_models/Weapons/w_pistol_a.mdl" 				: "Pistol" 
+  	"models/editor/gun_helper.mdl" 							: "Generic Helper" 
+  	"models/w_models/Weapons/w_pistol_a.mdl" 				: "Pistol A" 
+  	"models/w_models/Weapons/w_pistol_b.mdl" 				: "Pistol B" 
   	"models/w_models/Weapons/w_desert_eagle.mdl" 			: "Magnum Pistol"   	
   	"models/w_models/Weapons/w_smg_uzi.mdl" 				: "Uzi" 
   	"models/w_models/Weapons/w_smg_a.mdl" 					: "Mac12" 
@@ -95,17 +119,153 @@
 
 	
 ]
-
-//weapon_ammo_spawn with model
-@PointClass base(WeaponSpawn) studioprop() = weapon_ammo_spawn : "Ammo Spawn Location" 
+//weapon_ammo_spawn with model. Removed obsolete keyvalues added by "weaponspawn" base.
+@PointClass color(0 255 0) base(Parentname, Global, Targetname, Angles, Studiomodel) studioprop() = weapon_ammo_spawn : "Ammo Spawn Location" 
 [
-	model(studio) : "Model" : "models/props/terror/ammo_stack.mdl" : "Models usually used:\n models/props/terror/ammo_stack.mdl \n models/props_unique/spawn_apartment/coffeeammo.mdl" 
+	model(studio) 	: "Model" : "models/props/terror/ammo_stack.mdl" : "Models usually used:\n models/props/terror/ammo_stack.mdl \n models/props_unique/spawn_apartment/coffeeammo.mdl" 
+	skin(integer)	: "Skin " : 0 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
+	glowrange(float) : "Glow Range" : 0 : "Set a custom glow range for this spawner. 0 means use the default range."
+
+
+
+	spawnflags(Flags) =
+	[
+		1 : "Enable Physics" : 0
+		2 : "Must Exist" : 0
+	]
 
 ]
-
 //Useful Melee Spawner
-@PointClass base(WeaponSpawn) studioprop() = weapon_melee_spawn : "Melee Weapon"
+//Had to remove all bases and manually add keyvalues required because of the model choice browser.
+@PointClass color(0 255 0) base(Parentname, Global, Targetname, Angles) studioprop() = weapon_melee_spawn : "Melee Weapon"
 [
+
 	melee_weapon(string) : "Melee Weapon" : "any" : "Options: 'Any' or a comma-delimited string of melee weapon script names. Leave blank for none.                                                            Valid names are: Golfclub, Fireaxe, Frying_pan, Machete, Baseball_bat, Crowbar, Cricket_bat, Tonfa, Katana, Electric_guitar, Knife, Pitchfork, Shovel - Or the  weapon script name of a custom melee weapon."
-	model(studio) : "Helper Model" : "models/weapons/melee/w_crowbar.mdl" : "ONLY for visual aid. Actual model in game is set by the 'Melee Weapon' String"
+	count(integer) : "Count" : 5 : "Max number of weapons given before disappearing."
+//	model(studio) : "Helper Model" : "models/weapons/melee/w_crowbar.mdl" : "ONLY for visual aid. Actual model in game is set by the 'Melee Weapon' String"
+	model(choices) : "Helper Model" : "models/weapons/melee/w_crowbar.mdl" : "Visual aid. Does not determine what spawns here." =
+  	[
+	"models/weapons/melee/w_bat.mdl"				: "Baseball Bat"
+	"models/weapons/melee/w_cricket_bat.mdl"		: "Cricket Bat"
+	"models/weapons/melee/w_crowbar.mdl"			: "Crowbar"
+	"models/weapons/melee/w_electric_guitar.mdl"	: "Electric Guitar"
+	"models/weapons/melee/w_fireaxe.mdl"			: "Fireaxe"
+	"models/weapons/melee/w_frying_pan.mdl"			: "Frying Pan"
+	"models/weapons/melee/w_golfclub.mdl"			: "Golfclub"
+	"models/weapons/melee/w_katana.mdl"				: "Katana"
+	"models/w_models/weapons/w_knife_t.mdl"			: "Knife"
+	"models/weapons/melee/w_machete.mdl"			: "Machete"
+	"models/weapons/melee/w_pitchfork.mdl"			: "Pitchfork"
+	"models/weapons/melee/w_shovel.mdl"				: "Shovel"
+	"models/weapons/melee/w_tonfa.mdl"				: "Tonfa"
+	"models/weapons/melee/w_riotshield.mdl"			: "Riotshield (Needs Mod To Enable Ingame)"
+	]
+	HMB(studio) : "Helper Model Browser" : "Browse for custom models" : "Browse for a custom melee model, so you can copypaste the path into 'Helper Model' to use it as visual aid."
+
+	//Studiomodel things because the model choice picker doesn't work if a base used has a "model" keyvalue already.
+	skin(integer) 		: "Skin               (Worldmodel)" : 0 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
+	weaponskin(integer) : "Weapon Skin (Viewmodel)" : -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
+	body(integer) : "Body" : 0 : "Some models have multiple bodygroups. Set this to a number other than 0 to use that bodygroup instead of the default."
+	glowrange(float) : "Glow Range" : 0 : "Set a custom glow range for this spawner. 0 means use the default range."
+
+	disableshadows(choices) : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	solid(choices) : "Collisions" : 6 =
+	[
+		0: "Not Solid"
+		2: "Use Bounding Box"
+		6: "Use VPhysics"
+	]
+	// Inputs
+	input Skin(integer) : "Changes the model skin to the specified number."
+	input DisableShadow(void) : "Turn shadow off."
+	input EnableShadow(void) : "Turn shadow on."
+	input AlternativeSorting(bool) : "Used to attempt to fix sorting problems when rendering. True activates, false deactivates"
+	// Outputs
+	output OnIgnite(void) : "Fired when this object catches fire."
+	
+	spawnflags(Flags) = 
+	[
+		1 : "Enable Physics" : 0
+		2 : "Must Exist" : 0
+		4 : "Absorb any dropped weapon type" : 0
+		8 : "Infinite items (overrides count)" : 0
+	]	
 ]
+
+//Just changing color in 2d view
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_pistol_b.mdl") = weapon_pistol_spawn : "Pistols" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_desert_eagle.mdl") = weapon_pistol_magnum_spawn : "Magnum Pistol" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_smg_uzi.mdl") = weapon_smg_spawn : "Submachinegun" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_shotgun.mdl") = weapon_pumpshotgun_spawn : "Pump Shotgun" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_autoshot_m4super.mdl") = weapon_autoshotgun_spawn : "Auto Shotgun" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_rifle_m16a2.mdl") = weapon_rifle_spawn : "Assault Rifle" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_sniper_mini14.mdl") = weapon_hunting_rifle_spawn : "Hunting Rifle" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_smg_a.mdl") = weapon_smg_silenced_spawn : "MicroUZI" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_pumpshotgun_A.mdl") = weapon_shotgun_chrome_spawn : "Chrome Shotgun" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_shotgun_spas.mdl") = weapon_shotgun_spas_spawn : "SPAS Shotgun" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_rifle_B.mdl") = weapon_rifle_desert_spawn : "Desert Rifle" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_rifle_ak47.mdl") = weapon_rifle_ak47_spawn : "AK47" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_sniper_military.mdl") = weapon_sniper_military_spawn : "Military Sniper Rifle" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/weapons/melee/w_chainsaw.mdl") = weapon_chainsaw_spawn : "Chainsaw" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/weapons/w_grenade_launcher.mdl") = weapon_grenade_launcher_spawn : "Grenade Launcher" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_m60.mdl") = weapon_rifle_m60_spawn : "M60 Machinegun" []
+// CSS Guns
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_smg_mp5.mdl") = weapon_smg_mp5_spawn : "MP5" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_rifle_sg552.mdl") = weapon_rifle_sg552_spawn : "SG552" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_sniper_awp.mdl") = weapon_sniper_awp_spawn : "AWP Sniper" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_sniper_scout.mdl") = weapon_sniper_scout_spawn : "Scout Sniper" []
+// Grenades -----------------
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/weapons/w_eq_pipebomb.mdl") = weapon_pipe_bomb_spawn : "Pipe Bomb" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/weapons/w_eq_molotov.mdl") = weapon_molotov_spawn : "Molotov" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/weapons/w_eq_bile_flask.mdl") = weapon_vomitjar_spawn : "Vomit Jar" []
+// Items ------------------
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_Medkit.mdl") = weapon_first_aid_kit_spawn : "First Aid Kit" []
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_painpills.mdl") = weapon_pain_pills_spawn : "Painkillers" []
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_adrenaline.mdl") = weapon_adrenaline_spawn : "Adrenaline" []
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_defibrillator.mdl") = weapon_defibrillator_spawn : "Defibrillator" []
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/props_junk/gascan001a.mdl") = weapon_gascan_spawn : "Gas Can" []
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_incendiary_ammopack.mdl") = weapon_upgradepack_incendiary_spawn : "Upgrade Pack - Incendiary" []
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_explosive_ammopack.mdl") = weapon_upgradepack_explosive_spawn : "Upgrade Pack - Explosive" []
+
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_Medkit.mdl") = weapon_first_aid_kit : "Physics First Aid Kit - This entity is intended to be used in scripted events where a single item needs to spawned with physics active." []
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_grenade_launcher.mdl") = weapon_grenade_launcher : "Grenade Launcher - This entity is intended to be used in scripted events where a single item needs to spawned with physics active." []
+///////////////////////////////////////////////////////////////////////////////////////
+//removed studiomodel restriction, allowing use of custom models if required.
+//Also removes prop_dynamic base because it has alot of unrelated keyvalues. added required keyvalues instead.
+@PointClass color(0 255 0)base(Parentname, Global, Angles, EnableDisable) studioprop("models/w_models/weapons/w_minigun.mdl") = prop_minigun_l4d1 : "A mounted gun players can +USE"
+[
+	model(studio) : "World model" : "models/w_models/weapons/w_minigun.mdl" : "Could be changed"
+	MaxYaw(float) : "Max yaw" : "90" : "Max yaw the gun can be turned."
+	MaxPitch(float) : "Max pitch" : "60" : "Max pitch the gun can be depressed."
+	MinPitch(float) : "Min pitch" : "-30" : "Min pitch the gun can be raised."
+	
+	//inputs
+	input SetBodyGroup(integer) : "Set the visible bodygroup, by index."
+	input TurnOn(void) : "Make the prop visible."
+	input TurnOff(void) : "Make the prop invisible."
+	// Outputs
+	output OnFireStart(void) : "Fired when the minigun has spun up and is starting firing."
+	output OnFireStop(void) : "Fired when the minigun has stopped firing."
+] 
+//removed studiomodel restriction, allowing use of custom models if required.
+//Also removes prop_dynamic base because it has alot of unrelated keyvalues. added required keyvalues instead.
+@PointClass color(0 255 0)base(Parentname, Global, Angles, EnableDisable) studioprop("models/w_models/weapons/50cal.mdl") = prop_mounted_machine_gun: "50 caliber mounted gun (+USE)"
+[
+//	model(studio) : "World model" : "models/w_models/weapons/50cal.mdl" : "Cannot be changed"
+	MaxYaw(float) : "Max yaw" : "90" : "Max yaw the gun can be turned."
+	MaxPitch(float) : "Max pitch" : "60" : "Max pitch the gun can be depressed."
+	MinPitch(float) : "Min pitch" : "-30" : "Min pitch the gun can be raised."
+
+	//inputs
+	input SetBodyGroup(integer) : "Set the visible bodygroup, by index."
+	input TurnOn(void) : "Make the prop visible."
+	input TurnOff(void) : "Make the prop invisible."
+	// Outputs
+	output OnFireStart(void) : "Fired when the machine gun has starting firing."
+	output OnFireStop(void) : "Fired when the machine gun has stopped firing."
+]
+

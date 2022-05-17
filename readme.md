@@ -8,10 +8,11 @@ It adds a lot of options to various entities to make them more useful.
 2. Ammo upgrade entities as already deployed versions
 3. New visgroups for many type of entities.
 4. Default models for many props, like weapon_ammo_spawn, trigger_finale...
-5. More useful melee spawner that lists all usable melee weapon names in the help box, to copypaste names.
+5. More useful melee spawner that lists all usable melee weapon names in the help box, to copypaste names. Along with a model picker to easily pick any helper model you want. Alsi has a helper model browser that's jsut there to find a custom melee model, so you can copypaste the path of the model into the helper model field. It's a bit weird, but the best setup that i can do.
 6. info_survivor_position entities that allow you to pick the player model to align into sequences
 8. Marking leftover unused entities as Obsolete
 7. A whole lot of entity fixes specific for L4D2
+8. Generic helper models for weapon_spawn and item_spawn, so you'll immediately see which entities allow random spawns. But it also allows you to pick any existing model via dropdown
 
 Contains a VPK for hammer, including:
 1. Tool textures specifically for every kind of tool brush entity. like trigger_once, trigger_hurt, info_changelevel...
@@ -44,10 +45,12 @@ Game	hl2
 <img src="pictures/already_deployed_upgrades.png"/>
 <img src="pictures/visgroups.png"/>
 <img src="pictures/melee_spawn.png"/>
+<img src="pictures/melee_spawn2.png"/>
 <img src="pictures/info_survivor_position.png"/>
 <img src="pictures/Obsoleter.png"/>
 <img src="pictures/tooltextures.png"/>
 <img src="pictures/relays.png"/>
+<img src="pictures/generic_helpers.png"/>
 
 
 

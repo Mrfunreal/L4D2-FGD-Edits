@@ -194,7 +194,6 @@
 	max_range(float) : "Max Range" : 150 : "How far away a Fish can wander (max 255)"
 ]
 
-
 //env_player_blocker edits
 @PointClass wirebox(mins, maxs) base(Targetname) color(255 0 255)= env_player_blocker :
 	"An entity which blocks any PC/NPC from entering of the specified type."
@@ -241,4 +240,90 @@
 		2 : "Always Solid"
 	]
 	
+]
+
+//env_sprite using world glow as default. for light sprites and using axis helper model
+@PointClass base(Targetname, Parentname) studio("models/editor/axis_helper.mdl") sprite() color(20 140 20) = env_sprite : 
+	"An entity that controls the drawing of a sprite in the world." 
+[
+	framerate(string) : "Framerate" : "10.0" : "Rate at which the sprite should animate, if at all."
+	model(sprite) : "Sprite Name" : "sprites/glow01.spr" : "Material of the sprite to be drawn."
+	scale(string) : "Scale" : "" : "Scale multiplier of the sprite."
+	spawnflags(flags) =
+	[
+		1: "Start on" : 0
+		2: "Play Once" : 0
+	]
+
+	GlowProxySize(float) : "Size of Glow Proxy Geometry." : "2.0" : "Size of the glow to be rendered for visibility testing. Must be larger than the distance from the sprite center to empty space.  So if this glow is inside geometry (like a light bulb), set this value to be bigger than the bulb's radius. Any time a sphere of this radius would be visible (poking through any nearby geometry), the glow will be rendered."
+
+	HDRColorScale(float) : "HDR color scale." : "0.7" : "float value to multiply sprite color by when running in HDR mode."
+	
+	// Inputs
+	input ColorRedValue(float) : "Sets the red color channel's value (0 - 255)."
+	input ColorGreenValue(float) : "Sets the green color channel's value (0 - 255)."
+	input ColorBlueValue(float) : "Sets the blue color channel's value (0 - 255)."
+	input SetScale(float) : "Set the sprite's scale (0 - 8.0)."
+	input HideSprite(void) : "Hide the sprite. Won't be drawn until the 'ShowSprite' input is received."
+	input ShowSprite(void) : "Show the sprite."
+	input ToggleSprite(void) : "Toggle the sprite between hidden and shown."
+
+// Render Fields stuff, with "World Space Glow" as default.
+	rendermode(choices) : "Render Mode" : 9 : "Used to set a non-standard rendering mode on this entity. See also 'FX Amount' and 'FX Color'." =
+	[
+		0: "Normal"
+		1: "Color"
+		2: "Texture"
+		3: "Glow"
+		4: "Solid"
+		5: "Additive"
+		7: "Additive Fractional Frame"
+		9: "World Space Glow"
+		10: "Dont Render"
+	]
+	renderamt(integer) : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
+	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
+
+	disablereceiveshadows(choices) : "Disable Receiving Shadows" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	input Alpha(integer) : "Set the sprite's alpha (0 - 255)."
+	input Color(color255) : "Set the sprite's color (R G B)."
+
+	fademindist(float) : "Start Fade Dist" : -1 : "Distance at which the overlay starts to fade (<0 = subtract from fademaxdist)."
+	fademaxdist(float) : "End Fade Dist" : 0 : "Maximum distance at which the overlay is visible (0 = don't fade out)."
+ 	fadescale(float) : "Fade Scale" : 1 : "If you specify a fade in the worldspawn, or if the engine is running under low end/medium end/XBox360," +
+ 												 " then the engine will forcibly fade out props even if fademindist/fademaxdist isn't specified." +
+												 " This scale factor gives you some control over the fade. Using 0 here turns off the forcible fades." +
+
+
+]
+
+@PointClass base(env_sprite, Angles) = env_sprite_oriented :
+    "A env_sprite that allows orientation."
+[
+	framerate(string) : "Framerate" : "10.0" : "Rate at which the sprite should animate, if at all."
+	model(sprite) : "Sprite Name" : "sprites/glow01.spr" : "Material of the sprite to be drawn."
+	scale(string) : "Scale" : "" : "Scale multiplier of the sprite."
+	spawnflags(flags) =
+	[
+		1: "Start on" : 0
+		2: "Play Once" : 0
+	]
+
+	GlowProxySize(float) : "Size of Glow Proxy Geometry." : "2.0" : "Size of the glow to be rendered for visibility testing. Must be larger than the distance from the sprite center to empty space.  So if this glow is inside geometry (like a light bulb), set this value to be bigger than the bulb's radius. Any time a sphere of this radius would be visible (poking through any nearby geometry), the glow will be rendered."
+
+	HDRColorScale(float) : "HDR color scale." : "1.0" : "float value to multiply sprite color by when running in HDR mode."
+	
+	// Inputs
+	input ColorRedValue(float) : "Sets the red color channel's value (0 - 255)."
+	input ColorGreenValue(float) : "Sets the green color channel's value (0 - 255)."
+	input ColorBlueValue(float) : "Sets the blue color channel's value (0 - 255)."
+	input SetScale(float) : "Set the sprite's scale (0 - 8.0)."
+	input HideSprite(void) : "Hide the sprite. Won't be drawn until the 'ShowSprite' input is received."
+	input ShowSprite(void) : "Show the sprite."
+	input ToggleSprite(void) : "Toggle the sprite between hidden and shown."
 ]

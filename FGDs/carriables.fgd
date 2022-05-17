@@ -1,5 +1,5 @@
 //CARRIABLES 
- @BaseClass color(0 0 200) base(Targetname, Angles, Weapon)  = WeaponSpawnCarry
+ @BaseClass color(200 200 0) base(Targetname, Angles, Weapon)  = WeaponSpawnCarry
 [
 	skin(integer) 		: "Skin               (Worldmodel)" : 0 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
 	weaponskin(integer) : "Weapon Skin (Viewmodel)" : -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
@@ -49,6 +49,6 @@
 	]
 ]
 
-@PointClass base(WeaponSpawnCarry) studioprop("models/props_junk/gascan001a.mdl") = weapon_gascan : "Gas Can" []
-@PointClass base(WeaponSpawnCarry) studioprop("models/props_junk/gnome.mdl") = weapon_gnome : "Gnome" []
-@PointClass base(WeaponSpawnCarry) studioprop("models/w_models/weapons/w_cola.mdl") = weapon_cola_bottles : "Cola" []
+@PointClass color(0 200 0)base(WeaponSpawnCarry) studioprop("models/props_junk/gascan001a.mdl") = weapon_gascan : "Gas Can" []
+@PointClass color(0 200 0)base(WeaponSpawnCarry) studioprop("models/props_junk/gnome.mdl") = weapon_gnome : "Gnome" []
+@PointClass color(0 200 0)base(WeaponSpawnCarry) studioprop("models/w_models/weapons/w_cola.mdl") = weapon_cola_bottles : "Cola" []
