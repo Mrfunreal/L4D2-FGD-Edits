@@ -40,15 +40,14 @@ Game	hl2
 ```Game hammer_vpk```
 
 ### Images
-<img src="pictures/areaportalwindow.gif" width="400" height="250"/>
-<img src="pictures/already_deployed_upgrades.png" width="400" height="250"/>
-<img src="pictures/visgroups.png" width="400" height="250"/>
-<img src="pictures/visgroups.png" width="400" height="250"/>
-<img src="pictures/melee_spawn.png" width="400" height="250"/>
-<img src="pictures/info_survivor_position.png" width="400" height="250"/>
-<img src="pictures/Obsoleter.png" width="400" height="250"/>
-<img src="pictures/tooltextures.png" width="400" height="250"/>
-<img src="pictures/relays.png" width="400" height="250"/>
+<img src="pictures/areaportalwindow.gif"/>
+<img src="pictures/already_deployed_upgrades.png"/>
+<img src="pictures/visgroups.png"/>
+<img src="pictures/melee_spawn.png"/>
+<img src="pictures/info_survivor_position.png"/>
+<img src="pictures/Obsoleter.png"/>
+<img src="pictures/tooltextures.png"/>
+<img src="pictures/relays.png"/>
 
 
 
