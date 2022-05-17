@@ -33,7 +33,8 @@ Game	left4dead2_dlc3
 Game	left4dead2_dlc2
 Game	left4dead2_dlc1
 Game	|gameinfo_path|.
-Game	hl2```
+Game	hl2
+```
 
 8. Add the folowing above ``Update``
 ```Game hammer_vpk```
