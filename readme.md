@@ -4,18 +4,18 @@ This is a collection of FGD edits that can be put together to make L4D2's Hammer
 It adds a lot of options to various entities to make them more useful.
 
 ### Contains
-"Fade Distance" sphere helper to areaportal_window entities so you can easier pick where the fade starts and ends.
-Ammo upgrade entities as already deployed versions
-New visgroups for many type of entities
-Default models for many props, like weapon_ammo_spawn, trigger_finale...
-More useful melee spawner that lists all usable melee weapon names in the help box, to copypaste names.
-A whole lot of entity fixes specific for L4D2
+1. "Fade Distance" sphere helper to areaportal_window entities so you can easier pick where the fade starts and ends.
+2. Ammo upgrade entities as already deployed versions
+3. New visgroups for many type of entities
+4. Default models for many props, like weapon_ammo_spawn, trigger_finale...
+5. More useful melee spawner that lists all usable melee weapon names in the help box, to copypaste names.
+6. A whole lot of entity fixes specific for L4D2
 
 Contains a VPK for hammer, including:
-Tool textures specifically for every kind of tool brush entity. like trigger_once, trigger_hurt, info_changelevel...
-A lot of new sprites for entities that didn't have one. Like the director and icons for all three tonemap entities.
-various differently colored sprites for logic_relay. For people who like to color code their things.
-L4D2 specific measure textures for doors, jump height, crouch space...
+1. Tool textures specifically for every kind of tool brush entity. like trigger_once, trigger_hurt, info_changelevel...
+2. A lot of new sprites for entities that didn't have one. Like the director and icons for all three tonemap entities.
+3. various differently colored sprites for logic_relay. For people who like to color code their things.
+4. L4D2 specific measure textures for doors, jump height, crouch space...
 
 ### Install
 1. Download the entire "L4D2-FGD-Edits" repo folder into ```Steam\steamapps\common\Left 4 Dead 2\bin```
