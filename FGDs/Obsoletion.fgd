@@ -128,58 +128,20 @@
 [
 	obsolete(string) : "Use info_target" : : " "
 ]
-@PointClass color(255 0 0) base(obsolete, Targetname, Angles) sphere(expradius) studioprop() = physics_cannister : 
-	"A physically simulated gas cannister that can have its cap shot off, at which point gas will start escaping and cause the cannister to fly around. If it takes enough damage, it will explode."
-[
-	obsolete(string) : "Technically works, but not properly" : : " "
-	model(studio) : "World model" : "models/fire_equipment/w_weldtank.mdl"
-	spawnflags(flags) = 
-	[
-		1 : "Start Asleep" : 0
-		2 : "Explodes" : 1
-	]
-	expdamage(string) : "Explosion Damage" : "200.0" : "The amount of damage done by the explosion created when the cannister blows up."
-	expradius(string) : "Explosion Radius" : "250.0" : "The radius of the explosion to create when the cannister blows up."
-	health(integer) : "Health" : 25 : "The amount of damage the cannister takes before exploding."
-	thrust(string) : "Thrust" : "3000.0" : "When the cap has been blown off, and the escaping gas is thrusting the cannister about, this is the amount of thrust generated."
-	fuel(string) : "Fuel Seconds" : "12.0" : "The amount of time that gas leaks from the cannister before being considered empty."
-	rendercolor(color255) : "Smoke Color (R G B)" : "255 255 255"
-	renderamt(integer) : "Smoke Alpha (0 - 255)" : 128
-	gassound(sound) : "Thruster Sound" : "ambient/objects/cannister_loop.wav" : "The sound played when the gas is escaping from the cannister."
-	// Inputs
-	input Activate(string) : "Start gas escaping from the cannister."
-	input Deactivate(string) : "Stop gas escaping from the cannister."
-	input Explode(string) : "Force the cannister to explode."
-	input Wake(void) : "Wakes up the cannister, if it is sleeping."
-	// Outputs
-	output OnActivate(void) : "Fired when gas starts to escape from the cannister."
-	output OnAwakened(void) : "Fired when this entity becomes awake (collision/force is applied)."
-]
+
+
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = info_npc_spawn_destination : 
 	"This entity is in the FGD but L4D2 does not have it."
 [
 	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
+
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = npc_template_maker : 
 	"This entity is in the FGD but L4D2 does not have it."
 [
 	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 //obsolete?
-//	@PointClass base(Targetname) = env_screeneffect :
-//		"Allows screenspace effects to be played on the player's view."
-//	[
-//		type(choices) : "Effect Type" : 0 : "Which effect to use." =
-//		[
-//			0 : "Advisor Stun"
-//			1 : "Intro Blur"
-//			2 : "Groggy Vision"
-//		]
-//	
-//		// Inputs
-//		input	StartEffect(float) : "Start the effect with the duration in seconds as the passed parameter."
-//		input   StopEffect(float) : "Stop the effect."
-//	]
 //@PointClass base(Targetname, Parentname, Angles, RenderFxChoices, RenderFields) studio() = cycler : 
 //	"An entity used to display a model for testing purposes. Shooting it with cycle through the model's animations."
 //[
@@ -431,4 +393,191 @@
 	"use 'trigger_finale'"
 [
 	obsolete(string) : "use trigger_finale" : : " "
+]
+
+@PointClass base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = info_ambient_mob_start : "potential starting location for an ambient mob"
+[                          
+	obsolete(string) : "Unused, Deprecated or just broken" : : " "
+]                          
+						   
+@PointClass base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = info_ambient_mob_end : "end location for an ambient mob"
+[                          
+	obsolete(string) : "Unused, Deprecated or just broken" : : " "
+]                          
+						   
+@PointClass base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = info_ambient_mob : "Universal ambient mob start/end (use with care)"
+[
+	obsolete(string) : "Unused, Deprecated or just broken" : : " "
+]
+
+@PointClass base(obsolete,Angles) iconsprite("editor/obsolete.vmt") = test_traceline : 
+	"A debugging tool for testing tracelines."
+[
+	obsolete(string) : "Unused, Deprecated or just broken" : : " "
+]
+
+@KeyFrameClass base(obsolete,Targetname, Parentname, Angles, KeyFrame) iconsprite("editor/obsolete.vmt") keyframe() = keyframe_track : 
+	"Animation KeyFrame"
+[
+	obsolete(string) : "Unused, Deprecated or just broken" : : " "
+]
+
+@MoveClass base(obsolete,Targetname, Parentname, KeyFrame, Mover) iconsprite("editor/obsolete.vmt") animator() = move_keyframed : 
+	"Keyframed Move Behavior"
+[
+	obsolete(string) : "Unused, Deprecated or just broken" : : " "
+]
+
+@MoveClass base(obsolete,Targetname, Parentname, Mover, KeyFrame) iconsprite("editor/obsolete.vmt") animator() = move_track : 
+	"Track Move Behavior"
+[
+	obsolete(string) : "Unused, Deprecated or just broken" : : " "
+	WheelBaseLength(integer) : "Distance between the wheels" : 50
+	Damage(integer) : "Damage done to blocking entities" : 0
+	NoRotate(choices) : "Turn to face down path" : 0 =
+	[
+		0 : "Yes"
+		1 : "No"
+	]
+]
+@PointClass base(obsolete,Targetname, Parentname) iconsprite("editor/obsolete.vmt") = point_message : 
+	"An entity that displays a text message in the world, at its origin."
+[
+	obsolete(string) : "Unused, Deprecated or just broken" : : " "
+	spawnflags(flags) =
+	[
+		1: "Start Disabled" : 0
+	]
+
+	message(string) : "Entity Message"
+	radius(integer) : "Show message radius" : 128 : "Distance the player must be within to see this message."
+	developeronly(choices) : "Developer Only?" : 0 : "If set, this message will only be visible when developer mode is on." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Inputs
+	input Enable(void) : "Start displaying the message text, if the player is within the message radius."
+	input Disable(void) : "Stop displaying the message text."
+]
+@PointClass base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = env_zoom : 
+	"An entity that can be used to control the player's FOV. Useful for scenes where the player's view is being controlled, or player-usable binoculars/telescopes, etc."
+[
+	obsolete(string) : "Unused, Deprecated or just broken" : : " "
+	Rate(float) : "Seconds to reach target" : "1.0" : "Amount of time it should take to reach the specified FOV."
+	FOV(integer) : "Target FOV" : 75 : "FOV that this entity should set the player's FOV to when active."
+
+	// Inputs
+	input Zoom(void) : "Start controlling the player's FOV."
+	input UnZoom(void) : "Stop controlling the player's FOV."
+
+	spawnflags(flags) =
+	[
+		1: "Allow Suit Zoom" : 0
+	]
+]
+@PointClass base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = env_screeneffect :
+	"Allows screenspace effects to be played on the player's view."
+[
+	obsolete(string) : "CRASHES L4D2" : : " "
+	type(choices) : "Effect Type" : 0 : "Which effect to use." =
+	[
+		0 : "Advisor Stun"
+		1 : "Intro Blur"
+		2 : "Groggy Vision"
+	]
+
+	// Inputs
+	input	StartEffect(float) : "Start the effect with the duration in seconds as the passed parameter."
+	input   StopEffect(float) : "Stop the effect."
+]
+
+@PointClass base(obsolete, Targetname, Parentname, Angles) iconsprite("editor/obsolete.vmt") sphere(distance) lightcone()  = light_dynamic : 
+	"An invisible lightsource that changes in some way over time." 
+[
+	obsolete(string) : "Does not function at all." : : " "
+	target(target_destination) : "Entity to point at" : : "The name of an entity in the map that the dynamic light will point at."
+	_light(color255) : "Light color" : "255 255 255 200"
+	brightness(integer) : "Light brightness" : 0
+	_inner_cone(integer) : "Inner (bright) angle" : 30
+	_cone(integer) : "Outer (fading) angle" : 45
+	pitch(integer) : "Pitch" : -90
+	distance(float) : "Maximum distance" : 120 : "This is the distance that light is allowed to cast, in inches."
+	spotlight_radius(float) : "Spotlight end radius" : 80 : "This is the radius of the light, in inches, at the object that it is hitting."
+    style(Choices) : "Appearance" : 0 =
+	[
+		0 : "Normal"
+		10: "Fluorescent flicker"
+		2 : "Slow, strong pulse"
+		11: "Slow pulse, noblack"
+		5 : "Gentle pulse"
+		1 : "Flicker A"
+		6 : "Flicker B"
+		3 : "Candle A"
+		7 : "Candle B"
+		8 : "Candle C"
+		4 : "Fast strobe"
+		9 : "Slow strobe"
+	]
+	spawnflags(Flags) = 
+	[ 
+		1 : "Do not light world (better perf)" : 0 
+		2 : "Do not light models" : 0
+		4 : "Add Displacement Alpha" : 0
+		8 : "Subtract Displacement Alpha" : 0
+	]
+
+	// Inputs
+	input Color(color255) : "Set the light's render color (R G B)."
+	input brightness(integer) : "Set the light brightness."
+	input distance(float) : "Set the maximum light distance."
+	input _inner_cone(integer) : "Set the inner (bright) angle."
+	input _cone(integer) : "Set the outer (fading) angle."
+	input spotlight_radius(float) : "Set the radius of the spotlight at the end point."
+	input style(integer) : "Change the lightstyle (see Appearance field for possible values)."
+
+	input TurnOn(void) : "Turn the light off."
+	input TurnOff(void) : "Turn the light on."
+	input Toggle(void) : "Toggle the light on/off."
+]
+
+@PointClass base(obsolete, Targetname,Angles,Parentname) studioprop("models/editor/camera.mdl") = point_viewcontrol : 
+	"Use point_viewcontrol_survivor for individual survivors or point_viewcontrol_multiplayer for all survivors at once" 
+[
+	obsolete(string) : "Obsolete" : : " "
+
+	fov(float) : "Field of view" : "90" : "Player FOV (if Set FOV spawnflag is set)"
+	fov_rate(float) : "Seconds to reach FOV target" : "1.0" : "Amount of time it should take to reach the specified FOV"
+
+	target(target_destination) : "Entity to Look At" : : "Name of the entity that the camera should point at and track while active."
+	targetattachment(string) : "Target Attachment Name" : : "If set, the camera will focus on the specified attachment on the 'Entity to Look At'."
+	wait(integer) : "Hold Time" : 10 : "The amount of time the camera should control the player's view for, after which it deactivates itself. If the camera should stay active until told to deactive, set the 'Infinite Hold Time' spawnflag."
+	moveto(target_destination) : "Path Corner" : : "The first path corner in a track that the camera should move along once it's activated. If not specified, the camera won't move."
+	interpolatepositiontoplayer(choices) : "Interpolate Position To Player" : 0 : "Gradually interpolate player's position to here on start. (Episodic only)" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	spawnflags(flags) =
+	[
+		1: "Start At Player" : 1
+		2: "Follow Player" : 1
+		4: "Freeze Player" : 0
+		8: "Infinite Hold Time" : 0
+		16:"Snap to goal angles" : 0
+		32:"Make Player non-solid" : 0
+		64:"Interruptable by Player" : 0
+		128:"Set FOV" : 0
+	]
+	speed(string) : "Initial Speed" : "0" : "The starting speed that the camera moves at, if it's on a path track."
+	acceleration(string) : "Acceleration units/sec^2" : "500" : "The speed at which the camera accelerates to path corner's desired speeds."
+	deceleration(string) : "Stop Deceleration units/sec^2" : "500" : "The speed at which the camera decelerates to path corner's desired speeds."
+
+	// Inputs
+	input Enable(string) : "Enable the point_viewcontrol, and start controlling the player's view. Pass a survivor name to control that survivor's view.(ie '!zoey')"
+	input Disable(void) : "Disable the point_viewcontrol, and stop controlling the player's view."
+
+	// Outputs
+	output OnEndFollow(void) : "Fired when the point_viewcontrol deactivates, due to the Disable input being received, the Entity to Look At being destroyed, or the Hold Time expiring."
 ]

@@ -19,6 +19,7 @@
 @include "FGDs/cubemap.fgd"             //adds larger cubemap options and an origin helper, for work in vide.
 @include "FGDs/areaportal.fgd"          //adds fade radius helpers.
 @include "FGDs/point_spotlight.fgd"     //Makes the helperprop white to make color display properly. Tried the same for light_spot, but didn't work.
+@include "FGDs/env_smoketrail.fgd"     	//adds sphere helper for "env_smoketrail"
 
 
 
