@@ -18,13 +18,13 @@ various differently colored sprites for logic_relay. For people who like to colo
 L4D2 specific measure textures for doors, jump height, crouch space...
 
 ### Install
-Download the entire "L4D2-FGD-Edits" repo folder into ```Steam\steamapps\common\Left 4 Dead 2\bin```
-You should end up with the directory ```Steam\steamapps\common\Left 4 Dead 2\bin\L4D2-FGD-Edits```
-In hammer click on ``Tools - Options``
-In the "Game Configuration" tab, look for the "Game Data Files" box use ONLY te left4dead2_ADDON.fgd.
-Copy the ``Hammer_vpk`` folder into l4d2's Root folder. next to  left4dead2.exe and the dlc folders.
-Open the ``left4dead2`` folder and the Gameinfo.txt inside.
-Scroll down to the first few ``game`` lines.
+1. Download the entire "L4D2-FGD-Edits" repo folder into ```Steam\steamapps\common\Left 4 Dead 2\bin```
+2. You should end up with the directory ```Steam\steamapps\common\Left 4 Dead 2\bin\L4D2-FGD-Edits```
+3. In hammer click on ``Tools - Options``
+4. In the "Game Configuration" tab, look for the "Game Data Files" box use ONLY te left4dead2_ADDON.fgd.
+5. Copy the ``Hammer_vpk`` folder into l4d2's Root folder. next to  left4dead2.exe and the dlc folders.
+6. Open the ``left4dead2`` folder and the Gameinfo.txt inside.
+7. Scroll down to the first few ``game`` lines.
 ```
 Game	update
 Game	left4dead2_dlc3
@@ -33,5 +33,5 @@ Game	left4dead2_dlc1
 Game	|gameinfo_path|.
 Game	hl2```
 
-Add the folowing above ``Update``
+8. Add the folowing above ``Update``
 ```Game hammer_vpk```
