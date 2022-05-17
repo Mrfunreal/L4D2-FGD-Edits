@@ -60,7 +60,7 @@
   	"models/w_models/Weapons/w_sniper_mini14.mdl" 			: "Hunting Rifle" 
   	]
 	
-	spawn_without_director(choices) : "Force spawn without considering nearby spawns." : 0 : "Bypass the proximity checks that make nearby weapons be the same tier / not the same weapon" =
+	spawn_without_director(choices) : "Spawn immediately without director" : 0 : "Bypass the proximity checks that make nearby weapons be the same tier / not the same weapon" =
 	[
 		0 : "No"
 		1 : "Yes"

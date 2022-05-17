@@ -5,11 +5,17 @@ It adds a lot of options to various entities to make them more useful.
 
 ### Contains
 1. "Fade Distance" sphere helper to areaportal_window entities so you can easier pick where the fade starts and ends.
+<img src="pictures/areaportalwindow.gif" width="400" height="250"/>
 2. Ammo upgrade entities as already deployed versions
+<img src="pictures/already_deployed_upgrades.png" width="400" height="250"/>
 3. New visgroups for many type of entities
 4. Default models for many props, like weapon_ammo_spawn, trigger_finale...
 5. More useful melee spawner that lists all usable melee weapon names in the help box, to copypaste names.
-6. A whole lot of entity fixes specific for L4D2
+6. info_survivor_position entities that allow you to pick the player model to align into sequences
+<img src="pictures/info_survivor_position.png" width="400" height="250"/>
+7. A whole lot of entity fixes specific for L4D2
+8. Marking leftover unused entities as Obsolete
+<img src="pictures/Obsoleter.png" width="400" height="250"/>
 
 Contains a VPK for hammer, including:
 1. Tool textures specifically for every kind of tool brush entity. like trigger_once, trigger_hurt, info_changelevel...
