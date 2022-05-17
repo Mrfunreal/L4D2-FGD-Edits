@@ -22,11 +22,10 @@ Contains a VPK for hammer, including:
 ### Install
 1. Download the entire "L4D2-FGD-Edits" repo folder into ```Steam\steamapps\common\Left 4 Dead 2\bin```
 2. You should end up with the directory ```Steam\steamapps\common\Left 4 Dead 2\bin\L4D2-FGD-Edits```
-3. In hammer click on ``Tools - Options``
+3. In hammer click on **Tools - Options**
 4. In the "Game Configuration" tab, look for the "Game Data Files" box use ONLY te left4dead2_ADDON.fgd. <img src="pictures/hammer_config.png" width=234/>
-5. Copy the ``Hammer_vpk`` folder into l4d2's Root folder. next to  left4dead2.exe and the dlc folders.
-6. Open the ``left4dead2`` folder and the Gameinfo.txt inside.
-7. Scroll down to the first few ``game`` lines.
+6. Open  ```Steam\steamapps\common\Left 4 Dead 2\left4dead2\Gameinfo.txt```
+7. Scroll down to the first few **game** lines.
 ```
 Game	update
 Game	left4dead2_dlc3
@@ -36,9 +35,9 @@ Game	|gameinfo_path|.
 Game	hl2
 ```
 
-8. Add the folowing above ``Update``
+8. Add the folowing above **Game Update**
 
-```Game hammer_vpk```
+```Game	bin\L4D2-FGD-Edits\hammer_vpk```
 
 ### Images
 <img src="pictures/areaportalwindow.gif"/>
