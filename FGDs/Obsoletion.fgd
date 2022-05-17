@@ -1,0 +1,434 @@
+@BaseClass = obsolete 
+[ 
+	obsolete(string) : "This Is Obsolete" : : "This entity is obsolete in L4D2 and does nothing."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = func_useableladder : 
+	"HL2 leftover for when Nodes were used instead of navmesh."
+[
+	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= func_ladderendpoint : 
+	"HL2 leftover for when Nodes were used instead of navmesh."
+[
+	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_ladder_dismount : 
+	"HL2 leftover for when Nodes were used instead of navmesh."
+[
+	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = info_node :
+	"HL2 leftover for when Nodes were used instead of navmesh."
+[
+	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = info_node_hint :
+	"HL2 leftover for when Nodes were used instead of navmesh."
+[
+	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")  = info_node_air :
+	"HL2 leftover for when Nodes were used instead of navmesh."
+[
+	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_node_air_hint :
+	"HL2 leftover for when Nodes were used instead of navmesh."
+[
+	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_hint :
+	"HL2 leftover for when Nodes were used instead of navmesh."
+[
+	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_node_link :
+	"HL2 leftover for when Nodes were used instead of navmesh."
+[
+	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_node_link_controller :
+	"HL2 leftover for when Nodes were used instead of navmesh."
+[
+	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_radial_link_controller :
+		"HL2 leftover for when Nodes were used instead of navmesh."
+[
+	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_node_climb : 
+	"HL2 leftover for when Nodes were used instead of navmesh."
+[
+	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = prop_minigun :
+	"Old L4D1 gatling entity, but is used as prop_mounted_machineun in L4D2. Use prop_minigun_l4d1 instead."
+[
+	obsolete(string) : "!!!! Use prop_minigun_l4d1 !!!!" : : "This entity is obsolete in L4D2 and spawns as prop_mounted_machineun instead."
+
+]
+@PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt")= game_weapon_manager : 
+	"An entity used to limit the number of a particular weapon type in the world. Useful in places where NPCs are spawning rapidly, dying, and dropping weapons." 
+[
+	weaponname(string) : "Weapon Classname" : "" : "Classname of the weapon type to limit."
+	maxpieces(integer) : "Max Allowed in Level"	: 0 : "The maximum amount of the specified weapon type allowed in the world."
+	ammomod(float)	   : "Ammo modifier" : 1 : 	"Modifier for ammount of ammo dropped by a weapon."
+	// Inputs
+	input SetAmmoModifier(float): "Adjust the ammo modifier."
+]
+@PointClass color(255 0 0) base(obsolete, Targetname)  iconsprite("editor/obsolete.vmt")= game_end : 
+	"An entity that ends a multiplayer game. Should not be used." 
+[
+	master(string) : "Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this entity will not activate."
+	input EndGame(void) : "End the multiplayer game."
+]
+@PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = game_player_equip : 
+	"An entity that gives equipment to the player who activates it. To use, add new keys to this entity, where each key is the classname of a weapon/item, and the corresponding value is the number of those weapons/items to give to the player who uses this entity. If the 'Use Only' spawnflag isn't set, then players can just touch this entity to get the equipment."
+[
+	spawnflags(flags) =
+	[
+		1: "Use Only" : 0
+	]
+	master(string) : "Team Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this entity will not activate."	
+]
+@PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = game_player_team : 
+	"An entity that changes the team of the player who activates it."
+[
+	spawnflags(flags) =
+	[
+		1 : "Remove On fire" : 0
+		2 : "Kill Player" : 0
+		4 : "Gib Player" : 0
+	]
+	target(string) : "game_team_master to use" 
+	master(string) : "Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this entity will not activate."	
+]
+@PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = game_score : 
+	"An entity that awards/deducts points from the player who activates it." 
+[
+	spawnflags(flags) =
+	[
+		1: "Allow Negative" : 0
+		2: "Team Points" : 0
+	]
+	points(integer) : "Points to add (+/-)" : 1
+	master(string) : "Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this entity will not activate."
+	// Inputs
+	input ApplyScore(void) : "Add score to player."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = info_overlay_transition :
+	"This entity is in the FGD but L4D2 does not have it."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+// This is obsolete, info_target is all you need now.
+@PointClass color(255 0 0) base(obsolete, Targetname, Parentname, Angles, PlayerClass) studio("models/editor/playerstart.mdl") = info_teleport_destination : 
+	"An entity that does nothing itself, but can be used to specify the destination for a trigger_teleport entity. An info_target can be used instead."
+[
+	obsolete(string) : "Use info_target" : : " "
+]
+@PointClass color(255 0 0) base(obsolete, Targetname, Angles) sphere(expradius) studioprop() = physics_cannister : 
+	"A physically simulated gas cannister that can have its cap shot off, at which point gas will start escaping and cause the cannister to fly around. If it takes enough damage, it will explode."
+[
+	obsolete(string) : "Technically works, but not properly" : : " "
+	model(studio) : "World model" : "models/fire_equipment/w_weldtank.mdl"
+	spawnflags(flags) = 
+	[
+		1 : "Start Asleep" : 0
+		2 : "Explodes" : 1
+	]
+	expdamage(string) : "Explosion Damage" : "200.0" : "The amount of damage done by the explosion created when the cannister blows up."
+	expradius(string) : "Explosion Radius" : "250.0" : "The radius of the explosion to create when the cannister blows up."
+	health(integer) : "Health" : 25 : "The amount of damage the cannister takes before exploding."
+	thrust(string) : "Thrust" : "3000.0" : "When the cap has been blown off, and the escaping gas is thrusting the cannister about, this is the amount of thrust generated."
+	fuel(string) : "Fuel Seconds" : "12.0" : "The amount of time that gas leaks from the cannister before being considered empty."
+	rendercolor(color255) : "Smoke Color (R G B)" : "255 255 255"
+	renderamt(integer) : "Smoke Alpha (0 - 255)" : 128
+	gassound(sound) : "Thruster Sound" : "ambient/objects/cannister_loop.wav" : "The sound played when the gas is escaping from the cannister."
+	// Inputs
+	input Activate(string) : "Start gas escaping from the cannister."
+	input Deactivate(string) : "Stop gas escaping from the cannister."
+	input Explode(string) : "Force the cannister to explode."
+	input Wake(void) : "Wakes up the cannister, if it is sleeping."
+	// Outputs
+	output OnActivate(void) : "Fired when gas starts to escape from the cannister."
+	output OnAwakened(void) : "Fired when this entity becomes awake (collision/force is applied)."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = info_npc_spawn_destination : 
+	"This entity is in the FGD but L4D2 does not have it."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = npc_template_maker : 
+	"This entity is in the FGD but L4D2 does not have it."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+//obsolete?
+//	@PointClass base(Targetname) = env_screeneffect :
+//		"Allows screenspace effects to be played on the player's view."
+//	[
+//		type(choices) : "Effect Type" : 0 : "Which effect to use." =
+//		[
+//			0 : "Advisor Stun"
+//			1 : "Intro Blur"
+//			2 : "Groggy Vision"
+//		]
+//	
+//		// Inputs
+//		input	StartEffect(float) : "Start the effect with the duration in seconds as the passed parameter."
+//		input   StopEffect(float) : "Stop the effect."
+//	]
+//@PointClass base(Targetname, Parentname, Angles, RenderFxChoices, RenderFields) studio() = cycler : 
+//	"An entity used to display a model for testing purposes. Shooting it with cycle through the model's animations."
+//[
+//	spawnflags(flags) =
+//	[
+//		1: "Not Solid" : 0
+//	]
+//	model(studio) : "Model"
+//	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
+//
+//	sequence(integer) : "Sequence" : 0 : "Default animation sequence for the model to be playing after spawning."
+//
+//	// Inputs
+//	input SetSequence(string) : "Sets the cycler's sequence."
+//]
+//@PointClass color(255 0 0) base(obsolete, gibshooterbase, RenderFields) iconsprite("editor/obsolete.vmt") = env_rotorshooter : 
+//	"An entity that creates gibs when it's within the influence of a helicopter's rotor wash."
+//[
+//	shootmodel(studio) : "Model" : "" : "Thing to shoot out.  Can be a .mdl or a .vmt."
+//	shootsounds(choices) :"Material Sound" : -1 =
+//	[
+//		-1: "None"
+//		0: "Glass"
+//		1: "Wood"
+//		2: "Metal"
+//		3: "Flesh"
+//		4: "Concrete"  
+//	]
+//	simulation(choices) :"Simulate" : 0 =
+//	[
+//		0: "Point"
+//		1: "Physics"
+//		2: "Ragdoll"
+//	]
+//
+//	skin(integer) : "Gib Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin on all gibs produced by this shooter."
+//
+//	spawnflags(flags) =
+//	[
+//		2 : "On fire" : 0
+//	]
+//
+//	rotortime(float) : "Time Under Rotor" : "1" : "The average time it has to be under the rotor before it shoots a gib."
+//	rotortimevariance(float) : "Time variance" : "0.3" : "The random amount to vary the time it has to be under the rotor before it shoots a gib."
+//]
+@PointClass color(255 0 0) base(obsolete)  iconsprite("editor/obsolete.vmt")= env_rotorwash_emitter :
+	"This entity is in the FGD but L4D2 does not have it."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+@PointClass color(255 0 0) base(obsolete,gibshooterbase) iconsprite("editor/obsolete.vmt") = gibshooter : 
+	"An entity that shoots out gibs. Style of body part depends on language type."
+[
+	obsolete(string) : "Use env_shooter" : : " "
+]
+@PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt")= game_weapon_manager : 
+	"An entity used to limit the number of a particular weapon type in the world. Useful in places where NPCs are spawning rapidly, dying, and dropping weapons." 
+[
+	weaponname(string) : "Weapon Classname" : "" : "Classname of the weapon type to limit."
+	maxpieces(integer) : "Max Allowed in Level"	: 0 : "The maximum amount of the specified weapon type allowed in the world."
+	ammomod(float)	   : "Ammo modifier" : 1 : 	"Modifier for ammount of ammo dropped by a weapon."
+	// Inputs
+	input SetAmmoModifier(float): "Adjust the ammo modifier."
+]
+@PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt")= game_score : 
+	"An entity that awards/deducts points from the player who activates it." 
+[
+	spawnflags(flags) =
+	[
+		1: "Allow Negative" : 0
+		2: "Team Points" : 0
+	]
+	points(integer) : "Points to add (+/-)" : 1
+	master(string) : "Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this entity will not activate."
+	// Inputs
+	input ApplyScore(void) : "Add score to player."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= point_tesla : 
+	"This entity is in the FGD but L4D2 does not have it."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_no_dynamic_shadow : 
+	"This entity is in the FGD but L4D2 does not have it."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_overlay_transition :
+	"This entity is in the FGD but L4D2 does not have it."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = info_intermission : 
+	"This entity is in the FGD but L4D2 does not have it."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+@PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = info_null : 
+	"An entity that's immediately removed on spawning. Useful as a spotlight target."
+[
+	obsolete(string) : "Technically works, but any target will do." : : " "
+]
+@SolidClass color(255 0 0) base(obsolete, Targetname, Parentname, Origin) = func_water_analog :
+	"A water brush entity that moves linearly along a given distance, in a given direction"
+[
+	obsolete(string) : "this does not work properly" : : " "
+	movedir(angle) : "Move Direction (Pitch Yaw Roll)" : "0 0 0" : "The direction the water will move, when told to 'Open'."
+	startposition(float) : "Start Position" : 0 : "Position of the water brush when spawned. The range is a value between 0.0 and 1.0, where 0 is the starting position and 1 is the starting position + (move direction * move distance)."	
+	speed(integer) : "Speed" : 100 : "The speed that the water brush moves, in inches per second."
+	movedistance(float) : "Move Distance" : 100 : "The distance from the starting point that the water brush should move, in inches."
+	startsound(sound) : "Sound played when the water brush starts moving."
+	stopsound(sound) : "Sound played when the water brush stops moving."
+	WaveHeight(string) : "Wave Height" : "3.0"
+	// Inputs
+	input Open(void) : "Move the water brush to the end position (starting position + (move direction * move distance))."
+	input Close(void) : "Move the water brush to the starting position."
+	input SetPosition(string) : "Move the water brush to a specific position between 0.0 and 1.0, where 0 is the starting position and 1 is the starting position + (move direction * move distance)."
+	// Outputs
+	output OnFullyOpen(void) : "Fired when the water brush reaches the end position (starting position + (move direction * move distance))."
+	output OnFullyClosed(void) : "Fired when the water brush reaches the starting position."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= logic_autosave :
+	"does exist, but L4D2 does not have autosave."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= logic_active_autosave :
+	"does exist, but L4D2 does not have autosave."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= point_angularvelocitysensor :
+	"This entity is in the FGD but L4D2 does not have it."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= point_velocitysensor :
+	"This entity is in the FGD but L4D2 does not have it."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+@SolidClass color(255 0 0) base(obsolete, Targetname, Parentname) = func_illusionary : 
+	"Legacy support. Use func_brush instead." 
+[
+	obsolete(string) : "Use Func_brush" : : " "
+]
+@SolidClass color(255 0 0) base(obsolete, func_wall) = func_wall_toggle : 
+	"Legacy support. Use func_brush instead." 
+[
+	obsolete(string) : "Use Func_brush" : : " "
+]
+@SolidClass color(255 0 0) base(obsolete, Targetname)= func_wall : 
+	"Legacy support. Use func_brush instead." 
+[
+	obsolete(string) : "use func_brush" : : " "
+]
+@SolidClass color(255 0 0) base(obsolete) = trigger_autosave : 
+	"does exist, but L4D2 does not have autosave."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+@SolidClass color(255 0 0) base(obsolete, info_changelevel) = trigger_changelevel : 
+	"use info_changelevel"
+[
+	obsolete(string) : "USE INFO_CHANGELEVEL" : : " "
+	obsolete2(string) : "surrogates to info_changelevel" : : " "
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = ai_speechfilter : 
+	"This entity is in the FGD but L4D2 does not have it."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_camera_link :
+	"This entity is in the FGD but L4D2 does not have it."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= npc_furniture : 
+	"This entity is in the FGD but L4D2 does not have it."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= logic_playerproxy :
+	"This entity is in the FGD but L4D2 does not have it."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+@PointClass color(255 0 0) base(obsolete, Targetname, Parentname, Angles) iconsprite("editor/obsolete.vmt")= env_projectedtexture : 
+	"Projected texture entity. DO NOT USE"
+[
+	spawnflags(flags) =
+	[
+		1  : "Enabled"				: 1
+	]
+	obsolete(string) : "Doesn't work." : : "This entity is reused as the player flashlight. You can only have on on a map. which is your flashlight"
+	target(target_destination)	: "target" : : "target"	
+	lightfov(float)				: "FOV" : "90.0" : "FOV"
+	nearz(float)				: "NearZ" : "4.0" : "Near Z for projected texture"
+	farz(float)					: "FarZ" : "750.0" : "Far Z for projected texture"	
+	enableshadows(Choices) : "Enable Shadows" : 0 : "Enables/disables shadows from this projected texture." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	shadowquality(Choices) : "Shadow Quality" : 1 : "Quality of shadows." =
+	[
+		0 : "Low"
+		1 : "High"
+	]
+	lightonlytarget(Choices) : "Light Only Target" : 0 : "Limit flashlight effect to only effect target entity." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	lightworld(Choices) : "Light World" : 1 : "Control whether flashlight effects static world geometry." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	lightcolor(color255)		: "Light Color" : "255 255 255 200" : "Light Color RGB-Intensity"
+	cameraspace(integer)		: "Camera Space" : 0 : "Angles are interpreted as being relative to camera."
+	// Inputs
+	input TurnOn(void)		: "Turn on the texture"
+	input TurnOff(void)		: "Turn off the texture"
+	input SetFOV(float)		: "Set FOV"
+]
+@SolidClass color(255 0 0) base(obsolete, func_brush) = func_reflective_glass :
+	"Used to produce perfectly reflective glass that renders world + entities. " +
+	"Typically, you want your glass brush to have nodraw on all non-reflective surfaces " +
+	"and you want to use a shader like lightmappedreflective in your material applied " +
+	"to the non-nodraw surfaces. See hl2/materials/glass/reflectiveglass001.vmt for an example. " +
+	"NOTE: currently, you cannot use reflective glass in scenes with water, and you can only " +
+	"have 1 reflective glass in your view frustum ( + pvs ) at a time."
+[
+	obsolete(string) : "No idea if it works as intended." : : " "
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= npc_puppet :
+	"This entity is in the FGD but L4D2 does not have it."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+@PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = env_funnel : 
+	"This entity is in the FGD but L4D2 does not have it."
+[
+	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
+]
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+@PointClass color(255 0 0) base(obsolete,Targetname, Angles) iconsprite("editor/obsolete.vmt")= trigger_standoff :
+	"use 'trigger_finale'"
+[
+	obsolete(string) : "use trigger_finale" : : " "
+]

@@ -1,0 +1,244 @@
+//These here are smaller changes that just add one option, or swap the studiomdl, sprite or whatever.
+
+
+
+//Edited Color_Correction
+@PointClass base(Targetname, EnableDisable) iconsprite("editor/color_correction.vmt") = color_correction : 
+	"An entity to control the color correction in the map. In L4D2, you must use at least one fog_controller brush entity to have color correction work!"
+[
+
+	minfalloff(float) : "Lookup Falloff Start Distance (Obsolete)"	: "0.0"	: "This is the distance to the start of the falloff region (-1 = everywhere) Set to 0 in L4D2"
+	maxfalloff(float) : "Lookup Falloff End Distance (Obsolete)"	: "-1" 	: "This is the distance to the end of the falloff region (-1 = everywhere). Set to -1 in L4D2"
+	maxweight(float)  : "Maximum Weight (Strength)"					: "1.0"	: "This is the strength of the Color Correction         (0 = 0%, 0.5 = 50%, 1 = 100%)"
+	filename(string)  : "Color Correction Filename" : "materials/correction/"	  : "This is the Color Correction table filename.        (e.g: materials/correction/cc_c1_main.raw)"
+	fadeInDuration(float)   : "Fade In Duration"					: "0.0"	  : "Duration of fade in on when enabled in seconds. Also applies to fog_volume."
+	fadeOutDuration(float)   : "Fade out Duration"					: "0.0"	  : "Dration of fade out on when disabled in seconds. Also applies to fog_volume."
+	exclusive(choices) : "Exlusive" : 0 : "An exclusive color_correction entity disables and fades out all other color corrections when it is enabled. There should only be one active exclusive color_correction ent at any time." = 
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Inputs
+	input SetFadeInDuration(float) : "Sets the 'fadeInDuration' variable, used to fade cc lookup usage when entity is enabled."
+	input SetFadeOutDuration(float) : "Sets the 'fadeOutDuration' variable, used to fade cc lookup usage when entity is disabled."
+
+	spawnflags(flags) =
+	[
+		1 : "Master (Default color correction when used with L4D fog_volume)" : 0
+		2 : "Simulate client-side (Must be set when used with L4D fog_volume)" : 1
+	]
+]
+//Path Track Croshair model
+@PointClass base(Targetname, Parentname, Angles) cylinder(255 255 255, targetname, target, radius, targetname, targetname, radius) studio("models/editor/axis_helper.mdl") = path_track : 
+	"An entity used to build paths for other entities to follow. Each path_track is a node on the path, each holding the name of the next path_track in the path."
+[
+	spawnflags(Flags) =
+	[
+		1:  "Disabled" : 0
+		2:  "Fire once" : 0
+		4:  "Branch Reverse" : 0
+		8:  "Disable train" : 0
+		16: "Teleport to THIS path track" : 0
+	]
+	
+	target(target_destination) : "Next Stop Target" : : "The next path_track in the path."
+	altpath(target_destination) : "Branch Path" : : "An alternative path_track to be the next node in the path. Useful for making branching paths. Use the ToggleAlternatePath / EnableAlternatePath inputs to make the alternative path active."
+	speed(float) : "New Train Speed" : 0 : "When the train reaches this path_track, it will set its speed to this speed. "+
+		"This speed must be a positive value that is less than the train's max speed. A value of 0 will cause no change in the train's speed."
+	radius(float) : "Path radius" : 0 : "Used by NPCs who follow track paths (attack chopper/gunship). This tells them the maximum distance they're allowed to be from the path at this node."
+
+	orientationtype(choices) : "Orientation Type" : 1 : "The way that the path follower faces as it moves through this path track." =
+	[
+		0 : "No change"
+		1 : "Face direction of motion"
+		2 : "Face this path_track's angles"
+	]
+
+	// Inputs
+	input ToggleAlternatePath(void) : "Cause the track to toggle to/from its alternate path."
+	input EnableAlternatePath(void) : "Enable the alternate path of the track."
+	input DisableAlternatePath(void) : "Disable the alternate path of the track."
+
+	input TogglePath(void) : "Cause the track to toggle on/off/"
+	input EnablePath(void) : "Enable the track."
+	input DisablePath(void) : "Disable the track."
+
+	// Outputs
+	output OnPass(void) : "Fired when any entity following this path passes this path_track node."
+]
+//move Track croshair model
+@MoveClass base(Targetname, Parentname, Mover, KeyFrame) size(-8 -8 -8, 8 8 8) studio("models/editor/axis_helper_thick.mdl") animator() = move_track : 
+	"Track Move Behavior"
+[
+	WheelBaseLength(integer) : "Distance between the wheels" : 50
+	Damage(integer) : "Damage done to blocking entities" : 0
+	NoRotate(choices) : "Turn to face down path" : 0 =
+	[
+		0 : "Yes"
+		1 : "No"
+	]
+]
+//Sky Camera Croshair model
+@PointClass base(Angles) studio("models/editor/axis_helper_thick.mdl") = sky_camera : 
+	"An entity used to control the 3D Skybox. Its origin is used to determine the 3D Skybox's position relative to the map. Place this entity, in the 3D Skybox, at the point where the origin of the map should be."
+[
+	scale(integer) : "3D Skybox scale" : 16 : "Scale of the skybox. scale everything by .0625"
+	fogenable(choices) : "Fog Enable" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	fogblend(choices) : "Fog Blend" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	use_angles(choices) : "Use Angles for Fog Dir" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	clip_3D_skybox_near_to_world_far(choices) : "Clip 3D sky near plane to world far plane" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	clip_3D_skybox_near_to_world_far_offset(string) : "3D sky near plane offset" : "0.0" : "Offset for the near clip plane for the 3D sky in world units.  This is only used if the above field is true.  Negative values to pull closer, etc."
+	fogcolor(color255) : "Primary Fog Color" : "255 255 255"
+	fogcolor2(color255) : "Secondary Fog Color" : "255 255 255"
+	fogdir(string) : "Primary Fog Direction" : "1 0 0"
+	fogstart(string) : "Fog Start" : "500.0" : "Distance at which the skybox fog should start."
+	fogend(string) : "Fog End" : "2000.0" : "Distance at which the skybox fog should be fully opaque."
+	fogmaxdensity(float) : "Fog Max Density [0..1]" : "1"
+
+	HDRColorScale(float) : "HDR color scale." : "1.0" : "float value to multiply fog color by when running in HDR mode."
+]
+
+
+//Physics prop with parentname
+@PointClass base(BasePropPhysics, Parentname, RenderFields) studioprop() sphere(fademindist) sphere(fademaxdist) color(179 255 0)= prop_physics :
+	"A prop that physically simulates as a single rigid body. It can be constrained to other physics objects using hinges "+
+	"or other constraints. It can also be configured to break when it takes enough damage. "+
+	"Note that the health of the object will be overridden by the health inside the model, to ensure consistent health game-wide. "+
+	"If the model used by the prop is configured to be used as a prop_dynamic (i.e. it should not be physically simulated) then it CANNOT be "+
+	"used as a prop_physics. Upon level load it will display a warning in the console and remove itself. Use a prop_dynamic instead."
+[
+	vscripts(scriptlist) : "Entity Scripts" : "" : "Name(s) of script files that are executed after all entities have spawned."
+	thinkfunction(string) : "Script think function" : "" : "Name of a function in this entity's script scope which will be called automatically."
+	model(studio) : "Model" : "" : "entities to carry:\n models/props_equipment/oxygentank01.mdl \n models/props_junk/propanecanister001a.mdl \n models/props_junk/explosive_box001.mdl \n "  
+	// Inputs
+	input Ignite(void) : "Ignite, burst into flames."
+	input IgniteLifetime(float) : "Ignite, with a parameter lifetime."
+	input IgniteNumHitboxFires(integer) : "Ignite, with a parameternumber of hitbox fires."
+	input IgniteHitboxFireScale(float) : "Ignite, with a parameter hitbox fire scale."
+
+	BreakableType(choices) : "Breakable by" : 0 =
+	[
+		0: "Everyone"
+		1: "All Infected"
+		2: "Only Tanks"
+	]
+]
+//Prop_static with with "disablevertexlighting" disabled. also adds description to skin and disableshadows
+@BaseClass base(Angles, SystemLevelChoice) = prop_static_base
+[
+	model(studio) : "World Model"
+	skin(integer) : "Skin" : 0 : "Some models have multiple skingroups. Set this to a number other than 0 to use that skin instead of the default."
+	solid(choices) : "Collisions" : 6 =
+	[
+		0: "Not Solid"
+		2: "Use Bounding Box"
+		6: "Use VPhysics"
+	]
+	disableshadows(choices) : "Disable Shadows" : 0 : "Some models, especially foliage, should not have shadows. As foliage with shadows breaks vrad which will have messed up lighting on all surrounding props and walls." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	fademindist(float) : "Start Fade Dist/Pixels" : -1 : "Distance at which the prop starts to fade (<0 = subtract from fademaxdist)."
+	fademaxdist(float) : "End Fade Dist/Pixels" : 0 : "Maximum distance at which the prop is visible (0 = don't fade out)."
+	fadescale(float) : "Fade Scale" : 1 : "If you specify a fade in the worldspawn, or if the engine is running under low end/medium end/XBox360, then the engine will forcibly fade out props even if fademindist/fademaxdist isn't specified." +
+												 " This scale factor gives you some control over the fade. Using 0 here turns off the forcible fades." +
+												 " Numbers smaller than 1 cause the prop to fade out at further distances, and greater than 1 cause it to fade out at closer distances."
+	lightingorigin(target_destination) : "Lighting Origin" : "" : "Select an info_lighting to specify a location to sample lighting from, instead of using this entity's origin."
+	disablevertexlighting(choices) : "Disable Vertex lighting" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	disableselfshadowing(choices) : "Disable Self-Shadowing" : 1 : "When using vertex lighting, disable the object casting shadows onto itself." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	ignorenormals(choices) : "Ignore surface normals" : 0 : "Ignore the surface normals when computing vertex lighting. Useful for objects like foliage." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	renderamt(integer) : "Alpha" : 255 : "Alpha of the fade, where 0 = fully transparent and 255 = fully opaque." 
+	rendercolor(color255) : "Color (R G B)" : "255 255 255"
+]
+
+@PointClass base(prop_static_base) color(255 255 0) sphere(fademindist) sphere(fademaxdist) studioprop() = prop_static :
+	"A prop that doesn't move and doesn't animate."
+[
+]
+
+//func_fish_pool helper shpere
+@PointClass sphere(max_range) = func_fish_pool : "Creates a school of interactive fish that swim near this entity."
+[
+	model(studio) : "World model" : "models/Junkola.mdl"
+	fish_count(integer) : "Fish Count" : 10 : "Number of Fish in this Pool"
+	max_range(float) : "Max Range" : 150 : "How far away a Fish can wander (max 255)"
+]
+
+
+//env_player_blocker edits
+@PointClass wirebox(mins, maxs) base(Targetname) color(255 0 255)= env_player_blocker :
+	"An entity which blocks any PC/NPC from entering of the specified type."
+[
+	mins(vector) : "Mins" : "-4 -128 -80"
+	maxs(vector) : "Maxs" : "4 128 80"
+
+	initialstate(choices) : "Initial State" : 1 =
+	[
+		0 : "Disabled"
+		1 : "Enabled"
+	]
+	BlockType(choices) : "Blocks" : 0 =
+	[
+		0: "Everyone"
+		1: "Survivors"
+		2: "Player Infected"
+		3: "All Special Infected (Player and AI)"
+	]
+
+	// Inputs
+	input Enable(void) : "Enables the Blocker"
+	input Disable(void) : "Disables the Blocker"
+]
+
+//Func_block_charge edits
+@SolidClass base(Targetname, Parentname, Origin, Global, EnableDisable) = func_block_charge : "AI Chargers will not charge through this brush. (Based on Bounding Box!)"
+[
+	StartDisabled(choices) : "Start Disabled" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	//Solidity added because it compiles solid without these lines.
+	solidbsp(choices) : "Solid BSP" : 0 : "Set this if this brush is in heirarchy with a moving object of some kind, and the player can stand on this brush." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+		Solidity(choices) : "Solidity" : 1 : "Used to control the solidity/collision of these brushes." =
+	[
+		0 : "Toggle"
+		1 : "Never Solid"
+		2 : "Always Solid"
+	]
+	
+]

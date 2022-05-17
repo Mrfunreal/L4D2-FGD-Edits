@@ -1,0 +1,22 @@
+//Func_block_charge edits
+@SolidClass base(Targetname, Parentname, Origin, Global, EnableDisable) = func_block_charge : "AI Chargers will not charge through this brush. (Based on Bounding Box!)"
+[
+	StartDisabled(choices) : "Start Disabled" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	//Solidity added because it compiles solid without these lines.
+	solidbsp(choices) : "Solid BSP" : 0 : "Set this if this brush is in heirarchy with a moving object of some kind, and the player can stand on this brush." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+		Solidity(choices) : "Solidity" : 1 : "Used to control the solidity/collision of these brushes." =
+	[
+		0 : "Toggle"
+		1 : "Never Solid"
+		2 : "Always Solid"
+	]
+	
+]

@@ -1,0 +1,123 @@
+
+//weapon_item_spawn with helper model 
+@PointClass base(Targetname,Angles) studioprop() = weapon_item_spawn
+[
+	model(studio) : "Helper Model" : "models/w_models/weapons/w_eq_bile_flask.mdl" : "ONLY for visual aid."
+	weaponskin(integer) : "Weapon Skin" : -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
+	skin(integer) : "Skin" : 1 : "Some weapons have multiple versions of their textures, called skins."
+	glowrange(float) : "Glow Range" : 0 : "Set a custom glow range for this spawner. 0 means use the default range."
+
+	item1(integer) : "Ammo pile" : 0 
+	item2(integer) : "First aid kit" : 0 
+	item3(integer) : "Molotov Cocktail" : 1 
+	item4(integer) : "Pain Pills" : 1 
+	item5(integer) : "Pipe Bomb" : 1 
+	item6(integer) : "Oxygen Tank" : 0
+	item7(integer) : "Propane Tank" : 0
+	item8(integer) : "Gasoline Can" : 0
+//	item9(integer) : "" : 0				// These keys may be set in maps, beware if re-using them. Instead make a new itemN
+//	item10(integer) : "" : 0
+	item11(integer) : "Adrenaline" : 1
+	item12(integer) : "Defibrillator" : 0
+	item13(integer) : "Boomer Bile" : 1
+//	item14(integer) : "" : 0
+//	item15(integer) : "" : 0
+	item16(integer) : "Chainsaw" : 0
+	item17(integer) : "Grenade Launcher" : 0	
+	item18(integer) : "M60 Machinegun" : 0	
+
+	melee_weapon(string) : "Melee Weapon" : "" : "Options: 'Any' or a comma-delimited string of melee weapon script names. Leave blank for none."
+
+	spawnflags(Flags) =
+	[
+		1 : "Enable Physics on spawned item" : 0
+		2 : "Spawned Item Must Exist" : 0
+		8 : "Infinite Items" : 0
+	]
+]
+
+//Player Start with Helper Model
+@PointClass base(Targetname, Angles, Parentname) color(255 100 100) studio() = info_survivor_position : "A point where survivors are placed on map spawn, or when escaping the finale"
+[
+	SurvivorName(string) : "Survivor Name" : "" : "Force this survivor to use this position (Zoey, Louis, etc.)"
+	SurvivorIntroSequence(string) : "Survivor Intro Sequence" : "" : "Sequence to play when the intro starts"
+	model(choices) : "Helper Model" : "models/survivors/survivor_gambler.mdl" : "Visual aid for aligning intro animations. does NOT define what player spawns." =
+	[
+	"models/survivors/survivor_namvet.mdl" : "Bill"
+	"models/survivors/survivor_coach.mdl" : "Coach"
+	"models/survivors/survivor_mechanic.mdl" : "Ellis"
+	"models/survivors/survivor_biker.mdl" : "Francis"
+	"models/survivors/survivor_biker_light.mdl" : "Francis Light"
+	"models/survivors/survivor_manager.mdl" : "Louis"
+	"models/survivors/survivor_gambler.mdl" : "Nick"
+	"models/survivors/survivor_producer.mdl" : "Rochelle"
+	"models/survivors/survivor_teenangst.mdl" : "Zoey"
+	"models/survivors/survivor_teenangst_light.mdl" : "Zoey Light"
+	]		
+	Order(integer) : "Order" : 1 : "Index of spot based on order people got on board. (1-4)"
+	GameMode(string) : "Game Mode" : "" : "Use this position for a particular game mode only (coop,versus,survival,scavenge)"
+	SurvivorConcept(string) : "Survivor Concept" : "" : "Response rule concept to play when survivor is moved here"
+	HideWeapons(choices) : "Hide Weapons" : 0 : "Hide Survivor's weapon while locked to this position." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Inputs
+	input SetViewControl(string) : "If a survivor is assigned to this position, set his view to a point_viewcontrol"
+]
+
+//info_zombie_spawn with helper model
+@PointClass base(Targetname, Angles, Parentname, Angles) studio() = info_zombie_spawn :
+	"An entity used to spawn a zombie"
+[
+	model(studio) : "Helper Model" : "models/infected/common_male_formal.mdl" : "ONLY for visual aid."
+	population(string) : "Population" : "default" : "Zombie population to choose among."
+	
+	offer_tank(choices) : "Offer Spawned Tank to PZs" : 0 =
+	[
+		0: "No"
+		1: "Yes"
+	]
+	
+	input SpawnZombie(void) : "Spawn a zombie now."
+	input StartleZombie(string) : "Startle the zombie (witches only). Optionally pass the name of a survivor to attack."
+	
+		// Outputs
+	output OnSpawnNormal(void) : "Fired when the spawner creates a normal infected."
+	output OnSpawnSmoker(void) : "Fired when the spawner creates a Smoker."
+	output OnSpawnBoomer(void) : "Fired when the spawner creates a Boomer."
+	output OnSpawnHunter(void) : "Fired when the spawner creates a Hunter."
+	output OnSpawnSpitter(void) : "Fired when the spawner creates a Spitter."
+	output OnSpawnJockey(void) : "Fired when the spawner creates a Jockey."
+	output OnSpawnCharger(void) : "Fired when the spawner creates a Charger."
+	output OnSpawnWitch(void) : "Fired when the spawner creates a Witch."
+	output OnSpawnTank(void) : "Fired when the spawner creates a Tank."
+]
+
+//commentary_zombie_spawner with helper model
+@PointClass base(Targetname, Angles, Parentname, Angles) studio() = commentary_zombie_spawner :
+	"Zombie Manual Spawning Point"
+[
+	model(studio) : "Helper Model" : "models/infected/hunter.mdl" : "ONLY for visual aid."
+	input SpawnZombie(string) : "Spawn a specific zombie now. String format is zombie type followed by an optional target name (e.g. 'smoker,BostonJoe' or 'common_male_suit'). Zombie types: boomer, common_*, hunter, smoker, tank, witch"
+	output OnSpawnedZombieDeath(void) : "One of the zombies spawned by this entity has died"
+]
+
+//Alarm Car with Default model
+@PointClass base(prop_dynamic) studioprop() sphere(fademindist) sphere(fademaxdist) = prop_car_glass :
+	"This class is the same as prop_dynamic, with a car alarm."
+[
+	model(studio) : "Model" : "models/props_vehicles/cara_95sedan_glass_alarm.mdl" : "default:\n models/props_vehicles/cara_95sedan_glass_alarm.mdl" 
+]
+
+@PointClass base(prop_physics, EnableDisable) studioprop() sphere(fademindist) sphere(fademaxdist) = prop_car_alarm :
+	"This class is the same as prop_physics, with a car alarm."
+[
+	model(studio) : "Model" : "models/props_vehicles/cara_95sedan.mdl" : "default:\n models/props_vehicles/cara_95sedan.mdl" 
+
+	output OnCarAlarmStart(void) : "Car alarm should go off"
+	output OnCarAlarmEnd(void) : "Car alarm has shut off"
+	output OnCarAlarmChirpStart(void) : ""
+	output OnCarAlarmChirpEnd(void) : ""
+]

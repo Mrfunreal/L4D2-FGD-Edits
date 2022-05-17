@@ -1,0 +1,22 @@
+// Upgrades
+@PointClass base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_laser_sights.mdl") = upgrade_laser_sight : "Deployed Upgrade Pack - Laser" []
+@PointClass base(WeaponSpawnSingle) studioprop("models/props/terror/incendiary_ammo.mdl") = upgrade_ammo_incendiary : "Deployed Upgrade Pack - Incendiary" []
+@PointClass base(WeaponSpawnSingle) studioprop("models/props/terror/exploding_ammo.mdl") = upgrade_ammo_explosive : "Deployed Upgrade Pack - Explosive" []
+@PointClass base(Targetname, Angles)studioprop() = upgrade_spawn
+[
+	laser_sight(integer) : "Laser Sight" : 1
+	upgradepack_incendiary(integer) : "UpgradePack - Incendiary" : 1
+	upgradepack_explosive(integer) : "UpgradePack - Explosive" : 1
+	
+	spawnflags(Flags) =
+	[
+		1 : "Enable Physics on spawned item" : 0
+		2 : "Spawned Item Must Exist" : 0
+	]
+	model(choices) : "Helper Model (Visual aid only)" : "models/w_models/weapons/w_laser_sights.mdl" =
+	[
+	"models/w_models/weapons/w_laser_sights.mdl" : "Laser"
+	"models/w_models/weapons/w_eq_explosive_ammopack.mdl" : "Explosive Ammo"
+	"models/w_models/weapons/w_eq_incendiary_ammopack.mdl" : "Incendiary Ammo"
+	]	
+]
