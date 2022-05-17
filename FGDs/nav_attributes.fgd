@@ -51,9 +51,9 @@
 @SolidClass base(Targetname,NavAttributeRegion) color(0 255 130)= func_nav_attribute_region : "A brush entity that holds attributes to be applied to regions of nav areas during generation."
 [
 ]
-
-@PointClass wirebox(mins, maxs) base(Targetname,NavAttributeRegion) color(0 255 130)= point_nav_attribute_region : "A point entity that holds attributes to be applied to regions of nav areas during generation."
+//new sprite here
+@PointClass wirebox(mins, maxs) base(Targetname,NavAttributeRegion) color(0 255 130) color(255 0 255) iconsprite("editor/new/point_nav_attribute_region.vmt")= point_nav_attribute_region : "A point entity that holds attributes to be applied to regions of nav areas during generation."
 [
-	mins(vector) : "Mins" : "-4 -128 -80"
-	maxs(vector) : "Maxs" : "4 128 80"
+	mins(vector) : "Mins" : "-32 -32 -8"
+	maxs(vector) : "Maxs" : "32 32 8"
 ]

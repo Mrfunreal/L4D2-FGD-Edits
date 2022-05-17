@@ -79,41 +79,7 @@
 		1 : "No"
 	]
 ]
-//Sky Camera Croshair model
-@PointClass base(Angles) studio("models/editor/axis_helper_thick.mdl") = sky_camera : 
-	"An entity used to control the 3D Skybox. Its origin is used to determine the 3D Skybox's position relative to the map. Place this entity, in the 3D Skybox, at the point where the origin of the map should be."
-[
-	scale(integer) : "3D Skybox scale" : 16 : "Scale of the skybox. scale everything by .0625"
-	fogenable(choices) : "Fog Enable" : 0 =
-	[
-		0 : "No"
-		1 : "Yes"
-	]
-	fogblend(choices) : "Fog Blend" : 0 =
-	[
-		0 : "No"
-		1 : "Yes"
-	]
-	use_angles(choices) : "Use Angles for Fog Dir" : 0 =
-	[
-		0 : "No"
-		1 : "Yes"
-	]
-	clip_3D_skybox_near_to_world_far(choices) : "Clip 3D sky near plane to world far plane" : 0 =
-	[
-		0 : "No"
-		1 : "Yes"
-	]
-	clip_3D_skybox_near_to_world_far_offset(string) : "3D sky near plane offset" : "0.0" : "Offset for the near clip plane for the 3D sky in world units.  This is only used if the above field is true.  Negative values to pull closer, etc."
-	fogcolor(color255) : "Primary Fog Color" : "255 255 255"
-	fogcolor2(color255) : "Secondary Fog Color" : "255 255 255"
-	fogdir(string) : "Primary Fog Direction" : "1 0 0"
-	fogstart(string) : "Fog Start" : "500.0" : "Distance at which the skybox fog should start."
-	fogend(string) : "Fog End" : "2000.0" : "Distance at which the skybox fog should be fully opaque."
-	fogmaxdensity(float) : "Fog Max Density [0..1]" : "1"
 
-	HDRColorScale(float) : "HDR color scale." : "1.0" : "float value to multiply fog color by when running in HDR mode."
-]
 
 
 //Physics prop with parentname
@@ -194,30 +160,7 @@
 	max_range(float) : "Max Range" : 150 : "How far away a Fish can wander (max 255)"
 ]
 
-//env_player_blocker edits
-@PointClass wirebox(mins, maxs) base(Targetname) color(255 0 255)= env_player_blocker :
-	"An entity which blocks any PC/NPC from entering of the specified type."
-[
-	mins(vector) : "Mins" : "-4 -128 -80"
-	maxs(vector) : "Maxs" : "4 128 80"
 
-	initialstate(choices) : "Initial State" : 1 =
-	[
-		0 : "Disabled"
-		1 : "Enabled"
-	]
-	BlockType(choices) : "Blocks" : 0 =
-	[
-		0: "Everyone"
-		1: "Survivors"
-		2: "Player Infected"
-		3: "All Special Infected (Player and AI)"
-	]
-
-	// Inputs
-	input Enable(void) : "Enables the Blocker"
-	input Disable(void) : "Disables the Blocker"
-]
 
 //Func_block_charge edits
 @SolidClass base(Targetname, Parentname, Origin, Global, EnableDisable) = func_block_charge : "AI Chargers will not charge through this brush. (Based on Bounding Box!)"
@@ -242,88 +185,73 @@
 	
 ]
 
-//env_sprite using world glow as default. for light sprites and using axis helper model
-@PointClass base(Targetname, Parentname) studio("models/editor/axis_helper.mdl") sprite() color(20 140 20) = env_sprite : 
-	"An entity that controls the drawing of a sprite in the world." 
+//env_smoketrail with sphere for spawnradius
+@PointClass base(Targetname, Parentname) color(200 50 0)  sphere(spawnradius) size(-8 -8 -8, 8 8 8) = env_smoketrail : 
+	"An entity that creates a smoke trail." 
 [
-	framerate(string) : "Framerate" : "10.0" : "Rate at which the sprite should animate, if at all."
-	model(sprite) : "Sprite Name" : "sprites/glow01.spr" : "Material of the sprite to be drawn."
-	scale(string) : "Scale" : "" : "Scale multiplier of the sprite."
-	spawnflags(flags) =
+	opacity(float) : "Sprite Opacity" : "0.75" : "Opacity of the sprites (range from 0 - 1)."
+	spawnrate(float) : "Spawn Rate" : "20" : "Number of particles to emit each second."
+	lifetime(float) : "Particle Life Time" : "5.0" : "Number of seconds until each particle dies."
+	startcolor(color255) : "Start Color" : "192 192 192" : "Starting color of the emitted particles."
+	endcolor(color255) : "End Color" : "160 160 160" : "Ending color of the emitted particles."
+	emittime(float) : "Emitter Life Time" : "0" : "Number of seconds until the env_smoketrail stops emitting particles. 0 means never stop emitting particles."
+	minspeed(float) : "Minimum Random Speed" : "10" : "Minimum randomly-directed speed to use for emitted particles."
+	maxspeed(float) : "Maximum Random Speed" : "20" : "Maximum randomly-directed speed to use for emitted particles."
+	mindirectedspeed(float) : "Minimum Directed Speed" : "0" : "Minimum speed along the env_smoketrail's forward direction (x axis) to use for emitted particles."
+	maxdirectedspeed(float) : "Maximum Directed Speed" : "0" : "Maximum speed along the env_smoketrail's forward direction (x axis) to use for emitted particles."
+	startsize(float) : "Starting particle size" : "15" : "Starting particle size."
+	endsize(float) : "Ending particle size" : "50" : "Ending particle size."
+	spawnradius(float) : "Spawn radius" : "15" : "Distance from env_smoketrail at which particles are emitted."
+
+	firesprite(sprite) : "Fire Sprite" : "sprites/firetrail.spr"
+	smokesprite(sprite) : "Smoke Puff" : "sprites/whitepuff.spr"
+]
+//env_physics_blocker box size changes
+@PointClass obb(boxmins, boxmaxs) base(Angles, Targetname) = env_physics_blocker :
+	"An entity which blocks players and physics objects."
+[
+	boxmins(vector) : "Mins" : "0 -32 0"
+	boxmaxs(vector) : "Maxs" : "16 32 64"
+
+	initialstate(choices) : "Initial State" : 1 =
 	[
-		1: "Start on" : 0
-		2: "Play Once" : 0
+		0 : "Disabled"
+		1 : "Enabled"
 	]
-
-	GlowProxySize(float) : "Size of Glow Proxy Geometry." : "2.0" : "Size of the glow to be rendered for visibility testing. Must be larger than the distance from the sprite center to empty space.  So if this glow is inside geometry (like a light bulb), set this value to be bigger than the bulb's radius. Any time a sphere of this radius would be visible (poking through any nearby geometry), the glow will be rendered."
-
-	HDRColorScale(float) : "HDR color scale." : "0.7" : "float value to multiply sprite color by when running in HDR mode."
-	
+	BlockType(choices) : "Blocks" : 0 =
+	[
+		0: "Everyone"
+		1: "Survivors"
+		2: "Player Infected"
+		3: "All Special Infected (Player and AI)"
+		4: "All players and physics objects"
+	]
 	// Inputs
-	input ColorRedValue(float) : "Sets the red color channel's value (0 - 255)."
-	input ColorGreenValue(float) : "Sets the green color channel's value (0 - 255)."
-	input ColorBlueValue(float) : "Sets the blue color channel's value (0 - 255)."
-	input SetScale(float) : "Set the sprite's scale (0 - 8.0)."
-	input HideSprite(void) : "Hide the sprite. Won't be drawn until the 'ShowSprite' input is received."
-	input ShowSprite(void) : "Show the sprite."
-	input ToggleSprite(void) : "Toggle the sprite between hidden and shown."
+	input Enable(void) : "Enables the Blocker"
+	input Disable(void) : "Disables the Blocker"
+]
+//env_player_blocker box size changes
+@PointClass wirebox(mins, maxs) base(Targetname) color(255 0 255) = env_player_blocker :
+	"An entity which blocks any PC/NPC from entering of the specified type."
+[
+	mins(vector) : "Mins" : "0 -32 0"
+	maxs(vector) : "Maxs" : "16 32 64"
 
-// Render Fields stuff, with "World Space Glow" as default.
-	rendermode(choices) : "Render Mode" : 9 : "Used to set a non-standard rendering mode on this entity. See also 'FX Amount' and 'FX Color'." =
+	initialstate(choices) : "Initial State" : 1 =
 	[
-		0: "Normal"
-		1: "Color"
-		2: "Texture"
-		3: "Glow"
-		4: "Solid"
-		5: "Additive"
-		7: "Additive Fractional Frame"
-		9: "World Space Glow"
-		10: "Dont Render"
+		0 : "Disabled"
+		1 : "Enabled"
 	]
-	renderamt(integer) : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
-	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
-
-	disablereceiveshadows(choices) : "Disable Receiving Shadows" : 0 =
+	BlockType(choices) : "Blocks" : 0 =
 	[
-		0 : "No"
-		1 : "Yes"
+		0: "Everyone"
+		1: "Survivors"
+		2: "Player Infected"
+		3: "All Special Infected (Player and AI)"
 	]
 
-	input Alpha(integer) : "Set the sprite's alpha (0 - 255)."
-	input Color(color255) : "Set the sprite's color (R G B)."
-
-	fademindist(float) : "Start Fade Dist" : -1 : "Distance at which the overlay starts to fade (<0 = subtract from fademaxdist)."
-	fademaxdist(float) : "End Fade Dist" : 0 : "Maximum distance at which the overlay is visible (0 = don't fade out)."
- 	fadescale(float) : "Fade Scale" : 1 : "If you specify a fade in the worldspawn, or if the engine is running under low end/medium end/XBox360," +
- 												 " then the engine will forcibly fade out props even if fademindist/fademaxdist isn't specified." +
-												 " This scale factor gives you some control over the fade. Using 0 here turns off the forcible fades." +
-
-
+	// Inputs
+	input Enable(void) : "Enables the Blocker"
+	input Disable(void) : "Disables the Blocker"
 ]
 
-@PointClass base(env_sprite, Angles) = env_sprite_oriented :
-    "A env_sprite that allows orientation."
-[
-	framerate(string) : "Framerate" : "10.0" : "Rate at which the sprite should animate, if at all."
-	model(sprite) : "Sprite Name" : "sprites/glow01.spr" : "Material of the sprite to be drawn."
-	scale(string) : "Scale" : "" : "Scale multiplier of the sprite."
-	spawnflags(flags) =
-	[
-		1: "Start on" : 0
-		2: "Play Once" : 0
-	]
-
-	GlowProxySize(float) : "Size of Glow Proxy Geometry." : "2.0" : "Size of the glow to be rendered for visibility testing. Must be larger than the distance from the sprite center to empty space.  So if this glow is inside geometry (like a light bulb), set this value to be bigger than the bulb's radius. Any time a sphere of this radius would be visible (poking through any nearby geometry), the glow will be rendered."
-
-	HDRColorScale(float) : "HDR color scale." : "1.0" : "float value to multiply sprite color by when running in HDR mode."
-	
-	// Inputs
-	input ColorRedValue(float) : "Sets the red color channel's value (0 - 255)."
-	input ColorGreenValue(float) : "Sets the green color channel's value (0 - 255)."
-	input ColorBlueValue(float) : "Sets the blue color channel's value (0 - 255)."
-	input SetScale(float) : "Set the sprite's scale (0 - 8.0)."
-	input HideSprite(void) : "Hide the sprite. Won't be drawn until the 'ShowSprite' input is received."
-	input ShowSprite(void) : "Show the sprite."
-	input ToggleSprite(void) : "Toggle the sprite between hidden and shown."
-]

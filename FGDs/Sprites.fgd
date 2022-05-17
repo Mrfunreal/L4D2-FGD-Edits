@@ -297,3 +297,95 @@
 	output OnEntitySpawned(void) : "Fired when an instance of the entity template has been spawned."
 	output OnEntityFailedSpawn(void) : "Fired when a ForceSpawn input failed to spawn the template, either due to lack of space or being in player's view, depending on the spawnflags."
 ]
+
+@PointClass base(Targetname) iconsprite("editor/new/ambient_music.vmt") sphere() = ambient_music : "Play L4D specfic music."
+[
+	message(sound) : "Sound Name" : "" : "Name of the GameSound entry  to play. "
+
+	input PlaySound(void) : "Starts the sound."
+	input StopSound(void) : "Stops the sound if it is playing."
+//	input FadeIn(integer) : "Fades the sound up to full volume over a specified number of seconds, with a range from 0 to 100 seconds."
+//	input FadeOut(integer) : "Fades the sound to silence over a specified number of seconds, with a range from 0 to 100 seconds."
+]
+
+@PointClass base(Origin,Targetname) iconsprite("editor/new/point_script_use_target.vmt")= point_script_use_target: "Makes an entity 'usable' by a player. An attached script determines the display text and use time."
+[
+	model(target_destination) : "Use Model" : : "The name of the entity the player will be using."
+
+	output OnUseStarted(void) : "Fired when a player starts using this target."	
+	output OnUseCanceled(void) : "Fired when a player use is canceled."	
+	output OnUseFinished(void) : "Fired when a player use is complete."	
+]
+
+@PointClass base(Origin,Targetname) iconsprite("editor/new/point_prop_use_target.vmt")= point_prop_use_target : "A use target for carried props. Triggers the prop's use behavior."
+[
+	spawnflags(Flags) = 
+	[
+		1 : "Useable by Gas Can" : 1
+		2 : "Useable by Cola Bottles" : 0
+	]
+
+	nozzle(target_destination) : "Gas nozzle" : : "The name of the prop_dynamic gas nozzle for this use_target (scavenge mode)."
+
+	input Activate(void) : "Activate the use target."
+	input Deactivate(void) : "Deactivate the use target."
+
+	output OnUseStarted(void) : "Fired when a player starts using this target."	
+	output OnUseCancelled(void) : "Fired when a player use is cancelled."	
+	output OnUseFinished(void) : "Fired when a player use is complete."	
+]
+@PointClass base(Targetname,Parentname) iconsprite("editor/new/info_target_instructor_hint.vmt")= info_target_instructor_hint : "A generic target that gets replicated to the client for hud hint targeting"
+[
+]
+
+//Adds spheres and new sprite to env_detail_controller
+@PointClass base(Angles) iconsprite("editor/new/env_detail_controller.vmt") sphere(fademindist) sphere(fademaxdist)= env_detail_controller : "Overrides the min and max fade distances for details sprites in the map."
+[
+	fademindist(integer) : "Start Fade Dist/Pixels" : 512 : "The distance at which the detail props will start fading away."
+	fademaxdist(integer) : "End Fade Dist/Pixels" : 1024 : "The distance at which the detail props will stop fading and stop drawing entirely."
+]
+
+@PointClass base(Targetname, Parentname, Angles) cylinder(255 255 255, targetname, target, radius, targetname, targetname, radius) color(255 192 0) iconsprite("editor/new/path_track.vmt")= path_track : 
+	"An entity used to build paths for other entities to follow. Each path_track is a node on the path, each holding the name of the next path_track in the path."
+[
+	spawnflags(Flags) =
+	[
+		1:  "Disabled" : 0
+		2:  "Fire once" : 0
+		4:  "Branch Reverse" : 0
+		8:  "Disable train" : 0
+		16: "Teleport to THIS path track" : 0
+	]
+	
+	target(target_destination) : "Next Stop Target" : : "The next path_track in the path."
+	altpath(target_destination) : "Branch Path" : : "An alternative path_track to be the next node in the path. Useful for making branching paths. Use the ToggleAlternatePath / EnableAlternatePath inputs to make the alternative path active."
+	speed(float) : "New Train Speed" : 0 : "When the train reaches this path_track, it will set its speed to this speed. "+
+		"This speed must be a positive value that is less than the train's max speed. A value of 0 will cause no change in the train's speed."
+	radius(float) : "Path radius" : 0 : "Used by NPCs who follow track paths (attack chopper/gunship). This tells them the maximum distance they're allowed to be from the path at this node."
+
+	orientationtype(choices) : "Orientation Type" : 1 : "The way that the path follower faces as it moves through this path track." =
+	[
+		0 : "No change"
+		1 : "Face direction of motion"
+		2 : "Face this path_track's angles"
+	]
+
+	// Inputs
+	input ToggleAlternatePath(void) : "Cause the track to toggle to/from its alternate path."
+	input EnableAlternatePath(void) : "Enable the alternate path of the track."
+	input DisableAlternatePath(void) : "Disable the alternate path of the track."
+
+	input TogglePath(void) : "Cause the track to toggle on/off/"
+	input EnablePath(void) : "Enable the track."
+	input DisablePath(void) : "Disable the track."
+
+	// Outputs
+	output OnPass(void) : "Fired when any entity following this path passes this path_track node."
+]
+
+@PointClass base(Targetname, Parentname, Angles) iconsprite("editor/new/info_elevator_floor.vmt") = info_elevator_floor : 
+	"Elevator floor height target."
+[
+	// Outputs
+	output OnReachedFloor(void) : "Fired when an elevator reaches this floor."
+]

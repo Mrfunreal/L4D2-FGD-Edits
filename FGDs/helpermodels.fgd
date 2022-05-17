@@ -213,3 +213,184 @@
 	"models/w_models/weapons/w_eq_incendiary_ammopack.mdl"	: "Incendiary Ammo"
 	]	
 ]
+
+//env_steam with better understandable helper model
+@PointClass base(Targetname, Parentname, Angles) studioprop("models/editor/axis_helper_arrow_Y.mdl") color(255 255 255) = env_steam : 
+	"An entity used to create a jet of steam."
+[
+	spawnflags(flags) =
+	[
+		1 : "Emissive" : 0
+	]
+
+	InitialState(choices) : "Initial State" : 0 = 
+	[
+		0 : "Off"
+		1 : "On"
+	]
+
+	//Type of particle to spew out
+	type(choices) : "Particle Type" : 0 =
+	[
+		0 : "Normal"
+		1 : "Heat Wave"
+	]
+
+	SpreadSpeed(integer) : "Spread Speed" : 15 : "The amount of random spread in the particle's velocity after they spawn."
+	Speed(integer) : "Speed" : 120 : "The default speed at which the particles move after they spawn."
+	StartSize(integer) : "Particle start size" : 10 : "The initial size of the particles after they spawn."
+	EndSize(integer) : "Particle end size" : 25 : "The size of the particles at the point at which they are removed."
+	Rate(integer) : "Emission rate" : 26 : "The rate of particle emission. i.e. particles per second."
+	rendercolor(color255) : "Color (R G B)" : "255 255 255"
+	JetLength(integer) : "Length of steam jet" : 80 : "The length of the jet determines the lifetime of each particle."
+	renderamt(integer) : "Translucency" : 255
+	rollspeed(float) : "How fast does the particles spin" : 8
+
+	StartNoise(string) : "Start Sound" : "" : "Sound to play when starting emission."
+
+	// Inputs
+	input TurnOn(void) : "Turns the steam jet on."
+	input TurnOff(void) : "Turns the steam jet off."
+	input Toggle(void) : "Toggles the steam jet between on and off."
+	input JetLength(integer) : "Sets the length of steam jet."
+	input Rate(integer) : "Sets the particle emission rate in particles per second."
+	input Speed(integer) : "Sets the default speed of the particles in units per second."
+	input SpreadSpeed(integer) : "Sets the spread speed in units per second."
+]
+//Sky Camera helper model
+@PointClass base(Angles) studio("models/editor/sky_camera.mdl") = sky_camera : 
+	"An entity used to control the 3D Skybox. Its origin is used to determine the 3D Skybox's position relative to the map. Place this entity, in the 3D Skybox, at the point where the origin of the map should be."
+[
+	scale(integer) : "3D Skybox scale" : 16 : "Scale of the skybox. scale everything by .0625"
+	fogenable(choices) : "Fog Enable" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	fogblend(choices) : "Fog Blend" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	use_angles(choices) : "Use Angles for Fog Dir" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	clip_3D_skybox_near_to_world_far(choices) : "Clip 3D sky near plane to world far plane" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	clip_3D_skybox_near_to_world_far_offset(string) : "3D sky near plane offset" : "0.0" : "Offset for the near clip plane for the 3D sky in world units.  This is only used if the above field is true.  Negative values to pull closer, etc."
+	fogcolor(color255) : "Primary Fog Color" : "255 255 255"
+	fogcolor2(color255) : "Secondary Fog Color" : "255 255 255"
+	fogdir(string) : "Primary Fog Direction" : "1 0 0"
+	fogstart(string) : "Fog Start" : "500.0" : "Distance at which the skybox fog should start."
+	fogend(string) : "Fog End" : "2000.0" : "Distance at which the skybox fog should be fully opaque."
+	fogmaxdensity(float) : "Fog Max Density [0..1]" : "1"
+
+	HDRColorScale(float) : "HDR color scale." : "1.0" : "float value to multiply fog color by when running in HDR mode."
+]
+
+@PointClass base(Parentname, Targetname, Angles) color(255 128 0) studioprop("models/editor/axis_helper_arrow_X.mdl") = env_lightglow : 
+	"An entity that puts an additive glow in the world, mostly used over light sources."
+[
+	rendercolor(color255) : "Color (R G B)" : "255 255 255"
+	VerticalGlowSize(integer) : "Vertical Size" : 30
+	HorizontalGlowSize(integer) : "Horizontal Size" : 30
+	MinDist(integer) : "Minimum Distance" : 500 : "The distance at which this effect will be fully translucent."
+	MaxDist(integer) : "Maximum Distance" : 2000 : "The distance at which this effect will be at full intensity."
+	OuterMaxDist(integer) : "Outer Maximum Distance" : 0 : "If larger than the maximum distance, this is the length at which the glow will fade completely out, between the span of the maximum distance and this length."
+	GlowProxySize(float) : "Glow Proxy Geometry Size" : "2.0" : "Size of the glow to be rendered for visibility testing. Must be larger than the distance from the sprite center to empty space. So if this glow is inside geometry (like a light bulb), set this value to be bigger than the bulb's radius. Any time a sphere of this radius would be visible (poking through any nearby geometry), the glow will be rendered."
+	HDRColorScale(float) : "HDR color scale." : "0.5" : "float value to multiply sprite color by when running in HDR mode."
+
+	// Inputs
+	input Color(color255) : "Change the render color of the glow. Format: <Red 0-255> <Green 0-255> <Blue 0-255>"
+
+	spawnflags(flags) =
+	[
+		1: "Visible only from front" : 0
+	]
+]
+
+//	@PointClass base(Targetname, Angles) studioprop("models/editor/axis_helper_arrow_z.mdl") = env_splash : 
+//		"An entity that creates a splash effect at its origin. If the 'find water surface' spawnflag is set, it will instead trace down below itself to find the water surface on which to create splashes."
+//	[
+//		scale(float) : "Scale of the splash" : "8.0"
+//	
+//		// Inputs
+//		input Splash(void) : "Create a splash effect."
+//	
+//		spawnflags(flags) =
+//		[
+//			1: "Automatically find water surface (place entity above water)" : 0
+//			2: "Diminish with depth (diminished completely in 10 feet of water)" : 1
+//		]
+//	]
+
+
+//Env_Sprite using world glow as default with a helper model to easier select them in hammer when the sprite is large
+@PointClass base(Targetname, Parentname, RenderFields)  studio("models/editor/sprite_ball.mdl") sprite() color(20 140 20) = env_sprite : 
+	"An entity that controls the drawing of a sprite in the world." 
+[
+	framerate(string) : "Framerate" : "10.0" : "Rate at which the sprite should animate, if at all."
+	model(sprite) : "Sprite Name" : "sprites/light_glow01.vmt" : "Material of the sprite to be drawn."
+	scale(string) : "Scale" : "1" : "Scale multiplier of the sprite."
+	spawnflags(flags) =
+	[
+		1: "Start on" : 0
+		2: "Play Once" : 0
+	]
+	rendermode(choices) : "Render Mode" : 9 : "Used to set a non-standard rendering mode on this entity. See also 'FX Amount' and 'FX Color'." =
+	[
+		0: "Normal"
+		1: "Color"
+		2: "Texture"
+		3: "Glow"
+		4: "Solid"
+		5: "Additive"
+		7: "Additive Fractional Frame"
+		9: "World Space Glow"
+		10: "Dont Render"
+	]
+	GlowProxySize(float) : "Size of Glow Proxy Geometry." : "2.0" : "Size of the glow to be rendered for visibility testing. Must be larger than the distance from the sprite center to empty space.  So if this glow is inside geometry (like a light bulb), set this value to be bigger than the bulb's radius. Any time a sphere of this radius would be visible (poking through any nearby geometry), the glow will be rendered."
+
+	HDRColorScale(float) : "HDR color scale." : "0.7" : "float value to multiply sprite color by when running in HDR mode."
+	
+	// Inputs
+	input ColorRedValue(float) : "Sets the red color channel's value (0 - 255)."
+	input ColorGreenValue(float) : "Sets the green color channel's value (0 - 255)."
+	input ColorBlueValue(float) : "Sets the blue color channel's value (0 - 255)."
+	input SetScale(float) : "Set the sprite's scale (0 - 8.0)."
+	input HideSprite(void) : "Hide the sprite. Won't be drawn until the 'ShowSprite' input is received."
+	input ShowSprite(void) : "Show the sprite."
+	input ToggleSprite(void) : "Toggle the sprite between hidden and shown."
+
+]
+//env_sprite_oriented using world glow as default with a helper model to easier select them in hammer when the sprite is large
+@PointClass base(env_sprite, Angles)  studio("models/editor/sprite_oriented_ball.mdl") sprite() color(20 140 20) = env_sprite_oriented :
+    "A env_sprite that allows orientation."
+[
+	framerate(string) : "Framerate" : "10.0" : "Rate at which the sprite should animate, if at all."
+	model(sprite) : "Sprite Name" : "sprites/light_glow01.vmt" : "Material of the sprite to be drawn."
+	scale(string) : "Scale" : "1" : "Scale multiplier of the sprite."
+	spawnflags(flags) =
+	[
+		1: "Start on" : 0
+		2: "Play Once" : 0
+	]
+
+	GlowProxySize(float) : "Size of Glow Proxy Geometry." : "2.0" : "Size of the glow to be rendered for visibility testing. Must be larger than the distance from the sprite center to empty space.  So if this glow is inside geometry (like a light bulb), set this value to be bigger than the bulb's radius. Any time a sphere of this radius would be visible (poking through any nearby geometry), the glow will be rendered."
+
+	HDRColorScale(float) : "HDR color scale." : "1.0" : "float value to multiply sprite color by when running in HDR mode."
+	
+	// Inputs
+	input ColorRedValue(float) : "Sets the red color channel's value (0 - 255)."
+	input ColorGreenValue(float) : "Sets the green color channel's value (0 - 255)."
+	input ColorBlueValue(float) : "Sets the blue color channel's value (0 - 255)."
+	input SetScale(float) : "Set the sprite's scale (0 - 8.0)."
+	input HideSprite(void) : "Hide the sprite. Won't be drawn until the 'ShowSprite' input is received."
+	input ShowSprite(void) : "Show the sprite."
+	input ToggleSprite(void) : "Toggle the sprite between hidden and shown."
+]

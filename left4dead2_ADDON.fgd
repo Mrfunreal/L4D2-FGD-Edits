@@ -19,32 +19,12 @@
 @include "FGDs/cubemap.fgd"             //adds larger cubemap options and an origin helper, for work in vide.
 @include "FGDs/areaportal.fgd"          //adds fade radius helpers.
 @include "FGDs/point_spotlight.fgd"     //Makes the helperprop white to make color display properly. Tried the same for light_spot, but didn't work.
-@include "FGDs/env_smoketrail.fgd"     	//adds sphere helper for "env_smoketrail"
 
 
 
 
-//origin entity. This is JUST there so you can see the coordinates of where thsi entity is placed.
-@PointClass base(Origin) color(0 255 0) studio("models/editor/axis_helper.mdl") = hlp_origin : 
+//New origin entity. This is JUST there so you can see the coordinates of where this entity is placed.
+@PointClass base(Origin) color(0 255 0) studio("models/editor/axis_ball.mdl") = hlp_origin : 
 	"just to get the origin of that location"
 [
 ]
-
-
-//	L4D1 Bots in filter_team
-// 	Commented out because  this does not actually work.
-//
-//	@FilterClass base(BaseFilter) iconsprite("editor/filter_team.vmt") = filter_activator_team :
-//		"A filter that filters by the team of the activator."
-//	[
-//		filterteam(choices) : "Filter Team Number" : 2 : "The team number to filter by.  If the filter mode is Allow, only entities whose "+
-//			"team number matches the given team will pass the filter. If the filter mode is Disallow, "+
-//			"all entities EXCEPT those whose team number matches the given team will pass the filter." =
-//		[
-//			2 : "Survivor"
-//			3 : "Infected"
-//			4 : "L4D1 bots, from The Passing"
-//		]
-//	]
-
-

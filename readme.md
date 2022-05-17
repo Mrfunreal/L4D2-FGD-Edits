@@ -5,14 +5,16 @@ It adds a lot of options to various entities to make them more useful.
 
 ### Contains
 1. "Fade Distance" sphere helper to areaportal_window entities so you can easier pick where the fade starts and ends.
-2. Ammo upgrade entities as already deployed versions
+2. Ammo upgrade entities as already deployed versions.
 3. New visgroups for many type of entities.
 4. Default models for many props, like weapon_ammo_spawn, trigger_finale...
 5. More useful melee spawner that lists all usable melee weapon names in the help box, to copypaste names. Along with a model picker to easily pick any helper model you want. Alsi has a helper model browser that's jsut there to find a custom melee model, so you can copypaste the path of the model into the helper model field. It's a bit weird, but the best setup that i can do.
-6. info_survivor_position entities that allow you to pick the player model to align into sequences
-8. Marking leftover unused entities as Obsolete
-7. A whole lot of entity fixes specific for L4D2
-8. Generic helper models for weapon_spawn and item_spawn, so you'll immediately see which entities allow random spawns. But it also allows you to pick any existing model via dropdown
+6. info_survivor_position entities that allow you to pick the player model to align intro sequences.
+8. Marking leftover unused entities as Obsolete with the apropriate icon.
+7. A whole lot of entity fixes specific for L4D2.
+8. Generic helper models for all weapon_spawn, item_spawn, upgrade_spawn. To diferentiate specific weapon spawnpoints from randomised spawns.
+9. Helper meshes for env_sprites, which are balls colored in the same color sprites are colored. Furthermode, all sprites are now "World Space Glow" by default, which is what lensflare sprites usualyl always are supposed to be.
+10. A bunch of new iconsprites and helper models for some often used entities, to differentiate them better. 
 
 Contains a VPK for hammer, including:
 1. Tool textures specifically for every kind of tool brush entity. like trigger_once, trigger_hurt, info_changelevel...
@@ -49,8 +51,11 @@ Game	hl2
 <img src="pictures/info_survivor_position.png"/>
 <img src="pictures/Obsoleter.png"/>
 <img src="pictures/tooltextures.png"/>
-<img src="pictures/relays.png"/>
 <img src="pictures/generic_helpers.png"/>
+<img src="pictures/sprite_ball.png"/>
+<img src="pictures/helper_models.png"/>
+<img src="pictures/sprites.png"/>
+<img src="pictures/relays.png"/>
 
 
 
