@@ -59,3 +59,17 @@
 	output OnLightOn(void) : "Fires when light turns on."
 	output OnLightOff(void) : "Fires when light turns off."
 ]
+
+//light_spot with colored helper model
+@PointClass base(Targetname, Angles, Light) lightprop("models/editor/spot_white.mdl") lightcone() sphere(_fifty_percent_distance) sphere(_zero_percent_distance) = light_spot :
+	"An invisible and directional spotlight."
+[
+	rendercolor(color255) : "Helper Model Color" : "0 246 180" : "This Colors just the helper model, to show you what color the light would have. Unfortunately it is not possible to use the values of the _light field. You'll have to manually copy the _light color numbers in here."
+	target(target_destination) : "Entity to point at" : : "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
+	_inner_cone(integer) : "Inner (bright) angle" : 30
+	_cone(integer) : "Outer (fading) angle" : 45
+	_exponent(integer) : "Focus" : 1
+	_distance(float) : "Maximum distance" : 0 : "This is the distance that light is allowed to cast, in inches."
+	pitch(angle_negative_pitch) : "Pitch" : -90
+	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
+]

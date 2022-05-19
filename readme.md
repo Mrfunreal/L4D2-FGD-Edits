@@ -15,6 +15,7 @@ It adds a lot of options to various entities to make them more useful.
 8. Generic helper models for all weapon_spawn, item_spawn, upgrade_spawn. To diferentiate specific weapon spawnpoints from randomised spawns.
 9. Helper meshes for env_sprites, which are balls colored in the same color sprites are colored. Furthermode, all sprites are now "World Space Glow" by default, which is what lensflare sprites usualyl always are supposed to be.
 10. A bunch of new iconsprites and helper models for some often used entities, to differentiate them better. 
+11. Optional color helpers for point_spotlight. unfotunately you have to **manually** set the color by copypasting the brightness value into the helper color field. If you don't, the color will default to turquoise. But this can help you remind yourself what color the light has without having to click on the entity.
 
 Contains a VPK for hammer, including:
 1. Tool textures specifically for every kind of tool brush entity. like trigger_once, trigger_hurt, info_changelevel...
@@ -54,6 +55,7 @@ Game	hl2
 <img src="pictures/generic_helpers.png"/>
 <img src="pictures/sprite_ball.png"/>
 <img src="pictures/helper_models.png"/>
+<img src="pictures/light_helper_color.png"/>
 <img src="pictures/sprites.png"/>
 <img src="pictures/relays.png"/>
 
