@@ -62,11 +62,11 @@ Here are images of *some* abilities that have been added or changed.
 <img src="pictures/relays.png"/>
 
 Pick Witch behaviour (Time Of Day).
-<img src="pictures/witch_behaviour.png"/>
+<img src="pictures/witch_behaviour.jpg"/>
 Pick a Skybox by name (Or manualyl enter your own name).
-<img src="pictures/skybox_picker.png"/>
+<img src="pictures/skybox_picker.jpg"/>
 Pick music post-string.
-<img src="pictures/music_picker.png"/>
+<img src="pictures/music_picker.jpg"/>
 
 
 
