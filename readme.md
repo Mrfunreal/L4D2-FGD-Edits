@@ -47,7 +47,7 @@ Game	hl2
 ### Images
 Here are images of *some* abilities that have been added or changed.
 Areaportal Distance Picker.
-<img src="pictures/areaportalwindow.gif"/>
+<img src="pictures/areaportalwindow.gif" style="float:left">
 Already deployed upgrades.
 <img src="pictures/already_deployed_upgrades.png"/>
 More Visgroups.
