@@ -48,42 +48,30 @@ Game	hl2
 Here are images of *some* abilities that have been added or changed.
 <p>Areaportal Distance Picker.</p>
 <img src="pictures/areaportalwindow.gif"/>
-
 <p>Already deployed upgrades.</p>
 <img src="pictures/already_deployed_upgrades.png"/>
-
 <p>More Visgroups.</p>
 <img src="pictures/visgroups.png"/>
-
 <p>Better Melee spawn.</p>
 <img src="pictures/melee_spawn.png"/>
 <img src="pictures/melee_spawn2.png"/>
-
 <p>Info_survivor_position with helper models. </p>
 <img src="pictures/info_survivor_position.png"/>
-
 <p>Obsolete's unused or not programmed entities.</p>
 <img src="pictures/Obsoleter.png"/>
-
 <p>More specific tool textures.</p>
 <img src="pictures/tooltextures.png"/>
-
 <p>Optional Generic helper models for randomized weapon spawns.</p>
 <img src="pictures/generic_helpers.png"/>
-
 <p>Ball helper models for env_sprite.</p>
 <img src="pictures/sprite_ball.png"/>
-
-<p>More helper models, each camera entity got a different color.</p>
+<p>More helper models, each camera entity got a different color. Orange Freeman there is info_teleport_destination.</p>
 <img src="pictures/helper_models.png"/>
-
 <p>Light_spot entities can be colored.</p>
 <img src="pictures/light_helper_color.png"/>
-
 <p>New icon sprites.</p>
 <img src="pictures/sprites.png"/>
 <img src="pictures/relays.png"/>
-
 <p>Worldspawn settings.</p>
 <img src="pictures/witch_behaviour.jpg"/>
 <img src="pictures/skybox_picker.jpg"/>
