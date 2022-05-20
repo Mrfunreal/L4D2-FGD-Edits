@@ -47,35 +47,35 @@ Game	hl2
 ### Images
 Here are images of *some* abilities that have been added or changed.
 Areaportal Distance Picker.
-<img src="pictures/areaportalwindow.gif" style="float:left">
+<img src="pictures/areaportalwindow.gif" style="vertical-align:middle">
 Already deployed upgrades.
-<img src="pictures/already_deployed_upgrades.png" style="float:left">
+<img src="pictures/already_deployed_upgrades.png" style="vertical-align:middle">
 More Visgroups.
-<img src="pictures/visgroups.png" style="float:left">
+<img src="pictures/visgroups.png" style="vertical-align:middle">
 Better Melee spawn
-<img src="pictures/melee_spawn.png" style="float:left">
-<img src="pictures/melee_spawn2.png" style="float:left">
+<img src="pictures/melee_spawn.png" style="vertical-align:middle">
+<img src="pictures/melee_spawn2.png" style="vertical-align:middle">
 Info_survivor_position with helper models. 
-<img src="pictures/info_survivor_position.png" style="float:left">
+<img src="pictures/info_survivor_position.png" style="vertical-align:middle">
 Obsolete's unused or not programmed entities.
-<img src="pictures/Obsoleter.png" style="float:left">
+<img src="pictures/Obsoleter.png" style="vertical-align:middle">
 More specific tool textures
-<img src="pictures/tooltextures.png" style="float:left">
+<img src="pictures/tooltextures.png" style="vertical-align:middle">
 Optional Generic helper models for randomized weapon spawns.
-<img src="pictures/generic_helpers.png" style="float:left">
+<img src="pictures/generic_helpers.png" style="vertical-align:middle">
 Ball helper models for env_sprite.
-<img src="pictures/sprite_ball.png" style="float:left">
+<img src="pictures/sprite_ball.png" style="vertical-align:middle">
 More helper models, each camera entity got a different color.
-<img src="pictures/helper_models.png" style="float:left">
+<img src="pictures/helper_models.png" style="vertical-align:middle">
 light_spot entities can be colored
-<img src="pictures/light_helper_color.png" style="float:left">
+<img src="pictures/light_helper_color.png" style="vertical-align:middle">
 new icon sprites
-<img src="pictures/sprites.png" style="float:left">
-<img src="pictures/relays.png" style="float:left">
+<img src="pictures/sprites.png" style="vertical-align:middle">
+<img src="pictures/relays.png" style="vertical-align:middle">
 Worldspawn settings.
-<img src="pictures/witch_behaviour.jpg" style="float:left">
-<img src="pictures/skybox_picker.jpg" style="float:left">
-<img src="pictures/music_picker.jpg" style="float:left">
+<img src="pictures/witch_behaviour.jpg" style="vertical-align:middle">
+<img src="pictures/skybox_picker.jpg" style="vertical-align:middle">
+<img src="pictures/music_picker.jpg" style="vertical-align:middle">
 
 
 
