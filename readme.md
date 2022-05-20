@@ -46,45 +46,45 @@ Game	hl2
 
 ### Images
 Here are images of *some* abilities that have been added or changed.
-Areaportal Distance Picker.
+<p>Areaportal Distance Picker.</p>
 <img src="pictures/areaportalwindow.gif"/>
 
-Already deployed upgrades.
+<p>Already deployed upgrades.</p>
 <img src="pictures/already_deployed_upgrades.png"/>
 
-More Visgroups.
+<p>More Visgroups.</p>
 <img src="pictures/visgroups.png"/>
 
-Better Melee spawn
+<p>Better Melee spawn.</p>
 <img src="pictures/melee_spawn.png"/>
 <img src="pictures/melee_spawn2.png"/>
 
-Info_survivor_position with helper models. 
+<p>Info_survivor_position with helper models. </p>
 <img src="pictures/info_survivor_position.png"/>
 
-Obsolete's unused or not programmed entities.
+<p>Obsolete's unused or not programmed entities.</p>
 <img src="pictures/Obsoleter.png"/>
 
-More specific tool textures
+<p>More specific tool textures.</p>
 <img src="pictures/tooltextures.png"/>
 
-Optional Generic helper models for randomized weapon spawns.
+<p>Optional Generic helper models for randomized weapon spawns.</p>
 <img src="pictures/generic_helpers.png"/>
 
-Ball helper models for env_sprite.
+<p>Ball helper models for env_sprite.</p>
 <img src="pictures/sprite_ball.png"/>
 
-More helper models, each camera entity got a different color.
+<p>More helper models, each camera entity got a different color.</p>
 <img src="pictures/helper_models.png"/>
 
-light_spot entities can be colored
+<p>Light_spot entities can be colored.</p>
 <img src="pictures/light_helper_color.png"/>
 
-new icon sprites
+<p>New icon sprites.</p>
 <img src="pictures/sprites.png"/>
 <img src="pictures/relays.png"/>
 
-Worldspawn settings.
+<p>Worldspawn settings.</p>
 <img src="pictures/witch_behaviour.jpg"/>
 <img src="pictures/skybox_picker.jpg"/>
 <img src="pictures/music_picker.jpg"/>
