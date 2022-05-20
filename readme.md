@@ -49,33 +49,33 @@ Here are images of *some* abilities that have been added or changed.
 Areaportal Distance Picker.
 <img src="pictures/areaportalwindow.gif" style="float:left">
 Already deployed upgrades.
-<img src="pictures/already_deployed_upgrades.png"/>
+<img src="pictures/already_deployed_upgrades.png" style="float:left">
 More Visgroups.
-<img src="pictures/visgroups.png"/>
+<img src="pictures/visgroups.png" style="float:left">
 Better Melee spawn
-<img src="pictures/melee_spawn.png"/>
-<img src="pictures/melee_spawn2.png"/>
+<img src="pictures/melee_spawn.png" style="float:left">
+<img src="pictures/melee_spawn2.png" style="float:left">
 Info_survivor_position with helper models. 
-<img src="pictures/info_survivor_position.png"/>
+<img src="pictures/info_survivor_position.png" style="float:left">
 Obsolete's unused or not programmed entities.
-<img src="pictures/Obsoleter.png"/>
+<img src="pictures/Obsoleter.png" style="float:left">
 More specific tool textures
-<img src="pictures/tooltextures.png"/>
+<img src="pictures/tooltextures.png" style="float:left">
 Optional Generic helper models for randomized weapon spawns.
-<img src="pictures/generic_helpers.png"/>
+<img src="pictures/generic_helpers.png" style="float:left">
 Ball helper models for env_sprite.
-<img src="pictures/sprite_ball.png"/>
+<img src="pictures/sprite_ball.png" style="float:left">
 More helper models, each camera entity got a different color.
-<img src="pictures/helper_models.png"/>
+<img src="pictures/helper_models.png" style="float:left">
 light_spot entities can be colored
-<img src="pictures/light_helper_color.png"/>
+<img src="pictures/light_helper_color.png" style="float:left">
 new icon sprites
-<img src="pictures/sprites.png"/>
-<img src="pictures/relays.png"/>
+<img src="pictures/sprites.png" style="float:left">
+<img src="pictures/relays.png" style="float:left">
 Worldspawn settings.
-<img src="pictures/witch_behaviour.jpg"/>
-<img src="pictures/skybox_picker.jpg"/>
-<img src="pictures/music_picker.jpg"/>
+<img src="pictures/witch_behaviour.jpg" style="float:left">
+<img src="pictures/skybox_picker.jpg" style="float:left">
+<img src="pictures/music_picker.jpg" style="float:left">
 
 
 
