@@ -22,9 +22,23 @@
 
 
 
-
 //New origin entity. This is JUST there so you can see the coordinates of where this entity is placed.
 @PointClass base(Origin) color(0 255 0) studio("models/editor/axis_ball.mdl") = hlp_origin : 
 	"just to get the origin of that location"
 [
+]
+
+// Excludes all these folders from the material browser. 
+@MaterialExclusion
+[
+    // Names of the sub-directories we don't want to load materials from
+    "debug"
+    "engine"		
+    "hud"			
+    "vgui"			
+	"voice"			//vgui speech bubbles
+	"console"		//Background textures
+	"sblitz" 		//Suicide Blitz helicopter model textures, not in the models folder. therefore it will be listed here.
+	"particle"		//There's no way to load particles by VMT, so this is useless
+	"dons_decals"	//These are just "inside joke" and "shoutout" decals for Cold Stream. Jsut shipped with L4D2 because reasons. Nobody needs this shit.
 ]
