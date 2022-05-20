@@ -16,6 +16,7 @@ It adds a lot of options to various entities to make them more useful.
 9. Helper meshes for env_sprites, which are balls colored in the same color sprites are colored. Furthermode, all sprites are now "World Space Glow" by default, which is what lensflare sprites usualyl always are supposed to be.
 10. A bunch of new iconsprites and helper models for some often used entities, to differentiate them better. 
 11. Optional color helpers for point_spotlight. unfotunately you have to **manually** set the color by copypasting the brightness value into the helper color field. If you don't, the color will default to turquoise. But this can help you remind yourself what color the light has without having to click on the entity.
+12. Worldspawn settings to choose a Skybox, Music Post-String and witch behaviour from a choice list.
 
 Contains a VPK for hammer, including:
 1. Tool textures specifically for every kind of tool brush entity. like trigger_once, trigger_hurt, info_changelevel...
@@ -44,6 +45,7 @@ Game	hl2
 ```Game	bin\L4D2-FGD-Edits\hammer_vpk```
 
 ### Images
+Here are images of *some* abilities that have been added or changed.
 <img src="pictures/areaportalwindow.gif"/>
 <img src="pictures/already_deployed_upgrades.png"/>
 <img src="pictures/visgroups.png"/>
@@ -58,6 +60,15 @@ Game	hl2
 <img src="pictures/light_helper_color.png"/>
 <img src="pictures/sprites.png"/>
 <img src="pictures/relays.png"/>
+
+Pick Witch behaviour (Time Of Day).
+<img src="pictures/witch_behaviour.png"/>
+Pick a Skybox by name (Or manualyl enter your own name).
+<img src="pictures/skybox_picker.png"/>
+Pick music post-string.
+<img src="pictures/music_picker.png"/>
+
+
 
 
 
