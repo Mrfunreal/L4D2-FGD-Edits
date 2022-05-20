@@ -1,7 +1,7 @@
 # L4D2-FGD-Edits
-This is a collection of FGD edits that can be put together to make L4D2's Hammer easier to use and more useful. 
-
 It adds a lot of options to various entities to make them more useful.
+
+**Note:** You should change the default entity from info_survivor_position to something else like info_player_start. Somehow changing from info_survivor_position fo env_sprite crashes hammer.
 
 ### Contains
 1. "Fade Distance" sphere helper to areaportal_window entities so you can easier pick where the fade starts and ends.
