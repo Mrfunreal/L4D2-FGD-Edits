@@ -16,19 +16,21 @@ It adds a lot of options to various entities to make them more useful.
 9. Helper meshes for env_sprites, which are balls colored in the same color sprites are colored. Furthermode, all sprites are now "World Space Glow" by default, which is what lensflare sprites usualyl always are supposed to be.
 10. A bunch of new iconsprites and helper models for some often used entities, to differentiate them better. 
 11. Optional color helpers for point_spotlight. unfotunately you have to **manually** set the color by copypasting the brightness value into the helper color field. If you don't, the color will default to turquoise. But this can help you remind yourself what color the light has without having to click on the entity.
-12. Worldspawn settings to choose a Skybox, Music Post-String and witch behaviour from a choice list.
+12. Worldspawn settings to choose a Skybox, Music Post-String, Witch behaviour, and "Detail material type" from a choice list.
+13. Added the **alleydirt_leaves** and **urban_overgrown_docks** $detailtype that valve forgot to port to L4D2. Former was ported from L4D1, latter was made up my myself.
 
 Contains a VPK for hammer, including:
 1. Tool textures specifically for every kind of tool brush entity. like trigger_once, trigger_hurt, info_changelevel...
 2. A lot of new sprites for entities that didn't have one. Like the director and icons for all three tonemap entities.
 3. various differently colored sprites for logic_relay. For people who like to color code their things.
 4. L4D2 specific measure textures for doors, jump height, crouch space...
+5. Aforementioned **alleydirt_leaves** and **urban_overgrown_docks** $detailtype, with the required **detail.vbsp**
 
 ### Install
 1. Download the entire "L4D2-FGD-Edits" repo folder into ```Steam\steamapps\common\Left 4 Dead 2\bin```
 2. You should end up with the directory ```Steam\steamapps\common\Left 4 Dead 2\bin\L4D2-FGD-Edits```
 3. In hammer click on **Tools - Options**
-4. In the "Game Configuration" tab, look for the "Game Data Files" box use ONLY te left4dead2_ADDON.fgd. <img src="pictures/hammer_config.png" width=234/>
+4. In the "Game Configuration" tab, look for the "Game Data Files" box use **ONLY** the left4dead2_ADDON.fgd. <img src="pictures/hammer_config.png" width=234/>
 6. Open  ```Steam\steamapps\common\Left 4 Dead 2\left4dead2\Gameinfo.txt```
 7. Scroll down to the first few **game** lines.
 ```
@@ -61,6 +63,8 @@ Here are images of *some* abilities that have been added or changed.
 <img src="pictures/Obsoleter.png"/>
 <p>More specific tool textures.</p>
 <img src="pictures/tooltextures.png"/>
+<p>Blend Textures displaying what detail they use.</p>
+<img src="pictures/blendtextures.jpg"/>
 <p>Optional Generic helper models for randomized weapon spawns.</p>
 <img src="pictures/generic_helpers.png"/>
 <p>Ball helper models for env_sprite.</p>
@@ -76,6 +80,7 @@ Here are images of *some* abilities that have been added or changed.
 <img src="pictures/witch_behaviour.jpg"/>
 <img src="pictures/skybox_picker.jpg"/>
 <img src="pictures/music_picker.jpg"/>
+<img src="pictures/detail_picker.jpg"/>
 
 
 

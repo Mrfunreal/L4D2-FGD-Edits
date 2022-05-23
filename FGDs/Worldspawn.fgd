@@ -24,7 +24,15 @@
 	maxpropscreenwidth(float) : "Start Fade Pixels" : -1 : "Number of pixels wide at which all props in the level start to fade (<0 = use fademaxdist). This number is ignored if the prop has a specific fade distance specified."
 	minpropscreenwidth(float) : "End Fade Pixels" : 0 : "Minimum number of pixels wide at which the prop is visible (0 = don't fade out). This number is ignored if the prop has a specific fade distance specified."
 	detailvbsp(string) : "Detail.vbsp file" : "detail.vbsp" : "Detail.vbsp file to use for emitting detail props (found in directory <root>/modname)"
-	detailmaterial(string) : "Detail material file" : "detail/detailsprites" : "Material for detail sprites to use for drawing detail props"
+//	detailmaterial(string) 	: "Detail material file" : "detail/detailsprites" :	"Material for detail sprites to use for drawing detail props. Commonly used are: 'detail/detailsprites' 'detail/detailsprites_overgrown'"
+	detailmaterial(choices) : "Detail material file" : "detail/detailsprites" :	"Material for detail sprites to use for drawing detail props. L4D2 has three to pick from, but you may also enter your own vmt name.       " +
+																				"Check the 'Detailtype_Helper.txt' in your 'BIN/L4D2-FGD-Edits' folder to easily read which sprite material you should use.              "+ 
+																				"Not using the proper detail material will cause floating sprites."=
+	[
+		"detail/detailsprites" 				: "detail/detailsprites"
+		"detail/detailsprites_overgrown" 	: "detail/detailsprites_overgrown"
+		"detail/ruraldetailsprites" 		: "detail/ruraldetailsprites"
+	]
 	timeofday(choices) : "Witch behaviour (Time Of Day)" : 2 =
 	[
 		2 : "Sitting Witch"
@@ -36,9 +44,9 @@
 		1 : "Check Point"
 	]
 
-	musicpostfix(choices) : "Music Post-Fix String" : "Waterfront" : "Music type, for Hordes and general mood. Pick an existing strin or enter your own custom name instead of an existing choice."=
+	musicpostfix(choices) : "Music Post-Fix String" : "Waterfront" : "Music type, for Hordes and general mood. Pick an existing string or enter your own custom name instead of an existing choice."=
 	[
-	"Waterfront" 	: "The Parish (Waterfront unused by campaign, but is default.)"
+	"Waterfront" 	: "The Parish (Waterfront. Unused, default.)"
 	"BigEasy" 		: "The Parish (BigEasy) " 		
 	"Mall" 			: "Dead Center (Mall)"
 	"Fairgrounds" 	: "Dark Carnival (Fairgrounds)" 	
