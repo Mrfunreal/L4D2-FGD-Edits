@@ -44,9 +44,10 @@ Game	hl2
 
 8. Add the folowing above **Game Update**
 
-```Game	bin\L4D2-FGD-Edits\hammer_vpk```
+```Game	bin\L4D2-FGD-Edits-main\hammer_vpk```
 
-*Note, when you download this repo, the folder might rename itself to L4D2-FGD-Edits-main. So either rename the folder, or the listting in the gameinfo*
+<p>Note:</p>
+Should i ever add another branch, the *L4D2-FGD-Edits-main* folder which you download might use another name. In which case you'd also need to rename this name in the gameinfo.
 
 ### Images
 Here are images of *some* abilities that have been added or changed.
