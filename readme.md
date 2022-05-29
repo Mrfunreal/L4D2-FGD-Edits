@@ -45,6 +45,7 @@ Game	hl2
 8. Add the folowing above **Game Update**
 
 ```Game	bin\L4D2-FGD-Edits\hammer_vpk```
+
 *Note, when you download this repo, the folder might rename itself to L4D2-FGD-Edits-main. So either rename the folder, or the listting in teh gameinfo*
 
 ### Images
