@@ -1,5 +1,5 @@
 WARNING:	%Detailtype "alleydirt_leaves" was not ported from L4D1 to L4D2. It's only used on "nature/blend_alleydirt_leaves", in from Crash Course.
-			It's contained in my details.vbsp, packed along the hamemr materials and models.
+			It's contained in my details.vbsp, packed along the hammer materials and models.
 WARNING:	%Detailtype "urban_overgrown_docks" does not exist in L4D2 or L4D1 and was never released to l4d2.
 			I made up my own which is basically just
 WARNING:	A map can only use one Material File. Make sure your displacements use textures that use the same material file.
