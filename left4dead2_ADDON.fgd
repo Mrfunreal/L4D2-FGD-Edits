@@ -3,13 +3,32 @@
 //Then in hammer click on "Tools - Options". In the "Game Configuration" tab, look for the "Game Data Files" box and ONLY usie this FGD.
 
 
+//New Base Classes for FGD entries that are unused
+@BaseClass = Classname
+[ 
+	Classname(string) : "Classname" : "" : "Classname given to the entity."
+]
+@BaseClass = LagCompensate
+[ 
+	LagCompensate(choices) : "Lag Compensation" : 0 : "Set to Yes to lag compensate this prop, should be use very sparingly!" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+]
+@BaseClass = thinkfunction
+[ 
+	thinkfunction(string) : "Script think function" : "" : "Name of a function in this entity's script scope which will be called automatically."
+]
+
+
 // Including FGD files
-@include "../left4dead2.fgd"			//Loads base from Bin folder
+@include "../left4dead2.fgd"			//Loads left4dead2.fgd from Bin folder, loads base.fgd in return.
 @include "FGDs/Colorchange_only.fgd"	//Changes colors of some entities for flair in 3d window
 @include "FGDs/Visgroups.fgd"           //adds more auto visgroups
 @include "FGDs/Worldspawn.fgd"          //edits the worldspawn
 @include "FGDs/func_block_charge.fgd"   //edits func_block_charge
-@include "FGDs/small_changes.fgd"       //various small changes like editing the studiomodel of an entity.
+@include "FGDs/small_changes.fgd"       //various small changes like editing adding optinal but missing fgd keyvalues
 @include "FGDs/carriables.fgd"          //proper carryable entity spawnpoints
 @include "FGDs/helpermodels.fgd"        //adds helpermodels to various entities
 @include "FGDs/Obsoletion.fgd"          //Marks unused and removed entities as Obsolete
@@ -19,13 +38,15 @@
 @include "FGDs/cubemap.fgd"             //adds larger cubemap options and an origin helper, for work in vide.
 @include "FGDs/areaportal.fgd"          //adds fade radius helpers.
 @include "FGDs/point_spotlight.fgd"     //Makes the helperprop white to make color display properly. Tried the same for light_spot, but didn't work.
+@include "FGDs/Info_Game_Event_Proxy.fgd"	//Adds all available lessons to Info_Game_Event_Proxy
 
 
 
 //New origin entity. This is JUST there so you can see the coordinates of where this entity is placed.
-@PointClass base(Origin) color(0 255 0) studio("models/editor/axis_ball.mdl") = hlp_origin : 
+@PointClass base(Origin, Angles) color(0 255 0) studio("models/editor/axis_ball.mdl") = hlp_origin : 
 	"just to get the origin of that location"
 [
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 ]
 
 // Excludes all these folders from the material browser. 
