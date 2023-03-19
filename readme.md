@@ -18,6 +18,7 @@ It adds a lot of options to various entities to make them more useful.
 11. Optional color helpers for point_spotlight. unfotunately you have to **manually** set the color by copypasting the brightness value into the helper color field. If you don't, the color will default to turquoise. But this can help you remind yourself what color the light has without having to click on the entity.
 12. Worldspawn settings to choose a Skybox, Music Post-String, Witch behaviour, and "Detail material type" from a choice list.
 13. Added the **alleydirt_leaves** and **urban_overgrown_docks** $detailtype that valve forgot to port to L4D2. Former was ported from L4D1, latter was made up my myself.
+14. Added **ActivateSkybox** Input, and Targetname string to Sky_camera. Calling this input will enable this 3d skybox and disable all others. Allowing oyu to have multiple 3d skyboxes in one map.
 
 Contains a VPK for hammer, including:
 1. Tool textures specifically for every kind of tool brush entity. like trigger_once, trigger_hurt, info_changelevel...
