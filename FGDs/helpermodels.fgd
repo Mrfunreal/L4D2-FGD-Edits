@@ -261,6 +261,7 @@
 @PointClass base(Angles) studio("models/editor/sky_camera.mdl") = sky_camera : 
 	"An entity used to control the 3D Skybox. Its origin is used to determine the 3D Skybox's position relative to the map. Place this entity, in the 3D Skybox, at the point where the origin of the map should be."
 [
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	scale(integer) : "3D Skybox scale" : 16 : "Scale of the skybox. scale everything by .0625"
 	fogenable(choices) : "Fog Enable" : 0 =
 	[
@@ -291,6 +292,8 @@
 	fogmaxdensity(float) : "Fog Max Density [0..1]" : "1"
 
 	HDRColorScale(float) : "HDR color scale." : "1.0" : "float value to multiply fog color by when running in HDR mode."
+	
+	input ActivateSkybox(void) : "Manually enable this skybox. Disables all others."
 ]
 
 @PointClass base(Parentname, Targetname, Angles) color(255 128 0) studioprop("models/editor/axis_helper_arrow_X.mdl") = env_lightglow : 
