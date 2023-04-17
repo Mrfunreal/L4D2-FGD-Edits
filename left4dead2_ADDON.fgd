@@ -43,10 +43,12 @@
 
 
 //New origin entity. This is JUST there so you can see the coordinates of where this entity is placed.
-@PointClass base(Origin, Angles) color(0 255 0) studio("models/editor/axis_ball.mdl") = hlp_origin : 
-	"just to get the origin of that location"
+@PointClass base(Origin, Angles) color(0 255 0) sphere(VectorRadius) studio("models/editor/axis_ball.mdl") = hlp_origin_Vector : 
+	"Help in getting the origin and Vector radius for Vscripts."
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	VectorRadius(integer) : "Radius Helper" : 64 : "This Value is useful for gettin radius values for Vscript vectors."
+
 ]
 
 // Excludes all these folders from the material browser. 

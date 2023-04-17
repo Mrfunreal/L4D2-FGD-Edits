@@ -215,7 +215,7 @@
 ]
 
 //env_steam with better understandable helper model
-@PointClass base(Targetname, Parentname, Angles) studioprop("models/editor/axis_helper_arrow_Y.mdl") color(255 255 255) = env_steam : 
+@PointClass base(Targetname, Parentname, Angles) studioprop("models/editor/axis_helper_arrow_x.mdl") color(255 255 255) = env_steam : 
 	"An entity used to create a jet of steam."
 [
 	spawnflags(flags) =
