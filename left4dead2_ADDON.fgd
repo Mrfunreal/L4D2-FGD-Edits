@@ -4,6 +4,7 @@
 
 
 //New Base Classes for FGD entries that are unused
+
 @BaseClass = Classname
 [ 
 	Classname(string) : "Classname" : "" : "Classname given to the entity."
@@ -24,6 +25,7 @@
 
 // Including FGD files
 @include "../left4dead2.fgd"			//Loads left4dead2.fgd from Bin folder, loads base.fgd in return.
+@include "FGDs/Triggers.fgd"				//Changes to Trigger entities
 @include "FGDs/Colorchange_only.fgd"	//Changes colors of some entities for flair in 3d window
 @include "FGDs/Visgroups.fgd"           //adds more auto visgroups
 @include "FGDs/Worldspawn.fgd"          //edits the worldspawn
