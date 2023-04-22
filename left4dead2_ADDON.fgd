@@ -22,25 +22,25 @@
 	thinkfunction(string) : "Script think function" : "" : "Name of a function in this entity's script scope which will be called automatically."
 ]
 
-
 // Including FGD files
-@include "../left4dead2.fgd"			//Loads left4dead2.fgd from Bin folder, loads base.fgd in return.
+@include "../left4dead2.fgd"				//Loads left4dead2.fgd from Bin folder, loads base.fgd in return.
 @include "FGDs/Triggers.fgd"				//Changes to Trigger entities
-@include "FGDs/Colorchange_only.fgd"	//Changes colors of some entities for flair in 3d window
-@include "FGDs/Visgroups.fgd"           //adds more auto visgroups
-@include "FGDs/Worldspawn.fgd"          //edits the worldspawn
-@include "FGDs/func_block_charge.fgd"   //edits func_block_charge
-@include "FGDs/small_changes.fgd"       //various small changes like editing adding optinal but missing fgd keyvalues
-@include "FGDs/carriables.fgd"          //proper carryable entity spawnpoints
-@include "FGDs/helpermodels.fgd"        //adds helpermodels to various entities
-@include "FGDs/Obsoletion.fgd"          //Marks unused and removed entities as Obsolete
-@include "FGDs/nav_attributes.fgd"      //Edits the Nav_Attribute entity flags to add more possible attributes
-@include "FGDs/weapon_spawners.fgd"     //Edits the weapon spawn entities
-@include "FGDs/sprites.fgd"             //adds sprites. NEEDS HAMMER CONTENT VPK TO BE MOUNTED VIA GAMEINFO
-@include "FGDs/cubemap.fgd"             //adds larger cubemap options and an origin helper, for work in vide.
-@include "FGDs/areaportal.fgd"          //adds fade radius helpers.
-@include "FGDs/point_spotlight.fgd"     //Makes the helperprop white to make color display properly. Tried the same for light_spot, but didn't work.
+@include "FGDs/Colorchange_only.fgd"		//Changes colors of some entities for flair in 3d window
+@include "FGDs/Visgroups.fgd"           	//adds more auto visgroups
+@include "FGDs/Worldspawn.fgd"          	//edits the worldspawn
+@include "FGDs/func_block_charge.fgd"   	//edits func_block_charge
+@include "FGDs/small_changes.fgd"       	//various small changes like editing adding optinal but missing fgd keyvalues
+@include "FGDs/carriables.fgd"          	//proper carryable entity spawnpoints
+@include "FGDs/helpermodels.fgd"        	//adds helpermodels to various entities
+@include "FGDs/Obsoletion.fgd"          	//Marks unused and removed entities as Obsolete
+@include "FGDs/nav_attributes.fgd"      	//Edits the Nav_Attribute entity flags to add more possible attributes
+@include "FGDs/weapon_spawners.fgd"     	//Edits the weapon spawn entities
+@include "FGDs/sprites.fgd"             	//adds sprites. NEEDS HAMMER CONTENT VPK TO BE MOUNTED VIA GAMEINFO
+@include "FGDs/cubemap.fgd"             	//adds larger cubemap options and an origin helper, for work in vide.
+@include "FGDs/areaportal.fgd"          	//adds fade radius helpers.
+@include "FGDs/point_spotlight.fgd"     	//Makes the helperprop white to make color display properly. Tried the same for light_spot, but didn't work.
 @include "FGDs/Info_Game_Event_Proxy.fgd"	//Adds all available lessons to Info_Game_Event_Proxy
+@include "FGDs/Damagetype.fgd"				//More Damagetypes
 
 
 
