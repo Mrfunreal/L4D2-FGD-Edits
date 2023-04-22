@@ -90,7 +90,7 @@
 	DamageTarget(string) : "Target Entity" : "" : "If specified, only this entity will take damage. Otherwise, all entities within the Radius will take damage."
 	
 	DamageRadius(float) : "Radius" : 256 : "All entities within this radius of this entity will take damage. If a 'Target Entity' is specified, only that entity will take damage."
-	Damage(integer) : "Damage" : 5 : "Damage done to all affected entities each time this entity fires."
+	Damage(integer) : "Damage" : 5 : "Damage done to all affected entities each time this entity fires. Negative values will heal."
 	DamageDelay(float) : "Delay" : 1 : "Delay between refires, in seconds."
 	
 	// Inputs
@@ -104,7 +104,7 @@
 	"A trigger volume that damages entities that touch it."
 [
 	master(string) : "Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this entity will not activate."
-	damage(integer) : "Damage" : 10 : "The amount of damage done to entities that touch this trigger. The damage is done every half-second. See also 'Damage Model' for extra details on how damage can be dealt."
+	damage(integer) : "Damage" : 10 : "The amount of damage done to entities that touch this trigger. The damage is done every half-second. See also 'Damage Model' for extra details on how damage can be dealt. Negative values will heal."
 	damagecap(integer) : "Damage Cap" : 20 : "Maximum damage dealt per second. This field is only used if you select the Doubling w/Forgiveness damage model, via the spawnflag."
 
 
