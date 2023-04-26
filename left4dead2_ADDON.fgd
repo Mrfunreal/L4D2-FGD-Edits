@@ -41,6 +41,7 @@
 @include "FGDs/point_spotlight.fgd"     	//Makes the helperprop white to make color display properly. Tried the same for light_spot, but didn't work.
 @include "FGDs/Info_Game_Event_Proxy.fgd"	//Adds all available lessons to Info_Game_Event_Proxy
 @include "FGDs/Damagetype.fgd"				//More Damagetypes
+@include "FGDs/props.fgd"					//Prop edits
 
 
 
@@ -65,5 +66,8 @@
 	"console"		//Background textures
 	"sblitz" 		//Suicide Blitz helicopter model textures, not in the models folder. therefore it will be listed here.
 	"particle"		//There's no way to load particles by VMT, so this is useless
-	"dons_decals"	//These are just "inside joke" and "shoutout" decals for Cold Stream. Jsut shipped with L4D2 because reasons. Nobody needs this shit.
+	"dons_decals"	//These are just "inside joke" and "shoutout" decals for Cold Stream.Nobody needs this shit.
 ]
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

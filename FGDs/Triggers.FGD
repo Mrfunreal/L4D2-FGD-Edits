@@ -2,16 +2,16 @@
 [
 	spawnflags(flags) = 
 	[
-		1: 		"Survivors, Special Infected, Tanks  (Clients)"																					: 1
-		2: 		"Common Infected, Witches            (NPCs)"																					: 0
-		4: 		"Pushables"																														: 0
-		8: 		"Physics Objects" 																												: 0
-		16: 	"Only player ally NPCs" 																										: 0
-		32: 	"Only clients in vehicles" 																										: 0
-		64: 	"Everything (not including physics debris) - Can trigger on throwable items if filter_activator_model or filter_multi i used."	: 0
-		512: 	"OBSOLETE - Only clients *not* in vehicles" 																					: 0
-		1024: 	"Physics debris" 																												: 0
-		2048:	"OBSOLETE - Only NPCs in vehicles (respects player ally flag)" 																	: 0
+		1: 		"Survivors, Special Infected, Tanks (Clients)"														: 1
+		2: 		"Common Infected, Witches           (NPCs)"															: 0
+		64: 	"Everything - Use filters to get specific models/classes to trigger. Works for Throwables that way"	: 0
+		4: 		"OBSOLETE - Pushables (technically works, but the pushable entity doesn't exist in the fgd)"		: 0
+		8: 		"OBSOLETE - Physics Objects" 																		: 0
+		1024: 	"OBSOLETE - Physics Debris" 																		: 0
+		16: 	"OBSOLETE - Only player ally NPCs" 																	: 0
+		512: 	"OBSOLETE - Only clients *not* in vehicles" 														: 0
+		32: 	"OBSOLETE - Only clients in vehicles" 																: 0
+		2048:	"OBSOLETE - Only NPCs in vehicles (respects player ally flag)" 										: 0
 	]
 
 	filtername(filterclass) : "Filter Name" : : "Filter to use to see if activator triggers me. See filter_activator_name for more explanation."
