@@ -201,13 +201,13 @@
 	]
 
 
-		hardware(choices) : "OBSOLETE - Hardware Type" : 1 =
-	[
-		0 : "<None>"
-		1 : "Lever"
-		2 : "Push bar"
-		3 : "Keypad"
-	]
+//		hardware(choices) : "OBSOLETE - Hardware Type" : 1 =
+//	[
+//		0 : "<None>"
+//		1 : "Lever"
+//		2 : "Push bar"
+//		3 : "Keypad"
+//	]
 
 	// Outputs
 	output OnClose(void) : "Fired when the door is told to close."

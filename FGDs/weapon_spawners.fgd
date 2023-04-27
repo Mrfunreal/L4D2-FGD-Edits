@@ -93,8 +93,8 @@
 	spawnflags(Flags) = 
 	[
 		1 : "Enable Physics" : 0
-		4 : "Absorb any dropped weapon type" : 0
 		2 : "Must Exist" : 0
+		4 : "Absorb any dropped weapon type (will NOT drop previously held weapon to the ground when set to 1)" : 0
 		8 : "Infinite items (overrides count)" : 0
 		16 : "Constrain to spawn position (don't drop to the ground)" : 0
 	]
@@ -125,9 +125,6 @@
 	model(studio) 	: "Model" : "models/props/terror/ammo_stack.mdl" : "Models usually used:\n models/props/terror/ammo_stack.mdl \n models/props_unique/spawn_apartment/coffeeammo.mdl" 
 	skin(integer)	: "Skin " : 0 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
 	glowrange(float) : "Glow Range" : 0 : "Set a custom glow range for this spawner. 0 means use the default range."
-
-
-
 	spawnflags(Flags) =
 	[
 		1 : "Enable Physics" : 0
@@ -191,7 +188,7 @@
 	[
 		1 : "Enable Physics" : 0
 		2 : "Must Exist" : 0
-		4 : "Absorb any dropped weapon type" : 0
+		4 : "Absorb any dropped weapon type (will NOT drop previously held weapon to the ground when set to 1)" : 0
 		8 : "Infinite items (overrides count)" : 0
 	]	
 ]

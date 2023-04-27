@@ -61,7 +61,7 @@
 	"Airport" 		: "Dead Air (Airport)" 		
 	"Farm" 			: "Blood Harvest (Farm)" 			
 	"ColdStream" 	: "Cold Stream (ColdStream)" 	
-	"Lighthouse" 	: "The LAst Stand (Lighthouse)" 	
+	"Lighthouse" 	: "The Last Stand (Lighthouse)" 	
 	]	
 
 	skyname(choices) : "SkyBox Texture Name" : "sky_l4d_rural02_hdr" : "Skybox name.                                              " +

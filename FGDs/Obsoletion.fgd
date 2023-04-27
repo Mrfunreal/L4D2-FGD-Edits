@@ -539,7 +539,7 @@
 @PointClass color(255 0 0) base(obsolete, Targetname,Angles,Parentname) studioprop("models/editor/camera.mdl") = point_viewcontrol : 
 	"Use point_viewcontrol_survivor for individual survivors or point_viewcontrol_multiplayer for all survivors at once" 
 [
-	obsolete(string) : "Obsolete" : : " "
+	obsolete(string) : "Obsolete" : : "Use point_viewcontrol_survivor for individual survivors or point_viewcontrol_multiplayer for all survivors at once"
 
 	fov(float) : "Field of view" : "90" : "Player FOV (if Set FOV spawnflag is set)"
 	fov_rate(float) : "Seconds to reach FOV target" : "1.0" : "Amount of time it should take to reach the specified FOV"

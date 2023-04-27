@@ -9,17 +9,17 @@
 		8			:	"BURN         - Sets CI, SI & bots on fire"		// DMG_BURN						.	Sets CI, SI and bots on fire
 		32			:	"FALL - Survivors are silent when incapped"		// DMG_FALL						.
 		64			:	"BLAST      - Insta Kills CI, Stuns Bosses"		// DMG_BLAST					.	Insta Kills CI, Stuns SI, Stumbles witches and Tanks
-		128			:	"CLUB       - Witches flinch"		// DMG_CLUB						.	Makes witch flinch
+		128			:	"CLUB       - Witches flinch"					// DMG_CLUB						.	Makes witch flinch
 		32768		:	"FORCE INCAPACITATE"							// DMG_FORCE_INCAPACITATE		.	Instantly Incaps Survivors
 		131072		:	"BLEEDOUT   - No damage indicator"				// DMG_POISON 					.	Has no Damage Indicator
-		16777216	:	"FULLGIB    - Spawns gibs on damage"	// DMG_PLASMA (Fullgib)			.	Spawns Shotgun like gib particles until CI die and gib
+		16777216	:	"FULLGIB    - Spawns gibs on damage"			// DMG_PLASMA (Fullgib)			.	Spawns Shotgun like gib particles until CI die and gib
 		33554432	:	"STUMBLE    - Stumbles CI"						// DMG_STUMBLE					.	Melee bash type push on ci
 		536870912	:	"BUCKSHOT   - Witches flinch, pushes CI"		// DMG_BUCKSHOT					.	Makes witch flinch, pushes CI away
-		2048		:	"BLAMELESS FRIENDLY FIRE"						// DMG_BLAMELESS_FRIENDLY_FIRE	.
 		0			:	" "	
 		0			:	"Below here are useless Damage Types."	
 		0			:	"They act the same on trigger_hurt"	
 		0			:	" "	
+		2048		:	"BLAMELESS FRIENDLY FIRE (not really useful)"	// DMG_BLAMELESS_FRIENDLY_FIRE	.
 		16			:	"VEHICLE"										// DMG_VEHICLE					.
 		256			:	"SHOCK      - Missing Particle"					// DMG_SHOCK					.	Has a missing particle
 		512			:	"SONIC"											// DMG_SONIC					.
@@ -39,43 +39,6 @@
 		268435456	:	"DIRECT"										// DMG_DIRECT					.	
 		1073741824	:	"HEADSHOT"										// DMG_HEADSHOT					.	
 		2147483648	:	"DISMEMBER  - !!! BROKEN !!!"					// DMG_DISMEMBER				.	applies all previously encoutnered special effects (burn, sparks, stagger)
-
-		// DMG_BURN    
-		// DMG_BLAST_SURFACE   
-		// DMG_BLAST   
-		// DMG_STUMBLE 
-		// DMG_MELEE   
-		// DMG_BUCKSHOT    
-		// DMG_BULLET  
-		// DMG_HEADSHOT
-		// DMG_DISMEMBER   
-		// DMG_DIRECT  
-		// DMG_DISSOLVE   
-		// DMG_AIRBOAT 
-		// DMG_PLASMA  
-		// DMG_PHYSGUN 
-		// DMG_REMOVENORAGDOLL 
-		// DMG_SLOWBURN   
-		// DMG_CHOKE   
-		// DMG_DROWNRECOVER    
-		// DMG_RADIATION   
-		// DMG_POISON  
-		// DMG_NERVEGAS    
-		// DMG_FORCE_INCAPACITATE  
-		// DMG_DROWN   
-		// DMG_ALWAYSGIB   
-		// DMG_NEVERGIB    
-		// DMG_BLAMELESS_FRIENDLY_FIRE 
-		// DMG_ENERGYBEAM  
-		// DMG_SONIC   
-		// DMG_SHOCK   
-		// DMG_CLUB    
-		// DMG_FALL    
-		// DMG_VEHICLE 
-		// DMG_SLASH   
-		// DMG_CRUSH
-		// DMG_GENERIC
-
 	]
 ]
 

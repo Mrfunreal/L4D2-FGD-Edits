@@ -55,26 +55,82 @@
 	]
 ]
 
-//Player Start with Helper Model
+//Player Start with Helper Model and better model picker and stuffs
 @PointClass base(Targetname, Angles, Parentname) color(255 100 100) studio() = info_survivor_position : "A point where survivors are placed on map spawn, or when escaping the finale"
 [
-	SurvivorName(string) : "Survivor Name" : "" : "Force this survivor to use this position (Zoey, Louis, etc.)"
-	SurvivorIntroSequence(string) : "Survivor Intro Sequence" : "" : "Sequence to play when the intro starts"
+//	SurvivorName(string) : "Survivor Name" : "" : "Force this survivor to use this position (Zoey, Louis, etc.)"
+	SurvivorIntroSequence(string) : "Survivor Intro Sequence" : "" : "Sequence to play when the intro starts \n Tip: Use the 'Model' tab above to look at sequences right in hammer!"
+	SurvivorName(choices) : "Survivor Name" : "Name" : "Force this survivor to use this position (Zoey, Louis, etc.)" =
+	[
+		"Coach"		: "Coach"
+		"Ellis"		: "Ellis"
+		"Nick"		: "Nick"
+		"Rochelle"	: "Rochelle"
+		"Bill"		: "Bill"
+		"Francis"	: "Francis"
+		"Louis"		: "Louis"
+		"Zoey"		: "Zoey"
+	]
 	model(choices) : "Helper Model" : "models/survivors/survivor_gambler.mdl" : "Visual aid for aligning intro animations. does NOT define what player spawns." =
 	[
-	"models/survivors/survivor_namvet.mdl" : "Bill"
-	"models/survivors/survivor_coach.mdl" : "Coach"
-	"models/survivors/survivor_mechanic.mdl" : "Ellis"
-	"models/survivors/survivor_biker.mdl" : "Francis"
-	"models/survivors/survivor_biker_light.mdl" : "Francis Light"
-	"models/survivors/survivor_manager.mdl" : "Louis"
-	"models/survivors/survivor_gambler.mdl" : "Nick"
-	"models/survivors/survivor_producer.mdl" : "Rochelle"
-	"models/survivors/survivor_teenangst.mdl" : "Zoey"
-	"models/survivors/survivor_teenangst_light.mdl" : "Zoey Light"
+		"models/survivors/survivor_coach.mdl" 			: "Coach"
+		"models/survivors/survivor_mechanic.mdl" 		: "Ellis"
+		"models/survivors/survivor_gambler.mdl" 		: "Nick"
+		"models/survivors/survivor_producer.mdl" 		: "Rochelle"
+		"models/survivors/survivor_namvet.mdl" 			: "Bill"
+		"models/survivors/survivor_biker.mdl" 			: "Francis"
+		"models/survivors/survivor_biker_light.mdl" 	: "Francis Light"
+		"models/survivors/survivor_manager.mdl" 		: "Louis"
+		"models/survivors/survivor_teenangst.mdl" 		: "Zoey"
+		"models/survivors/survivor_teenangst_light.mdl"	: "Zoey Light"
 	]		
 	Order(integer) : "Order" : 1 : "Index of spot based on order people got on board. (1-4)"
-	GameMode(string) : "Game Mode" : "" : "Use this position for a particular game mode only (coop,versus,survival,scavenge)"
+//	GameMode(string) 	: "Game Mode" : "" : "Use this position for a particular game mode only (coop,versus,survival,scavenge)"
+	GameMode(choices) 	: "Game Mode" : "" : "Use this position for a particular game mode only (coop,versus,survival,scavenge)" =
+	[
+		"Coop"			: "Coop"       
+		"Scavenge"		: "Scavenge"      
+		"Survival"		: "Survival"      
+		"Versus"  		: "Versus" 
+		"coop"   		:  " "  
+		"coop"   		:  "Not tested if the ones below work!"  
+		"Dash"      	: "Dash"       
+		"Holdout"  		: "Holdout"   
+		"Realism"  		: "Realism"   
+		"Shootzones" 	: "Shootzones"  
+		"Gunbrain"  	: "Gunbrain"   
+		"Tankrun"  		: "Tank Run" 
+		"Rocketdude" 	: "RocketDude"
+		"L4d1"   		: "Left 4 Dead 1 Coop" 
+		"L4d1vs"  		: "Left 4 Dead 1 Versus"
+		"L4d1survival" 	: "Left 4 Dead 1 Survival"
+		"Mutation1"  	: "Mutation1  - Last Man On Earth"
+		"Mutation2"  	: "Mutation2  - Headshot!"    
+		"Mutation3"  	: "Mutation3  - Bleed Out"    
+		"Mutation4"  	: "Mutation4  - Hard Eight"    
+		"Mutation5"  	: "Mutation5  - Four Swordsmen"   
+		"Mutation7"  	: "Mutation7  - Chainsaw Massacre"  
+		"Mutation8"  	: "Mutation8  - Ironman"     
+		"Mutation9"  	: "Mutation9  - Last Gnome On Earth"  
+		"Mutation10" 	: "Mutation10 - Room For One"  
+		"Mutation11" 	: "Mutation11 - Healthpackalypse!" 
+		"Mutation12" 	: "Mutation12 - Realism Versus"  
+		"Mutation13" 	: "Mutation13 - Follow the Liter" 
+		"Mutation14" 	: "Mutation14 - Gib Fest"   
+		"Mutation15" 	: "Mutation15 - Versus Survival"  
+		"Mutation16" 	: "Mutation16 - Hunting Party"  
+		"Mutation17" 	: "Mutation17 - Lone Gunman"   
+		"Mutation18" 	: "Mutation18 - Bleed Out Versus" 
+		"Mutation19" 	: "Mutation19 - Taaannnkk!"   
+		"Mutation20" 	: "Mutation20 - Healing Gnome"  
+		"Community1" 	: "Community1 - Special Delivery" 
+		"Community2" 	: "Community2 - Flu Season"   
+		"Community3" 	: "Community3 - Riding My Survivor"
+		"Community4" 	: "Community4 - Nightmare"   
+		"Community5" 	: "Community5 - Death's Door"  
+		"Community6" 	: "Community6 - Confogl Versus"
+	]
+
 	SurvivorConcept(string) : "Survivor Concept" : "" : "Response rule concept to play when survivor is moved here"
 	HideWeapons(choices) : "Hide Weapons" : 0 : "Hide Survivor's weapon while locked to this position." =
 	[
@@ -263,17 +319,17 @@
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	scale(integer) : "3D Skybox scale" : 16 : "Scale of the skybox. scale everything by .0625"
-	fogenable(choices) : "Fog Enable" : 0 =
+	fogenable(choices) : "Fog Enable" : 0 : "TIP: make a duplicate of your master fog_controller and swap it to a sky_camera. All the fog setings will be carried over!" =
 	[
 		0 : "No"
 		1 : "Yes"
 	]
-	fogblend(choices) : "Fog Blend" : 0 =
+	fogblend(choices) : "Fog Blend" : 0 : "TIP: make a duplicate of your master fog_controller and swap it to a sky_camera. All the fog setings will be carried over!" =
 	[
 		0 : "No"
 		1 : "Yes"
 	]
-	use_angles(choices) : "Use Angles for Fog Dir" : 0 =
+	use_angles(choices) : "Use Angles for Fog Dir" : 0 : "TIP: make a duplicate of your master fog_controller and swap it to a sky_camera. All the fog setings will be carried over!" =
 	[
 		0 : "No"
 		1 : "Yes"
@@ -284,15 +340,13 @@
 		1 : "Yes"
 	]
 	clip_3D_skybox_near_to_world_far_offset(string) : "3D sky near plane offset" : "0.0" : "Offset for the near clip plane for the 3D sky in world units.  This is only used if the above field is true.  Negative values to pull closer, etc."
-	fogcolor(color255) : "Primary Fog Color" : "255 255 255"
-	fogcolor2(color255) : "Secondary Fog Color" : "255 255 255"
-	fogdir(string) : "Primary Fog Direction" : "1 0 0"
-	fogstart(string) : "Fog Start" : "500.0" : "Distance at which the skybox fog should start."
-	fogend(string) : "Fog End" : "2000.0" : "Distance at which the skybox fog should be fully opaque."
-	fogmaxdensity(float) : "Fog Max Density [0..1]" : "1"
-
+	fogcolor(color255) : "Primary Fog Color" : "255 255 255" : "TIP: make a duplicate of your master fog_controller and swap it to a sky_camera. All the fog setings will be carried over!" 
+	fogcolor2(color255) : "Secondary Fog Color" : "255 255 255" : "TIP: make a duplicate of your master fog_controller and swap it to a sky_camera. All the fog setings will be carried over!"
+	fogdir(string) : "Primary Fog Direction" : "1 0 0" : "TIP: make a duplicate of your master fog_controller and swap it to a sky_camera. All the fog setings will be carried over!"
+	fogstart(string) : "Fog Start" : "500.0" : "TIP: make a duplicate of your master fog_controller and swap it to a sky_camera. All the fog setings will be carried over!"
+	fogend(string) : "Fog End" : "2000.0" : "TIP: make a duplicate of your master fog_controller and swap it to a sky_camera. All the fog setings will be carried over!"
+	fogmaxdensity(float) : "Fog Max Density [0..1]" : "1" : "TIP: make a duplicate of your master fog_controller and swap it to a sky_camera. All the fog setings will be carried over!"
 	HDRColorScale(float) : "HDR color scale." : "1.0" : "float value to multiply fog color by when running in HDR mode."
-	
 	input ActivateSkybox(void) : "Manually enable this skybox. Disables all others."
 ]
 

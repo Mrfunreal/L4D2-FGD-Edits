@@ -14,6 +14,7 @@
 	"script_clip_vphysics"
 	"func_clip_vphysics"
 	"script_clip_vphysics"
+	"env_physics_blocker"
 	]
 	"Player Blocker"
 	[

@@ -1,7 +1,5 @@
 //These here are smaller changes that just add one option, or swap the studiomdl, sprite or whatever.
 
-
-
 //Edited Color_Correction
 @PointClass base(Targetname, EnableDisable) iconsprite("editor/color_correction.vmt") = color_correction : 
 	"An entity to control the color correction in the map. In L4D2, you must use at least one fog_controller brush entity to have color correction work!"

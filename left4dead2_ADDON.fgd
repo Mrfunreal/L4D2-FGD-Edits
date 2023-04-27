@@ -24,8 +24,9 @@
 
 // Including FGD files
 @include "../left4dead2.fgd"				//Loads left4dead2.fgd from Bin folder, loads base.fgd in return.
-@include "FGDs/Triggers.fgd"				//Changes to Trigger entities
+// Top ones are loaded first, but replaced with bottom ones.
 @include "FGDs/Colorchange_only.fgd"		//Changes colors of some entities for flair in 3d window
+@include "FGDs/Triggers.fgd"				//Changes to Trigger entities
 @include "FGDs/Visgroups.fgd"           	//adds more auto visgroups
 @include "FGDs/Worldspawn.fgd"          	//edits the worldspawn
 @include "FGDs/func_block_charge.fgd"   	//edits func_block_charge
@@ -40,6 +41,7 @@
 @include "FGDs/areaportal.fgd"          	//adds fade radius helpers.
 @include "FGDs/point_spotlight.fgd"     	//Makes the helperprop white to make color display properly. Tried the same for light_spot, but didn't work.
 @include "FGDs/Info_Game_Event_Proxy.fgd"	//Adds all available lessons to Info_Game_Event_Proxy
+@include "FGDs/Triggers.fgd"				//Changes to Trigger entities
 @include "FGDs/Damagetype.fgd"				//More Damagetypes
 @include "FGDs/props.fgd"					//Prop edits
 
@@ -51,7 +53,6 @@
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	VectorRadius(integer) : "Radius Helper" : 64 : "This Value is useful for gettin radius values for Vscript vectors."
-
 ]
 
 // Excludes all these folders from the material browser. 
