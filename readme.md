@@ -1,39 +1,33 @@
 # L4D2-FGD-Edits
-It adds a lot of options to various entities to make them more useful.
+This set of FGD edits make mapping nicer for Left 4 Dead 2.
+In short many entities in hammer are either difficult to use because it has no documentation, missing keyvalues, obsolete keyvalues or jsut requires you to look up the VDC to figure out how to use the entities.
+I took it upon myself to fix all of that.
 
-**Note:** You should change the default entity from info_survivor_position to something else like info_player_start. Somehow changing from info_survivor_position fo env_sprite crashes hammer.
+As an example: "Worldspawn" would define the music post string, skybox name and how the witch behaves (Sitting/Walking).
+However, the entity does not tell you which music post string even exist, so you'd need to manually enter the text, or open the VDC to copy paste a valid string.
+There's also no skybox texture list, so you'd need to check the VDC for that too.
+The "timeofday" keyvalue lists four day times, but what it really does is make the witch sit down when its afternoon. But that info is not mentioned anywhere in hammer either.
+It also contains "WorldIsCold" which does absolutely nothing.
+My FGD edits fix all of this. You get drowdpwn menus for picking skybox name, music post string, witch behaviour and removes the useless TimeOfDay.
 
-### Contains
-1. "Fade Distance" sphere helper to areaportal_window entities so you can easier pick where the fade starts and ends.
-2. Ammo upgrade entities as already deployed versions.
-3. New visgroups for many type of entities.
-4. Default models for many props, like weapon_ammo_spawn, trigger_finale...
-5. More useful melee spawner that lists all usable melee weapon names in the help box, to copypaste names. Along with a model picker to easily pick any helper model you want. Alsi has a helper model browser that's jsut there to find a custom melee model, so you can copypaste the path of the model into the helper model field. It's a bit weird, but the best setup that i can do.
-6. info_survivor_position entities that allow you to pick the player model to align intro sequences.
-8. Marking leftover unused entities as Obsolete with the apropriate icon.
-7. A whole lot of entity fixes specific for L4D2.
-8. Generic helper models for all weapon_spawn, item_spawn, upgrade_spawn. To diferentiate specific weapon spawnpoints from randomised spawns.
-9. Helper meshes for env_sprites, which are balls colored in the same color sprites are colored. Furthermode, all sprites are now "World Space Glow" by default, which is what lensflare sprites usualyl always are supposed to be.
-10. A bunch of new iconsprites and helper models for some often used entities, to differentiate them better. 
-11. Optional color helpers for point_spotlight. unfotunately you have to **manually** set the color by copypasting the brightness value into the helper color field. If you don't, the color will default to turquoise. But this can help you remind yourself what color the light has without having to click on the entity.
-12. Worldspawn settings to choose a Skybox, Music Post-String, Witch behaviour, and "Detail material type" from a choice list.
-13. Added the **alleydirt_leaves** and **urban_overgrown_docks** $detailtype that valve forgot to port to L4D2. Former was ported from L4D1, latter was made up my myself.
-14. Added **ActivateSkybox** Input, and Targetname string to Sky_camera. Calling this input will enable this 3d skybox and disable all others. Allowing oyu to have multiple 3d skyboxes in one map.
-15. Adds L4D2 native damage types to Trigger_hurt and Point_hurt.
-
-Contains a VPK for hammer, including:
-1. Tool textures specifically for every kind of tool brush entity. like trigger_once, trigger_hurt, info_changelevel...
-2. A lot of new sprites for entities that didn't have one. Like the director and icons for all three tonemap entities.
-3. various differently colored sprites for logic_relay. For people who like to color code their things.
-4. L4D2 specific measure textures for doors, jump height, crouch space...
-5. Aforementioned **alleydirt_leaves** and **urban_overgrown_docks** $detailtype, with the required **detail.vbsp**
+**Note:** You should change the default entity from info_survivor_position to something else like info_player_start. Somehow changing from info_survivor_position to env_sprite crashes hammer.
 
 ### Install
-1. Download the entire "L4D2-FGD-Edits" repo folder into ```Steam\steamapps\common\Left 4 Dead 2\bin```
-2. You should end up with the directory ```Steam\steamapps\common\Left 4 Dead 2\bin\L4D2-FGD-Edits```
-3. In hammer click on **Tools - Options**
-4. In the "Game Configuration" tab, look for the "Game Data Files" box use **ONLY** the left4dead2_ADDON.fgd. <img src="pictures/hammer_config.png" width=234/>
+1. Click on "Code - Download ZIP"
+
+2. Download the entire "L4D2-FGD-Edits" repo folder into ```Steam\steamapps\common\Left 4 Dead 2\bin```
+
+3. You should end up with the directory ```Steam\steamapps\common\Left 4 Dead 2\bin\L4D2-FGD-Edits```
+
+4. In hammer click on **Tools - Options**
+
+5. In the "Game Configuration" tab, look for the "Game Data Files" box use **ONLY** the left4dead2_ADDON.fgd.
+
+ <img src="pictures/hammer_config.png" width=234/>
+ 
 6. Open  ```Steam\steamapps\common\Left 4 Dead 2\left4dead2\Gameinfo.txt```
+
+
 7. Scroll down to the first few **game** lines.
 ```
 Game	update
@@ -50,6 +44,210 @@ Game	hl2
 
 <p>Note:</p>
 Should i ever add another branch, the *L4D2-FGD-Edits-main* folder which you download might use another name. In which case you'd also need to rename this name in the gameinfo.
+
+# Full documentation of the FGD Edits:
+
+## New Base Entities
+- Classname        	- Just to easily add this function to entities
+- LagCompensate    	- Just to easily add this function to entities
+- ThinkFunction    	- Just to easily add this function to entities
+- WeaponSpawnCarry	- A base for Carryable weapons
+
+## New Point Entities
+- hlp_origin_Vector - Just gives you the origin of where this entity is and gives you a radius option. Only useful for getting vectors for Vscripts.
+- weapon_gascan         	- usually you'd have a prop_physics using the gas can model.
+- weapon_gnome          	- usually you'd have a prop_physics using the gnome model.
+- weapon_cola_bottles		- usually you'd have a prop_physics using the cola model.
+- upgrade_laser_sight		- Spawnpoint for JUST the laser.
+- upgrade_ammo_incendiary	- Already deployed Incendiary ammo.
+- upgrade_ammo_explosive	- Already deployed explosive ammo.
+
+## FGD Edits:
+- Areaportals
+	- Added sphere for easy setup of fade distances.
+- Cubemap
+	- Added origin helper, only to know location of this entity in the world. (Never move this origin. This will relocate the cubemap.)
+	- Added 512x512, 1024x1024x 2048x2048 resolution.
+- Damagetype
+	- Properly documented existin damage types.
+	- Added unused damage types.
+	- Trigger_hurt, trigger_hurt_ghost, point_hurt, and filter_damage_type make use of the new damage types.
+- Func_block_charge
+	- Remade fgd entry to only contain parts this entity actually uses.
+- Info_game_event_proxy
+	- Added all existing game events to a drop down list, so you can pick which to use.
+- Navattributeregion
+	- Added all usable nav attributes.
+- Info_survivor_position
+	- New helper model.
+	- Being able to pick model, survivor name and gamemodes from a dropdown.
+- Prop_physics
+	- Added parentname
+	- The model window has a note listing all carryable items models, to copypaste into model field.
+- Prop_static_base
+	- Made "disablevertexlighting" to be off by default.
+- Prop_door_rotating
+	- Spawns with a model of a door 
+	- Made "hardware options" obsolete. L4d2 does not have this.
+- Prop_door_rotating_checkpoint 
+	- Same changes as prop_door_rotating
+	- The model window has a note listing all saferoom doors, to copypaste into model field.
+- Color_correction
+	- Added tip notes and obsoleted things.
+- Func_fish_pool
+	- Added helper sphere to see how largethe pool is.
+- Env_smoketrail
+	- Added sphere for spawnradius.
+- Env_physics_blocker & env_player_blocker
+	- Changed size of box
+- func_lod & env_fire
+	- Adds classname, lagcompensate keyvalues
+- logic_auto
+	- Removed useless global states. L4d2 has none. 
+- Trigger_finale
+	- Hamradio as default radio.
+- prop_car_glass & prop_car_alarm
+	- Made entities use the only models they always use as default model. Way easier to setup now.
+- TriggerOnce
+	- Listed obsolete flags as obsolete (Applies to all triggers)
+- WeaponSpawnSingle
+	- Renamed WeaponSkin, to make it more obvious what it is. Applies to all weapon spawns. (Skin and Weaponskin are not the same, but you need to edit both.)
+- weapon_spawn
+	- Added generic weapon helper model
+- weapon_ammo_spawn
+	- The model window has a note listing both ammo models, to copypaste into model field.
+- weapon_melee_spawn
+	- Added ability to pick helper model from list.
+	- Added model browser to browse for custom melee models, to copy paste into helper model field.
+	- Added a note about what melee weapon names are valid
+- prop_minigun_l4d1 & prop_mounted_machine_gun
+	- Removed prop_dynamic as base, because none of its keyvalues affect the mounted weapons.
+- Worldspawn
+	- Removed obsolete keyvalues.
+	- Made DetailMaterial a drop down to pick from possible detail material files.
+	- TimeOfDay only affects if the witch sits or stands. So i renamed it and turned it into a drop down menu to pick Witch behaviour.
+	- Turned MusicPostFix into a dropdown to pick music type.
+	- Turned SkyName into a dropdown to Skybox texture.
+- Visgroups
+	- Added a whole lot of visgroups for various entities.
+
+## Other edits
+- Tool textures specifically for every kind of tool brush entity. like trigger_once, trigger_hurt, info_changelevel...
+- A lot of new sprites for entities that didn't have one. Like the director and icons for all three tonemap entities.
+- Various differently colored sprites for logic_relay. For people who like to color code their things.
+- L4D2 specific measure textures for doors, jump height, crouch space...
+- Added **alleydirt_leaves** and **urban_overgrown_docks** $detailtype, with the required **detail.vbsp**
+
+## New / Better Helpermodels
+- Weapon_Item_Spawn 
+- Info_Zombie_Spawn
+- Info_Survivor_Position
+- Commentary_Zombie_Spawner
+- Point_Viewcontrol_Multiplayer
+- Point_Viewcontrol_Survivor
+- Point_Deathfall_Camera
+- Info_Teleport_Destination
+- Upgrade_Spawn
+- Env_Steam
+- Sky_Camera
+- Env_Lightglow
+- Env_Sprite
+- Env_Sprite_Oriented
+- Point_Spotlight
+- Beam_Spotlight
+- Light_Spot
+- Path_Track
+- Move_Track
+
+## New Sprites
+- Point_Nav_Attribute_Region
+- Env_Tonemap_Controller_Infected
+- Env_Tonemap_Controller_Ghost
+- Postprocess_Controller
+- Info_Director
+- Light_Directional
+- Env_Sun
+- Info_Map_Parameters
+- Info_Map_Parameters_Versus
+- Logic_Relay
+- Point_Clientcommand
+- Point_Servercommand
+- Point_Broadcastclientcommand
+- Info_Goal_Infected_Chase
+- Env_Texturetoggle
+- Info_Remarkable
+- Env_Entity_Maker
+- Ambient_Music
+- Point_Script_Use_Target
+- Point_Prop_Use_Target
+- Info_Target_Instructor_Hint
+- Env_Detail_Controller
+- Path_Track
+- Info_Elevator_Floor
+
+## Marks Obsolete Entities As Such
+- Func_Useableladder
+- Func_Ladderendpoint
+- Info_Ladder_Dismount
+- Info_Node
+- Info_Node_Hint
+- Info_Node_Air
+- Info_Node_Air_Hint
+- Info_Hint
+- Info_Node_Link
+- Info_Node_Link_Controller
+- Info_Radial_Link_Controller
+- Info_Node_Climb
+- Prop_Minigun
+- Game_Weapon_Manager
+- Game_End
+- Game_Player_Equip
+- Game_Player_Team
+- Game_Score
+- Info_Overlay_Transition
+- Info_Npc_Spawn_Destination
+- Npc_Template_Maker
+- Env_Rotorwash_Emitter
+- Gibshooter
+- Game_Weapon_Manager
+- Game_Score
+- Point_Tesla
+- Info_No_Dynamic_Shadow
+- Info_Overlay_Transition
+- Info_Intermission
+- Info_Null
+- Func_Water_Analog
+- Logic_Autosave
+- Logic_Active_Autosave
+- Point_Angularvelocitysensor
+- Point_Velocitysensor
+- Func_Illusionary
+- Func_Wall_Toggle
+- Func_Wall
+- Trigger_Autosave
+- Trigger_Changelevel
+- Ai_Speechfilter
+- Info_Camera_Link
+- Npc_Furniture
+- Logic_Playerproxy
+- Env_Projectedtexture
+- Func_Reflective_Glass
+- Npc_Puppet
+- Env_Funnel
+- Trigger_Standoff
+- Info_Ambient_Mob_Start
+- Info_Ambient_Mob_End
+- Info_Ambient_Mob
+- Test_Traceline
+- Keyframe_Track
+- Move_Keyframed
+- Move_Track
+- Point_Message
+- Env_Zoom
+- Env_Screeneffect
+- Light_Dynamic
+- Point_Viewcontrol
+
 
 ### Images
 Here are images of *some* abilities that have been added or changed.
@@ -88,20 +286,3 @@ Here are images of *some* abilities that have been added or changed.
 <img src="pictures/detail_picker.jpg"/>
 <p>Damage Types.</p>
 <img src="pictures/damagetypes.jpg"/>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
