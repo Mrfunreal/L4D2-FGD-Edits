@@ -22,3 +22,10 @@
 	// Outputs
 	output OnStartTouch(void) : "Fired when an entity starts touching this trigger. The touching entity must pass this trigger's filters to cause this output to fire."
 ]
+
+
+@SolidClass base(Trigger) color(255 163 38)= trigger_auto_crouch : "Allows players touching the trigger to auto-crouch ONLY IF an obscatcle you can crouch under is also in its volume"
+		[
+			note1(string) : "Click me to read how I work!" : : "When this entity covers the entrance of a small space, such as an airduct, the players will automatically crouch when walking into the crawlspace. It will NOT force crouching at all times. If you want to force crouching, use trigger_playermovement using the 'Auto-duck while in trigger' and the 'Disable auto player movement' flags."
+		]
+		

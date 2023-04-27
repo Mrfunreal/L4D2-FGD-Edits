@@ -137,6 +137,7 @@ Should i ever add another branch, the *L4D2-FGD-Edits-main* folder which you dow
 - Various differently colored sprites for logic_relay. For people who like to color code their things.
 - L4D2 specific measure textures for doors, jump height, crouch space...
 - Added **alleydirt_leaves** and **urban_overgrown_docks** $detailtype, with the required **detail.vbsp**
+- Added "tool" keyword to Scavengeboundary texture and TankWall texture. (use the material keywork search, not material name search.)
 
 ## New / Better Helpermodels
 - Weapon_Item_Spawn 
