@@ -1,6 +1,11 @@
 //weapon_spawn_single with better listing of keyvalues. such as distinguishing skin and weaponskin.
 @BaseClass color(0 255 0) base(Parentname, Global, Targetname, Angles, Studiomodel) = WeaponSpawnSingle
 [
+	disableshadows(choices) : "Disable Shadows" : 1 : "Used to disable dynamic shadows on this entity. Disabled by default, because often times shadows of gun on tables are found on the floor. Which looks weird" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
 	skin(integer) 		: "Skin               (Worldmodel)" : 0 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
 	weaponskin(integer) : "Weapon Skin (Viewmodel)" : -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
 	glowrange(float) : "Glow Range" : 0 : "Set a custom glow range for this spawner. 0 means use the default range."
@@ -19,6 +24,62 @@
 		8 : "Infinite items (overrides count)" : 0
 	]
 ]
+
+//CARRIABLES 
+ @BaseClass color(200 200 0) base(Targetname, Angles, Weapon)  = WeaponSpawnCarry
+[
+	skin(integer) 		: "Skin               (Worldmodel)" : 0 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
+	weaponskin(integer) : "Weapon Skin (Viewmodel)" : -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
+	vscripts(scriptlist) : "Entity Scripts" : "" : "Name(s) of script files that are executed after all entities have spawned."
+	thinkfunction(string) : "Script think function" : "" : "Name of a function in this entity's script scope which will be called automatically."
+
+	solid(choices) : "Collisions" : 6 =
+	[
+		0: "Not Solid"
+		2: "Use Bounding Box"
+		6: "Use VPhysics"
+	]
+
+	// Inputs
+	input Wake(void) : "Wake up this physics object, if it is sleeping."
+	input Sleep(void) : "Put this physics object to sleep. It will wake if given the Wake input, or if force is applied to it. Note that physics objects go to sleep automatically after coming to rest for a while, so you don't really need to use this."
+	input EnableMotion(void) : "Enable physics motion/collision response."
+	input DisableMotion(void) : "Disable physics motion/collision response."
+	input DisableFloating(void) : "Disable fluid/floating simulation to reduce cost."
+	input SetBodyGroup(integer) : "Set this prop's body group (from 0 - n)."
+	input physdamagescale(float) : "Set the Physics Impact Damage Scale for this character. NOTE: 0 means this feature is disabled for backwards compatibility."
+	input EnableDamageForces(void) : "Damaging the entity applies physics forces to it."
+	input DisableDamageForces(void) : "Damaging the entity does *not* apply physics forces to it."
+	input EnablePuntSound(void) : "Allow this prop to play its own sound when punted"
+	input DisablePuntSound(void) : "Prevent this prop from playing its own sound when punted"
+	input Ignite(void) : "Ignite, burst into flames."
+	input IgniteLifetime(float) : "Ignite, with a parameter lifetime."
+	input IgniteNumHitboxFires(integer) : "Ignite, with a parameternumber of hitbox fires."
+	input IgniteHitboxFireScale(float) : "Ignite, with a parameter hitbox fire scale."
+	
+	// Outputs
+	output OnMotionEnabled(void) : "Fired when motion is enabled on this prop, either via 'Health Level to Override Motion' or from the EnableMotion input."
+	output OnAwakened(void) : "Fired when this entity becomes awake (collision/force is applied to it while it's asleep)."
+	output OnPhysGunDrop(void) : "Fired when the player drops the prop with +USE."
+	output OnPlayerUse(void) : "Fired when the player tries to +USE the prop. This output will fire only if the Generate output on +USE spawnflag is set."
+	output OnPlayerPickup(void) : "Fired whenever the player picks up this prop with +USE."
+	output OnOutOfWorld(void) : "Fired whenever the prop is out of the allowed world bounds."
+	output OnHitByTank(void) : "Fired whenever the prop is hit by a tank (L4D)."
+	
+		spawnflags(flags) = 
+	[
+		1 : "Start Asleep (Constrain to spawn position, until woken by touch)" : 0
+		8 : "Motion Disabled (Constrain to spawn position, until picked up and thrown)" : 0
+		256 : "Generate output on +USE " : 1
+		512 : "Prevent pickup" : 0
+		8192: "Force server-side (Multiplayer only)" : 0
+	]
+]
+
+@PointClass color(0 200 0)base(WeaponSpawnCarry) studioprop("models/props_junk/gascan001a.mdl") 	= weapon_gascan : "Gas Can" []
+@PointClass color(0 200 0)base(WeaponSpawnCarry) studioprop("models/props_junk/gnome.mdl") 			= weapon_gnome : "Gnome" []
+@PointClass color(0 200 0)base(WeaponSpawnCarry) studioprop("models/w_models/weapons/w_cola.mdl") 	= weapon_cola_bottles : "Cola" []
+
 
 //Weapon_Spawn with helper model picker
 @PointClass color(255 255 0) base(Parentname, Global, Targetname, Angles) studioprop() = weapon_spawn : "Configurable Weapon Spawner"
@@ -116,12 +177,20 @@
 		2: "Use Bounding Box"
 		6: "Use VPhysics"
 	]
-
-	
+	disableshadows(choices) : "Disable Shadows" : 1 : "Used to disable dynamic shadows on this entity. Disabled by default, because often times shadows of gun on tables are found on the floor. Which looks weird" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
 ]
 //weapon_ammo_spawn with model. Removed obsolete keyvalues added by "weaponspawn" base.
 @PointClass color(0 255 0) base(Parentname, Global, Targetname, Angles, Studiomodel) studioprop() = weapon_ammo_spawn : "Ammo Spawn Location" 
 [
+	disableshadows(choices) : "Disable Shadows" : 1 : "Used to disable dynamic shadows on this entity. Disabled by default, because often times shadows of gun on tables are found on the floor. Which looks weird" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
 	model(studio) 	: "Model" : "models/props/terror/ammo_stack.mdl" : "Models usually used:\n models/props/terror/ammo_stack.mdl \n models/props_unique/spawn_apartment/coffeeammo.mdl" 
 	skin(integer)	: "Skin " : 0 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
 	glowrange(float) : "Glow Range" : 0 : "Set a custom glow range for this spawner. 0 means use the default range."
@@ -165,7 +234,7 @@
 	body(integer) : "Body" : 0 : "Some models have multiple bodygroups. Set this to a number other than 0 to use that bodygroup instead of the default."
 	glowrange(float) : "Glow Range" : 0 : "Set a custom glow range for this spawner. 0 means use the default range."
 
-	disableshadows(choices) : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." =
+	disableshadows(choices) : "Disable Shadows" : 1 : "Used to disable dynamic shadows on this entity. Disabled by default, because often times shadows of gun on tables are found on the floor. Which looks weird" =
 	[
 		0 : "No"
 		1 : "Yes"
@@ -194,42 +263,42 @@
 ]
 
 //Just changing color in 2d view
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_pistol_b.mdl") = weapon_pistol_spawn : "Pistols" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_desert_eagle.mdl") = weapon_pistol_magnum_spawn : "Magnum Pistol" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_smg_uzi.mdl") = weapon_smg_spawn : "Submachinegun" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_shotgun.mdl") = weapon_pumpshotgun_spawn : "Pump Shotgun" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_autoshot_m4super.mdl") = weapon_autoshotgun_spawn : "Auto Shotgun" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_rifle_m16a2.mdl") = weapon_rifle_spawn : "Assault Rifle" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_sniper_mini14.mdl") = weapon_hunting_rifle_spawn : "Hunting Rifle" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_smg_a.mdl") = weapon_smg_silenced_spawn : "MicroUZI" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_pumpshotgun_A.mdl") = weapon_shotgun_chrome_spawn : "Chrome Shotgun" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_shotgun_spas.mdl") = weapon_shotgun_spas_spawn : "SPAS Shotgun" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_rifle_B.mdl") = weapon_rifle_desert_spawn : "Desert Rifle" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_rifle_ak47.mdl") = weapon_rifle_ak47_spawn : "AK47" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_sniper_military.mdl") = weapon_sniper_military_spawn : "Military Sniper Rifle" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/weapons/melee/w_chainsaw.mdl") = weapon_chainsaw_spawn : "Chainsaw" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/weapons/w_grenade_launcher.mdl") = weapon_grenade_launcher_spawn : "Grenade Launcher" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_m60.mdl") = weapon_rifle_m60_spawn : "M60 Machinegun" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_pistol_b.mdl") 						= weapon_pistol_spawn : "Pistols" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_desert_eagle.mdl") 					= weapon_pistol_magnum_spawn : "Magnum Pistol" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_smg_uzi.mdl") 						= weapon_smg_spawn : "Submachinegun" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_shotgun.mdl") 						= weapon_pumpshotgun_spawn : "Pump Shotgun" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_autoshot_m4super.mdl")				= weapon_autoshotgun_spawn : "Auto Shotgun" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_rifle_m16a2.mdl") 					= weapon_rifle_spawn : "Assault Rifle" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_sniper_mini14.mdl") 					= weapon_hunting_rifle_spawn : "Hunting Rifle" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_smg_a.mdl") 							= weapon_smg_silenced_spawn : "MicroUZI" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_pumpshotgun_A.mdl") 					= weapon_shotgun_chrome_spawn : "Chrome Shotgun" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_shotgun_spas.mdl") 					= weapon_shotgun_spas_spawn : "SPAS Shotgun" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_rifle_B.mdl") 						= weapon_rifle_desert_spawn : "Desert Rifle" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_rifle_ak47.mdl") 					= weapon_rifle_ak47_spawn : "AK47" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_sniper_military.mdl") 				= weapon_sniper_military_spawn : "Military Sniper Rifle" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/weapons/melee/w_chainsaw.mdl") 							= weapon_chainsaw_spawn : "Chainsaw" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/weapons/w_grenade_launcher.mdl") 				= weapon_grenade_launcher_spawn : "Grenade Launcher" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_m60.mdl") 							= weapon_rifle_m60_spawn : "M60 Machinegun" []
 // CSS Guns
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_smg_mp5.mdl") = weapon_smg_mp5_spawn : "MP5" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_rifle_sg552.mdl") = weapon_rifle_sg552_spawn : "SG552" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_sniper_awp.mdl") = weapon_sniper_awp_spawn : "AWP Sniper" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_sniper_scout.mdl") = weapon_sniper_scout_spawn : "Scout Sniper" []
-// Grenades -----------------
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/weapons/w_eq_pipebomb.mdl") = weapon_pipe_bomb_spawn : "Pipe Bomb" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/weapons/w_eq_molotov.mdl") = weapon_molotov_spawn : "Molotov" []
-@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/weapons/w_eq_bile_flask.mdl") = weapon_vomitjar_spawn : "Vomit Jar" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_smg_mp5.mdl") 						= weapon_smg_mp5_spawn : "MP5" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_rifle_sg552.mdl") 					= weapon_rifle_sg552_spawn : "SG552" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_sniper_awp.mdl") 					= weapon_sniper_awp_spawn : "AWP Sniper" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_sniper_scout.mdl")					= weapon_sniper_scout_spawn : "Scout Sniper" []
+// Grenades -----------------				
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/weapons/w_eq_pipebomb.mdl") 					= weapon_pipe_bomb_spawn : "Pipe Bomb" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/weapons/w_eq_molotov.mdl") 					= weapon_molotov_spawn : "Molotov" []
+@PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/weapons/w_eq_bile_flask.mdl") 					= weapon_vomitjar_spawn : "Vomit Jar" []
 // Items ------------------
-@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_Medkit.mdl") = weapon_first_aid_kit_spawn : "First Aid Kit" []
-@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_painpills.mdl") = weapon_pain_pills_spawn : "Painkillers" []
-@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_adrenaline.mdl") = weapon_adrenaline_spawn : "Adrenaline" []
-@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_defibrillator.mdl") = weapon_defibrillator_spawn : "Defibrillator" []
-@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/props_junk/gascan001a.mdl") = weapon_gascan_spawn : "Gas Can" []
-@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_incendiary_ammopack.mdl") = weapon_upgradepack_incendiary_spawn : "Upgrade Pack - Incendiary" []
-@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_explosive_ammopack.mdl") = weapon_upgradepack_explosive_spawn : "Upgrade Pack - Explosive" []
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_Medkit.mdl") 				= weapon_first_aid_kit_spawn : "First Aid Kit" []
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_painpills.mdl") 			= weapon_pain_pills_spawn : "Painkillers" []
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_adrenaline.mdl") 			= weapon_adrenaline_spawn : "Adrenaline" []
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_defibrillator.mdl") 		= weapon_defibrillator_spawn : "Defibrillator" []
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/props_junk/gascan001a.mdl") 						= weapon_gascan_spawn : "Gas Can" []
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_incendiary_ammopack.mdl") 	= weapon_upgradepack_incendiary_spawn : "Upgrade Pack - Incendiary" []
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_explosive_ammopack.mdl") 	= weapon_upgradepack_explosive_spawn : "Upgrade Pack - Explosive" []
 
-@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_Medkit.mdl") = weapon_first_aid_kit : "Physics First Aid Kit - This entity is intended to be used in scripted events where a single item needs to spawned with physics active." []
-@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_grenade_launcher.mdl") = weapon_grenade_launcher : "Grenade Launcher - This entity is intended to be used in scripted events where a single item needs to spawned with physics active." []
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_eq_Medkit.mdl") 				= weapon_first_aid_kit : "Physics First Aid Kit - This entity is intended to be used in scripted events where a single item needs to spawned with physics active." []
+@PointClass color(0 255 0) base(WeaponSpawnSingle) studioprop("models/w_models/weapons/w_grenade_launcher.mdl") 		= weapon_grenade_launcher : "Grenade Launcher - This entity is intended to be used in scripted events where a single item needs to spawned with physics active." []
 ///////////////////////////////////////////////////////////////////////////////////////
 //removed studiomodel restriction, allowing use of custom models if required.
 //Also removes prop_dynamic base because it has alot of unrelated keyvalues. added required keyvalues instead.
@@ -266,3 +335,28 @@
 	output OnFireStop(void) : "Fired when the machine gun has stopped firing."
 ]
 
+//Upgrade_spawn with helper model
+@PointClass base(Targetname, Angles)studioprop() = upgrade_spawn
+[
+	disableshadows(choices) : "Disable Shadows" : 1 : "Used to disable dynamic shadows on this entity. Disabled by default, because often times shadows of gun on tables are found on the floor. Which looks weird" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	laser_sight(integer) : "Laser Sight" : 1
+	upgradepack_incendiary(integer) : "UpgradePack - Incendiary" : 1
+	upgradepack_explosive(integer) : "UpgradePack - Explosive" : 1
+	
+	spawnflags(Flags) =
+	[
+		1 : "Enable Physics on spawned item" : 0
+		2 : "Spawned Item Must Exist" : 0
+	]
+	model(choices) : "Helper Model (Visual aid only)" : "models/w_models/weapons/w_laser_sights.mdl" =
+	[
+	"models/editor/upgrade_helper.mdl" 						: "Generic Helper" 
+	"models/w_models/weapons/w_laser_sights.mdl" 			: "Laser"
+	"models/w_models/weapons/w_eq_explosive_ammopack.mdl" 	: "Explosive Ammo"
+	"models/w_models/weapons/w_eq_incendiary_ammopack.mdl"	: "Incendiary Ammo"
+	]	
+]

@@ -1,59 +1,5 @@
 
-//weapon_item_spawn with helper model 
-@PointClass base(Targetname,Angles) studioprop() = weapon_item_spawn
-[
-	//model(studio) : "Helper Model" : "models/w_models/weapons/w_eq_bile_flask.mdl" : "ONLY for visual aid."
-	model(choices) : "Helper Model" : "models/editor/item_helper.mdl" : "Visual aid. Does not determine what spawns here." =
-  	[
-  	"models/editor/item_helper.mdl" 					: "Generic Helper" 
-	"models\props\terror\ammo_stack.mdl"                : "Ammo pile (Only pile model spawns)"
-	"models\w_models\weapons\w_eq_medkit.mdl"           : "First aid kit"
-	"models\w_models\weapons\w_eq_molotov.mdl"          : "Molotov Cocktail"
-	"models\w_models\weapons\w_eq_painpills.mdl"		: "Pain Pills"
-	"models/w_models/weapons/w_eq_pipebomb.mdl"			: "Pipe Bomb"
-	"models\props_equipment\oxygentank01.mdl"			: "Oxygen Tank"
-	"models\props_junk\propanecanister001a.mdl"			: "Propane Tank"
-	"models\props_junk\gas"                				: "Gasoline Can"
-	"models\w_models\weapons\w_eq_adrenaline.mdl"   	: "Adrenaline"
-	"models\w_models\weapons\w_eq_defibrillator.mdl"	: "Defibrillator"
-  	"models/w_models/weapons/w_eq_bile_flask.mdl"		: "Boomer Bile"
-	"models\weapons\melee\w_chainsaw.mdl"               : "Chainsaw"
-	"models\w_models\weapons\w_grenade_launcher.mdl"    : "Grenade Launcher"
-	"models\w_models\weapons\w_m60.mdl"                 : "M60 Machinegun"
-	]
-	
-	weaponskin(integer) : "Weapon Skin" : -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
-	skin(integer) : "Skin" : 1 : "Some weapons have multiple versions of their textures, called skins."
-	glowrange(float) : "Glow Range" : 0 : "Set a custom glow range for this spawner. 0 means use the default range."
 
-	item1(integer) : "Ammo pile" : 0 
-	item2(integer) : "First aid kit" : 0 
-	item3(integer) : "Molotov Cocktail" : 1 
-	item4(integer) : "Pain Pills" : 1 
-	item5(integer) : "Pipe Bomb" : 1 
-	item6(integer) : "Oxygen Tank" : 0
-	item7(integer) : "Propane Tank" : 0
-	item8(integer) : "Gasoline Can" : 0
-//	item9(integer) : "" : 0				// These keys may be set in maps, beware if re-using them. Instead make a new itemN
-//	item10(integer) : "" : 0
-	item11(integer) : "Adrenaline" : 1
-	item12(integer) : "Defibrillator" : 0
-	item13(integer) : "Boomer Bile" : 1
-//	item14(integer) : "" : 0
-//	item15(integer) : "" : 0
-	item16(integer) : "Chainsaw" : 0
-	item17(integer) : "Grenade Launcher" : 0	
-	item18(integer) : "M60 Machinegun" : 0	
-
-	melee_weapon(string) : "Melee Weapon" : "" : "Options: 'Any' or a comma-delimited string of melee weapon script names. Leave blank for none."
-
-	spawnflags(Flags) =
-	[
-		1 : "Enable Physics on spawned item" : 0
-		2 : "Spawned Item Must Exist" : 0
-		8 : "Infinite Items" : 0
-	]
-]
 
 //Player Start with Helper Model and better model picker and stuffs
 @PointClass base(Targetname, Angles, Parentname) color(255 100 100) studio() = info_survivor_position : "A point where survivors are placed on map spawn, or when escaping the finale"
@@ -249,26 +195,7 @@
 [
 ]
 
-//Upgrade_spawn with helper model
-@PointClass base(Targetname, Angles)studioprop() = upgrade_spawn
-[
-	laser_sight(integer) : "Laser Sight" : 1
-	upgradepack_incendiary(integer) : "UpgradePack - Incendiary" : 1
-	upgradepack_explosive(integer) : "UpgradePack - Explosive" : 1
-	
-	spawnflags(Flags) =
-	[
-		1 : "Enable Physics on spawned item" : 0
-		2 : "Spawned Item Must Exist" : 0
-	]
-	model(choices) : "Helper Model (Visual aid only)" : "models/w_models/weapons/w_laser_sights.mdl" =
-	[
-	"models/editor/upgrade_helper.mdl" 						: "Generic Helper" 
-	"models/w_models/weapons/w_laser_sights.mdl" 			: "Laser"
-	"models/w_models/weapons/w_eq_explosive_ammopack.mdl" 	: "Explosive Ammo"
-	"models/w_models/weapons/w_eq_incendiary_ammopack.mdl"	: "Incendiary Ammo"
-	]	
-]
+
 
 //env_steam with better understandable helper model
 @PointClass base(Targetname, Parentname, Angles) studioprop("models/editor/axis_helper_arrow_x.mdl") color(255 255 255) = env_steam : 
