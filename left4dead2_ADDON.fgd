@@ -43,6 +43,7 @@
 @include "FGDs/Damagetype.fgd"				//More Damagetypes
 @include "FGDs/props.fgd"					//Prop edits
 @include "FGDs/weapons_Items.fgd"     		//Edits the weapon spawn entities
+@include "FGDs/logic.fgd"     				//Edits the weapon spawn entities
 
 
 
