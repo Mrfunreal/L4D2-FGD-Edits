@@ -48,7 +48,7 @@
 
 
 //New origin entity. This is JUST there so you can see the coordinates of where this entity is placed.
-@PointClass base(Origin, Angles) color(0 255 0) sphere(VectorRadius) studio("models/editor/axis_ball.mdl") = hlp_origin_Vector : 
+@PointClass base(Origin, Angles) color(0 255 0) sphere(VectorRadius) studio("models/editor/axis_ball.mdl")  = hlp_origin_vector : 
 	"Help in getting the origin and Vector radius for Vscripts."
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
