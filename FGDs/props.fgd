@@ -71,7 +71,7 @@
 [
 	vscripts(scriptlist) : "Entity Scripts" : "" : "Name(s) of script files that are executed after all entities have spawned."
 	thinkfunction(string) : "Script think function" : "" : "Name of a function in this entity's script scope which will be called automatically."
-	model(studio) : "Model" : "" : "entities to carry:/n models/props_equipment/oxygentank01.mdl /n models/props_junk/propanecanister001a.mdl /n models/props_junk/explosive_box001.mdl /n "  
+	model(studio) : "Model" : "" : "entities to carry:\n models/props_equipment/oxygentank01.mdl \n models/props_junk/propanecanister001a.mdl \n models/props_junk/explosive_box001.mdl \n "  
 	// Inputs
 	input Ignite(void) : "Ignite, burst into flames."
 	input IgniteLifetime(float) : "Ignite, with a parameter lifetime."
