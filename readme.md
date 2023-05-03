@@ -10,7 +10,7 @@ The "timeofday" keyvalue lists four day times, but what it really does is make t
 It also contains "WorldIsCold" which does absolutely nothing.
 My FGD edits fix all of this. You get drowdpwn menus for picking skybox name, music post string, witch behaviour and removes the useless TimeOfDay.
 
-⚠️ **Warning:** You must change the default entity from info_survivor_position to info_player_start. Changing from an entity wit ha model to env_sprite crashes hammer.
+⚠️ **Warning:** You must change the default entity from info_survivor_position to info_player_start. Changing from an entity with a model to env_sprite crashes hammer!
 
 ### Install
 1. Click on "Code - Download ZIP"
