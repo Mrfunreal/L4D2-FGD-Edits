@@ -40,7 +40,7 @@
 //Gives info_director a default name
 @PointClass base(Targetname) iconsprite("Editor/new/info_director.vmt") = info_director
 [
-	targetname(target_source) : "Name" : "!Director" : "The name that other entities refer to this entity by."
+	targetname(target_source) : "Name" : "info_director" : "The name that other entities refer to this entity by."
 
 	// Inputs
 	input PanicEvent(void) : "Fired when a major event happens that the director should know about."

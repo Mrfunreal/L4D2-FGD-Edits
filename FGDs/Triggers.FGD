@@ -22,7 +22,35 @@
 	// Outputs
 	output OnStartTouch(void) : "Fired when an entity starts touching this trigger. The touching entity must pass this trigger's filters to cause this output to fire."
 ]
+@BaseClass base(Targetname, Parentname, Origin, EnableDisable, TriggerOnce) = Trigger
+[
+	output OnStartTouchAll(void) : "Fired when an entity starts touching this trigger, and no other entities are touching it. Only entities that passed this trigger's filters are considered."
+	output OnEndTouch(void) : "Fired when an entity stops touching this trigger. Only entities that passed this trigger's filters will cause this output to fire."
+	output OnEndTouchAll(void) : "Fires when an entity stops touching this trigger, and no other entities are touching it. Only entities that passed this trigger's filters are considered."
+]
+@SolidClass base(Trigger) = trigger_push : 
+	"A trigger volume that pushes entities that touch it."
+[
+	pushdir(angle) : "Push Direction (Pitch Yaw Roll)" : "0 0 0" : "Angles indicating the direction to push touched entities."
 
+	spawnflags(flags) = 
+	[ 
+		128: "Once Only" : 0
+		256: "Affects Ladders (Half-Life 2)" : 0 
+	]
+
+	speed(integer) : "Speed of Push" : 40 : "The speed at which to push entities away, in inches / second."
+	alternateticksfix(float) : "Scale force for alternate ticks" : "0" : "If nonzero, scale the force by this amount when running with alternate ticks. This fixes problems with an overly large force due to the longer frametime on when running with sv_alternateticks 1."
+	
+	triggeronstarttouch(choices) : "Trigger on Start Touch" : 0 : "Trigger on start touch instead of on touch." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
+	// Inputs
+	input SetPushSpeed(integer) : "Set the push speed in inches / second."
+]
 
 @SolidClass base(Trigger) color(255 163 38)= trigger_auto_crouch : "Allows players touching the trigger to auto-crouch ONLY IF an obscatcle you can crouch under is also in its volume"
 [
