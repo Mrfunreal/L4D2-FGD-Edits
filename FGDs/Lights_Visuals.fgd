@@ -1,0 +1,189 @@
+//Makes the helperprop white to make color display properly.
+@PointClass base(Targetname, Parentname, RenderFields, Angles) color(255 255 255) studio("models/editor/cone_helper_white.mdl") = point_spotlight : 
+	"An entity to draw a spotlight. Will draw a beam when the player views it side on, and a halo when it's facing towards the player. "+
+	"Unless the 'No Dynamic Light' spawnflag is checked, it will also create a dynamic light wherever the end of the spotlight rests."
+[
+	spawnflags(Flags) = 
+	[
+		1 :  "Start On" : 1
+		2 :  "No Dynamic Light" : 1
+	]
+
+	spotlightlength(integer) : "Spotlight Length" : 500 : "Length of the spotlight beam."
+	spotlightwidth(integer) : "Spotlight Width" : 50 : "Width of the spotlight beam."
+	rendercolor(color255) : "Color (R G B)" : "255 255 255"
+	HaloScale(float) : "Halo size scale." : "60" : "float value to determine the size of the halo."
+	HDRColorScale(float) : "HDR color scale." : "0.7" : "float value to multiply sprite color by when running in HDR mode."
+	
+	// Inputs
+	input LightOn(void) : "Turn the spotlight on."
+	input LightOff(void) : "Turn the spotlight off"
+	
+	// outputs
+	output OnLightOn(void) : "Fires when light turns on."
+	output OnLightOff(void) : "Fires when light turns off."
+
+]
+
+@PointClass base(Targetname, Parentname, RenderFields, Angles) studio("models/editor/cone_helper_white.mdl") = beam_spotlight : 
+	"An entity to draw a spotlight. Will draw a beam when the player views it side on, and a halo when it's facing towards the player. "+
+	"Unless the 'No Dynamic Light' spawnflag is checked, it will also create a dynamic light wherever the end of the spotlight rests." +
+	"This spotlight is entirely client side, it is not sync'd across clients."
+[
+	spawnflags(Flags) = 
+	[
+		1 : "Start On" : 1
+		2 : "No Dynamic Light" : 0
+		4 : "Start rotation on" : 0
+		8 : "Reverse Direction" : 0
+		16 : "X Axis"  : 0
+		32 : "Y Axis"  : 0
+		64 : "No Fog" : 0
+	]
+
+	maxspeed(integer) : "Max Rotation Speed" : 100 : "The maximum rotation speed of the spotlight, in degrees per second."
+
+	spotlightlength(integer) : "Spotlight Length" : 500 : "Length of the spotlight beam."
+	spotlightwidth(integer) : "Spotlight Width" : 50 : "Width of the spotlight beam."
+	rendercolor(color255) : "Color (R G B)" : "255 255 255"
+	HDRColorScale(float) : "HDR color scale." : "0.7" : "float value to multiply sprite color by when running in HDR mode."
+	
+	// Inputs
+	input LightOn(void) : "Turn the spotlight on."
+	input LightOff(void) : "Turn the spotlight off"
+	input Start(void) : "Start the rotator rotating."
+	input Stop(void) : "Stop the rotator from rotating."
+	input Reverse(void) : "Reverse the direction of rotation of the rotator."
+	
+	// outputs
+	output OnLightOn(void) : "Fires when light turns on."
+	output OnLightOff(void) : "Fires when light turns off."
+]
+
+//light_spot with colored helper model
+@PointClass base(Targetname, Angles, Light) lightprop("models/editor/spot_white.mdl") lightcone() sphere(_fifty_percent_distance) sphere(_zero_percent_distance) = light_spot :
+	"An invisible and directional spotlight."
+[
+	rendercolor(color255) : "Helper Model Color" : "0 246 180" : "This Colors just the helper model, to show you what color the light would have. Unfortunately it is not possible to use the values of the _light field. You'll have to manually copy the _light color numbers in here."
+	target(target_destination) : "Entity to point at" : : "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
+	_inner_cone(integer) : "Inner (bright) angle" : 30
+	_cone(integer) : "Outer (fading) angle" : 45
+	_exponent(integer) : "Focus" : 1
+	_distance(float) : "Maximum distance" : 0 : "This is the distance that light is allowed to cast, in inches."
+	pitch(angle_negative_pitch) : "Pitch" : -90
+	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
+]
+//TONEMAP CONTROLLER SPRITES
+@PointClass base(env_tonemap_controller) iconsprite("editor/new/env_tonemap_controller_infected.vmt") = env_tonemap_controller_infected : 
+	"An entity that controls the HDR tonemapping for infected players."
+[
+]
+
+@PointClass base(env_tonemap_controller) iconsprite("editor/new/env_tonemap_controller_ghost.vmt") = env_tonemap_controller_ghost : 
+	"An entity that controls the HDR tonemapping for ghost players."
+[
+]
+//POSTPROCESS SPRITES
+@PointClass base(Targetname) iconsprite("Editor/new/postprocess_controller.vmt") color(255 255 255) = postprocess_controller : 
+	"An entity that controls the postprocess settings in the map."
+[
+	// Inputs
+	input SetLocalContrastStrength(float) : "Set the local contrast strength."
+	input SetLocalContrastEdgeStrength(float) : "Set the local contrast strength at the edge of the screen (controlled by vignette)."
+	input SetVignetteStart(float) : "Set the vignette start distance (from screen center)."
+	input SetVignetteEnd(float) : "Set the vignette end distance."
+	input SetVignetteBlurStrength(float) : "Set the strength of the desaturated blur on the vignette."
+	input SetFadeToBlackStrength(float) : "Set the fadeout strength."
+
+	// Starting fog parameters for the level. These are selectable per LOD.	
+	localcontraststrength(float) : "Local contrast strength [-1..x]" : "0"
+	localcontrastedgestrength(float) : "Local contrast edge strength [0..1]" : "0"
+	vignettestart(float) : "Vignette start distance [0..1]" : "1"
+	vignetteend(float) : "Vignette end distance [0..x]" : "2"
+	vignetteblurstrength(float) : "Vignette blur strength [0..1]" : "0"
+	grainstrength(float) : "Film grain strength [0..1]" : "1"
+	topvignettestrength(float) : "Top-of-screen vignette strength [0..1]" : "1"
+	fadetime(float) : "Fade-in time" : "2"
+	
+	spawnflags(flags) =
+	[
+		1 : "Master (Has priority if multiple postprocess_controllers exist)" : 0
+	]
+]
+
+
+//Light_directional sprite
+@PointClass base(Angles) iconsprite("editor/new/light_directional.vmt") = light_directional : 
+	"A directional light with no falloff. Similar to sunlight in light_environment."
+[
+	pitch(integer) : "Pitch" : 0 : "The downward pitch of the light from the sun. 0 is horizontal, -90 is straight down."
+	_light(color255) : "Brightness" : "255 255 255 200"
+	_lightHDR(color255) : "BrightnessHDR" : "-1 -1 -1 1"
+	_lightscaleHDR(float) : "BrightnessScaleHDR" : "0.7" : "Amount to scale the light by when compiling for HDR."
+	SunSpreadAngle(float) : "SpreadAngle" : 0 : "The angular extent of the light for casting soft shadows. Higher numbers are more diffuse. 5 is a good starting value."
+]
+//env_sun sprite
+@PointClass base(Targetname, Angles) iconsprite("editor/new/env_sun.vmt") = env_sun : 
+	"An entity to control & draw a sun effect in the sky."
+[
+	target(target_destination) : "Viewer entity" : : "Name of an entity used to determine where the sun is in the skybox. The sun should be lined up on a line from this entity to the env_sun entity."
+	
+	use_angles(choices) : "UseAngles" : 0 : "The old way to orient env_sun is to point it at a target. The new way is to specify the angles. If you use the new way, set this property to YES." = 
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	pitch(integer) : "Pitch" : 0
+
+	rendercolor(color255) : "Sun Color (R G B)" : "100 80 80"
+	overlaycolor(color255) : "Overlay Color (R G B)" : "0 0 0" : "A value of 0 0 0 will act the old way."
+	
+	size(integer) : "Size" : 16
+	overlaysize(integer) : "Overlay Size" : -1 : "A value of -1 means the overlay will act the old way."
+	
+	material(sprite) : "Material Name" : "sprites/light_glow02_add_noz" : "Material of the inner glow."
+	overlaymaterial(sprite) : "Overlay Material Name" : "sprites/light_glow02_add_noz" : "Material of the overlay glow."
+
+	HDRColorScale(float) : "HDR color scale." : "0.5" : "float value to multiply sprite color by when running in HDR mode."
+
+	// Inputs
+	input TurnOn(void) : "Enable sun rendering."
+	input TurnOff(void) : "Disable sun rendering."
+	input SetColor(color255) : "Change the sun's color. Format: <Red 0-255> <Green 0-255> <Blue 0-255>"
+]
+//ShadowControl
+@PointClass base(Targetname) iconsprite("editor/shadow_control.vmt") = shadow_control : 
+	"An entity to control the shadows in the map."
+[
+	angles(string) : "Pitch Yaw Roll (Y Z X)" : "80 30 0" : "This is the shadow direction. Pitch is rotation around the Y axis, yaw is the rotation around the Z axis, and roll is the rotation around the X axis."
+
+	color(color255) : "Shadow Color" : "128 128 128" : "This is the color of the shadows."
+	distance(float) : "Maximum Distance" : 75 : "This is the maximum distance the shadow is allowed to cast, in inches."
+	disableallshadows(Choices) : "All Shadows Disabled" : 0 = 
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	enableshadowsfromlocallights(Choices) : "Enable Local Light Shadows" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
+	// Inputs
+	input color(color255) : "Set the shadow color."
+	input direction(vector) : "Set the shadow direction."
+	input SetDistance(float) : "Set the maximum shadow cast distance."
+	input SetAngles(string) : "Set the shadow direction."
+	input SetShadowsDisabled(integer) : "Set shadows disabled state."
+	input SetShadowsFromLocalLightsEnabled(integer) : "Set local light shadows enabled state."
+]
+
+//Adds spheres and new sprite to env_detail_controller
+@PointClass base(Angles) iconsprite("editor/new/env_detail_controller.vmt") sphere(fademindist) sphere(fademaxdist)= env_detail_controller : "Overrides the min and max fade distances for details sprites in the map."
+[
+	fademindist(integer) : "Start Fade Dist/Pixels" : 512 : "The distance at which the detail props will start fading away."
+	fademaxdist(integer) : "End Fade Dist/Pixels" : 1024 : "The distance at which the detail props will stop fading and stop drawing entirely."
+]

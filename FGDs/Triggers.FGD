@@ -25,7 +25,60 @@
 
 
 @SolidClass base(Trigger) color(255 163 38)= trigger_auto_crouch : "Allows players touching the trigger to auto-crouch ONLY IF an obscatcle you can crouch under is also in its volume"
-		[
-			note1(string) : "Click me to read how I work!" : : "When this entity covers the entrance of a small space, such as an airduct, the players will automatically crouch when walking into the crawlspace. It will NOT force crouching at all times. If you want to force crouching, use trigger_playermovement using the 'Auto-duck while in trigger' and the 'Disable auto player movement' flags."
-		]
+[
+	note1(string) : "Click me to read how I work!" : : "When this entity covers the entrance of a small space, such as an airduct, the players will automatically crouch when walking into the crawlspace. It will NOT force crouching at all times. If you want to force crouching, use trigger_playermovement using the 'Auto-duck while in trigger' and the 'Disable auto player movement' flags."
+]
+		
+//trigger_finale uses hamradio
+@PointClass base(Targetname, Angles, EnableDisable) studioprop() = trigger_finale : "Finale Trigger"
+[
+	model(studio) : "World model" : "models\props\terror\hamradio.mdl"
+
+	disableshadows(choices) : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	FirstUseDelay(float) : "First Use Delay" : "0" : "For two-part finale starts, delays this many seconds before allowing another +use."
+	UseDelay(float) : "Use Delay" : "0" : "Starts the finale this many seconds after a +use."
+
+	type(choices) : "Finale Type" : 0 : "Specifies which style of finale to trigger" =
+	[
+		0 : "Standard"
+		1 : "Gauntlet"
+		2 : "Custom"
+		4 : "Scavenge"
+	]
+
+	ScriptFile(string) : "Script File"
+	
+	VersusTravelCompletion(float) : "Versus Travel" : "0.2" : "How much of the versus score is attained through travel to the finale ( not valid in gauntlet finale )"
+
+	
+	IsSacrificeFinale(choices) : "Is Sacrifice Finale" : 0 : "If true, one survivor has to be available to perform some action outside the escape vehicle." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
+	
+	input FinaleEscapeFinished(void) : "Give the survivors a victory."
+	input FinaleEscapeForceSurvivorPositions(void) : "Make the survivors stand still on the escape vehicle."
+	input FinaleEscapeVehicleReadyForSurvivors(void) : "Make survivors say something about how the vehicle has stopped now."
+	input ForceFinaleStart(void) : "Start the finale now."
+	input GauntletStopPanic(void) : "Move the gauntlet finale state out of continuous panic mode"
+	input AdvanceFinaleState(void) : "Increments the finale state"
+	input SacrificeEscapeFailed(void) : "Indicates the survivors failed the escape requirements"
+	input SacrificeEscapeSucceeded(void) : "Indicates the surviors met the escape requirements"
+	input SacrificePlayerBeginsRun(void) : "A player ( !Activator ) has committed to the sacrifice run"
+	output FinaleEscapeStarted(void) : "Fired when the survivors should start their escape."
+	output FinaleWon(void) : "Fired when the survivors win the finale."
+	output FinaleLost(void) : "Fired when the survivors lose the finale."
+	output FirstUseStart(void) : "Fired when a player uses the trigger the first time."
+	output UseStart(void) : "Fired when a player uses the trigger to start the finale."
+	output FinaleStart(void) : "Fired when the finale starts."
+	output FinalePause(void) : "Fired during the pause between each finale wave."
+	output EscapeVehicleLeaving(void) : "Fired when the escape vehicle starts to leave."
+]
 		

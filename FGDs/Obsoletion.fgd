@@ -5,62 +5,50 @@
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = func_useableladder : 
 	"HL2 leftover for when Nodes were used instead of navmesh."
 [
-	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= func_ladderendpoint : 
 	"HL2 leftover for when Nodes were used instead of navmesh."
 [
-	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_ladder_dismount : 
 	"HL2 leftover for when Nodes were used instead of navmesh."
 [
-	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = info_node :
 	"HL2 leftover for when Nodes were used instead of navmesh."
 [
-	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = info_node_hint :
 	"HL2 leftover for when Nodes were used instead of navmesh."
 [
-	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")  = info_node_air :
 	"HL2 leftover for when Nodes were used instead of navmesh."
 [
-	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_node_air_hint :
 	"HL2 leftover for when Nodes were used instead of navmesh."
 [
-	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_hint :
 	"HL2 leftover for when Nodes were used instead of navmesh."
 [
-	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_node_link :
 	"HL2 leftover for when Nodes were used instead of navmesh."
 [
-	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_node_link_controller :
 	"HL2 leftover for when Nodes were used instead of navmesh."
 [
-	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_radial_link_controller :
 		"HL2 leftover for when Nodes were used instead of navmesh."
 [
-	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_node_climb : 
 	"HL2 leftover for when Nodes were used instead of navmesh."
 [
-	obsolete(string) : "HL2 Leftover" : : "This entity is in the FGD but L4D2 does not use it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = prop_minigun :
 	"Old L4D1 gatling entity, but is used as prop_mounted_machineun in L4D2. Use prop_minigun_l4d1 instead."
@@ -120,21 +108,14 @@
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = info_overlay_transition :
 	"This entity is in the FGD but L4D2 does not have it."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
-
-
-
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = info_npc_spawn_destination : 
 	"This entity is in the FGD but L4D2 does not have it."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
-
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = npc_template_maker : 
 	"This entity is in the FGD but L4D2 does not have it."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 //obsolete?
 //@PointClass base(Targetname, Parentname, Angles, RenderFxChoices, RenderFields) studio() = cycler : 
@@ -185,7 +166,6 @@
 @PointClass color(255 0 0) base(obsolete)  iconsprite("editor/obsolete.vmt")= env_rotorwash_emitter :
 	"This entity is in the FGD but L4D2 does not have it."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 @PointClass color(255 0 0) base(obsolete,gibshooterbase) iconsprite("editor/obsolete.vmt") = gibshooter : 
 	"An entity that shoots out gibs. Style of body part depends on language type."
@@ -217,22 +197,18 @@
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= point_tesla : 
 	"This entity is in the FGD but L4D2 does not have it."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_no_dynamic_shadow : 
 	"This entity is in the FGD but L4D2 does not have it."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_overlay_transition :
 	"This entity is in the FGD but L4D2 does not have it."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = info_intermission : 
 	"This entity is in the FGD but L4D2 does not have it."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 @PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = info_null : 
 	"An entity that's immediately removed on spawning. Useful as a spotlight target."
@@ -261,22 +237,18 @@
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= logic_autosave :
 	"does exist, but L4D2 does not have autosave."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= logic_active_autosave :
 	"does exist, but L4D2 does not have autosave."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= point_angularvelocitysensor :
 	"This entity is in the FGD but L4D2 does not have it."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= point_velocitysensor :
 	"This entity is in the FGD but L4D2 does not have it."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 @SolidClass color(255 0 0) base(obsolete, Targetname, Parentname) = func_illusionary : 
 	"Legacy support. Use func_brush instead." 
@@ -296,7 +268,6 @@
 @SolidClass color(255 0 0) base(obsolete) = trigger_autosave : 
 	"does exist, but L4D2 does not have autosave."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 @SolidClass color(255 0 0) base(obsolete, info_changelevel) = trigger_changelevel : 
 	"use info_changelevel"
@@ -307,22 +278,18 @@
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = ai_speechfilter : 
 	"This entity is in the FGD but L4D2 does not have it."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= info_camera_link :
 	"This entity is in the FGD but L4D2 does not have it."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= npc_furniture : 
 	"This entity is in the FGD but L4D2 does not have it."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= logic_playerproxy :
 	"This entity is in the FGD but L4D2 does not have it."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 @PointClass color(255 0 0) base(obsolete, Targetname, Parentname, Angles) iconsprite("editor/obsolete.vmt")= env_projectedtexture : 
 	"Projected texture entity. DO NOT USE"
@@ -376,56 +343,40 @@
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt")= npc_puppet :
 	"This entity is in the FGD but L4D2 does not have it."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = env_funnel : 
 	"This entity is in the FGD but L4D2 does not have it."
 [
-	obsolete(string) : "Does not exist" : : "This entity is in the FGD but L4D2 does not have it."
 ]
 @PointClass color(255 0 0) base(obsolete,Targetname, Angles) iconsprite("editor/obsolete.vmt")= trigger_standoff :
 	"use 'trigger_finale'"
 [
 	obsolete(string) : "use trigger_finale" : : " "
 ]
-
 @PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = info_ambient_mob_start : "potential starting location for an ambient mob"
 [                          
-	obsolete(string) : "Unused, Deprecated or just broken" : : " "
 ]                          
-						   
 @PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = info_ambient_mob_end : "end location for an ambient mob"
 [                          
-	obsolete(string) : "Unused, Deprecated or just broken" : : " "
 ]                          
-						   
 @PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = info_ambient_mob : "Universal ambient mob start/end (use with care)"
 [
-	obsolete(string) : "Unused, Deprecated or just broken" : : " "
 ]
-
 @PointClass color(255 0 0) base(obsolete,Angles) iconsprite("editor/obsolete.vmt") = test_traceline : 
 	"A debugging tool for testing tracelines."
 [
-	obsolete(string) : "Unused, Deprecated or just broken" : : " "
 ]
-
 @KeyFrameClass color(255 0 0) base(obsolete,Targetname, Parentname, Angles, KeyFrame) iconsprite("editor/obsolete.vmt") keyframe() = keyframe_track : 
 	"Animation KeyFrame"
 [
-	obsolete(string) : "Unused, Deprecated or just broken" : : " "
 ]
-
 @MoveClass color(255 0 0) base(obsolete,Targetname, Parentname, KeyFrame, Mover) iconsprite("editor/obsolete.vmt") animator() = move_keyframed : 
 	"Keyframed Move Behavior"
 [
-	obsolete(string) : "Unused, Deprecated or just broken" : : " "
 ]
-
 @MoveClass color(255 0 0) base(obsolete,Targetname, Parentname, Mover, KeyFrame) iconsprite("editor/obsolete.vmt") animator() = move_track : 
 	"Track Move Behavior"
 [
-	obsolete(string) : "Unused, Deprecated or just broken" : : " "
 	WheelBaseLength(integer) : "Distance between the wheels" : 50
 	Damage(integer) : "Damage done to blocking entities" : 0
 	NoRotate(choices) : "Turn to face down path" : 0 =
@@ -437,7 +388,6 @@
 @PointClass color(255 0 0) base(obsolete,Targetname, Parentname) iconsprite("editor/obsolete.vmt") = point_message : 
 	"An entity that displays a text message in the world, at its origin."
 [
-	obsolete(string) : "Unused, Deprecated or just broken" : : " "
 	spawnflags(flags) =
 	[
 		1: "Start Disabled" : 0
@@ -458,7 +408,6 @@
 @PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = env_zoom : 
 	"An entity that can be used to control the player's FOV. Useful for scenes where the player's view is being controlled, or player-usable binoculars/telescopes, etc."
 [
-	obsolete(string) : "Unused, Deprecated or just broken" : : " "
 	Rate(float) : "Seconds to reach target" : "1.0" : "Amount of time it should take to reach the specified FOV."
 	FOV(integer) : "Target FOV" : 75 : "FOV that this entity should set the player's FOV to when active."
 

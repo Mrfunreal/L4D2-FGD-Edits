@@ -1,3 +1,57 @@
+//map parameter sprites
+@PointClass base(Targetname,Angles) iconsprite("editor/new/info_map_parameters.vmt")= info_map_parameters :
+	"L4D-specific map parameters."
+[
+	AmmoDensity(float) : "Ammo pile density" : "6.48" : "Ammo pile density per sq 100 yards"
+	PainPillDensity(float) : "Pain Pill density" : "6.48" : "Pain Pill density per sq 100 yards"
+	MolotovDensity(float) : "Molotov density" : "6.48" : "Molotov density per sq 100 yards"
+	PipeBombDensity(float) : "Pipe Bomb density" : "6.48" : "Pipe Bomb density per sq 100 yards"
+	PistolDensity(float) : "Pistol density" : "6.48" : "Pistol density per sq 100 yards"
+	GasCanDensity(float) : "Gas Can density" : "6.48" : "Gas Can density per sq 100 yards"
+	OxygenTankDensity(float) : "Oxygen Tank density" : "6.48" : "Oxygen Tank density per sq 100 yards"
+	PropaneTankDensity(float) : "Propane Tank density" : "6.48" : "Propane Tank density per sq 100 yards"
+	MeleeWeaponDensity(float) : "Melee Weapon density" : "6.48" : "Melee Weapon density per sq 100 yards"
+	AdrenalineDensity(float) : "Adrenaline density" : "6.48" : "Adrenaline density per sq 100 yards"
+	DefibrillatorDensity(float) : "Defibrillator density" : "3.0" : "Defibrillator density per sq 100 yards"
+	VomitJarDensity(float) : "Boomer Bile density" : "6.48" : "Boomer Bile density per sq 100 yards"
+	UpgradepackDensity(float) : "Ammo upgrade density" : "1.0" : "Ammo upgrade pack density per sq 100 yards"
+	ChainsawDensity(float) : "Super Weapon density" : "1.0" : "Chainsaw and Grenade Launcher density per sq 100 yards"
+	ConfigurableWeaponDensity(float) : "Configurable Weapon Spawn density" : "-1.0" : "Density for weapon_spawn entities, -1 to spawn all"
+	ConfigurableWeaponClusterRange(float) : "Configurable Weapon Cluster Range" : 100 : "weapon_spawn entities that are this close to each other are considered a single 'cluster' for population purposes"
+	MagnumDensity(float) : "Magnum Pistol Spawn density" : "-1.0" : "Density for weapon_magnum_spawn entities, -1 to spawn all"
+
+	ItemClusterRange(float) : "Item Cluster Range" : 50 : "Scavenge items of the same kind that are this close to each other are considered a single 'cluster' for population purposes"	
+	FinaleItemClusterCount(integer) : "Finale Item Cluster Count" : 3 : "How many clusters of items will be populated in the finale"
+	
+	input UpdateCvars(void) : "Stuff values from this entity into cvars for tweaking"
+]
+@PointClass base(Targetname,Angles) iconsprite("editor/new/info_map_parameters_versus.vmt")= info_map_parameters_versus :
+	"L4D-specific map parameters for versus games."
+[
+	AmmoDensity(float) : "Ammo pile density" : "6.48" : "Ammo pile density per sq 100 yards"
+	PainPillDensity(float) : "Pain Pill density" : "6.48" : "Pain Pill density per sq 100 yards"
+	MolotovDensity(float) : "Molotov density" : "6.48" : "Molotov density per sq 100 yards"
+	PipeBombDensity(float) : "Pipe Bomb density" : "6.48" : "Pipe Bomb density per sq 100 yards"
+	PistolDensity(float) : "Pistol density" : "6.48" : "Pistol density per sq 100 yards"
+	GasCanDensity(float) : "Gas Can density" : "6.48" : "Gas Can density per sq 100 yards"
+	OxygenTankDensity(float) : "Oxygen Tank density" : "6.48" : "Oxygen Tank density per sq 100 yards"
+	PropaneTankDensity(float) : "Propane Tank density" : "6.48" : "Propane Tank density per sq 100 yards"
+	MeleeWeaponDensity(float) : "Melee Weapon density" : "6.48" : "Melee Weapon density per sq 100 yards"
+	AdrenalineDensity(float) : "Adrenaline density" : "6.48" : "Adrenaline density per sq 100 yards"
+	DefibrillatorDensity(float) : "Defibrillator density" : "2.50" : "Defibrillator density per sq 100 yards"
+	VomitJarDensity(float) : "Boomer Bile density" : "6.48" : "Boomer Bile density per sq 100 yards"
+	UpgradepackDensity(float) : "Ammo upgrade density" : "1.0" : "Ammo upgrade pack density per sq 100 yards"
+	ChainsawDensity(float) : "Super Weapon density" : "1.0" : "Chainsaw and Grenade Launcher density per sq 100 yards"
+	ConfigurableWeaponDensity(float) : "Configurable Weapon Spawn density" : "-1.0" : "Density for weapon_spawn entities, -1 to spawn all"
+	ConfigurableWeaponClusterRange(float) : "Configurable Weapon Cluster Range" : 100 : "weapon_spawn entities that are this close to each other are considered a single 'cluster' for population purposes"
+	MagnumDensity(float) : "Magnum Pistol Spawn density" : "-1.0" : "Density for weapon_spawn entities, -1 to spawn all"
+
+	ItemClusterRange(float) : "Item Cluster Range" : 50 : "Scavenge items of the same kind that are this close to each other are considered a single 'cluster' for population purposes"
+	FinaleItemClusterCount(integer) : "Finale Item Cluster Count" : 3 : "How many clusters of items will be populated in the finale"
+	
+	input UpdateCvars(void) : "Stuff values from this entity into cvars for tweaking"
+]
+
 //weapon_spawn_single with better listing of keyvalues. such as distinguishing skin and weaponskin.
 @BaseClass color(0 255 0) base(Parentname, Global, Targetname, Angles, Studiomodel) = WeaponSpawnSingle
 [

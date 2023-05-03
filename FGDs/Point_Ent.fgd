@@ -1,6 +1,218 @@
+//bigger cubemap and origin to know where it is.
+@PointClass base(Origin) color(0 255 255) sidelist(sides) iconsprite("editor/env_cubemap.vmt") = env_cubemap : 
+	"An entity that creates a sample point for the Cubic Environment Map."
+[
+	cubemapsize(choices) : "Cubemap Size" : 6 : "Large resolutions require at least 4 times of screen resolution. which may need Dynamic Super Resolution (DSR) to build them." =
+	[
+		0 	: "Default (32x32)"
+		1 	: "1x1"
+		2 	: "2x2"
+		3 	: "4x4"
+		4 	: "8x8"
+		5 	: "16x16"
+		6 	: "32x32"
+		7 	: "64x64"
+		8 	: "128x128"
+		10 	: "512x512   - needs 2048+ monitor resolution"
+		11	: "1024x1024 - needs 4096+ monitor resolution"
+		12	: "2048x2048 - needs 8192+ monitor resolution"
+	]
+	sides(sidelist) : "Brush faces": : "(Optional) Brush faces which will be forced to use this cubemap."
+]
+//Edited Color_Correction
+@PointClass base(Targetname, EnableDisable) iconsprite("editor/color_correction.vmt") = color_correction : 
+	"An entity to control the color correction in the map. In L4D2, you must use at least one fog_controller brush entity to have color correction work!"
+[
+
+	maxweight(float)  		: "Maximum Weight (Strength)"		: "1.0"						: "This is the strength of the Color Correction         (0 = 0%, 0.5 = 50%, 1 = 100%)"
+	filename(string)  		: "Color Correction Filename"		: "materials/correction/"	: "This is the Color Correction table filename.        (e.g: materials/correction/cc_c1_main.raw)"
+	fadeInDuration(float)	: "Fade In Duration"				: "0.0"	  					: "Duration of fade in on when enabled in seconds. Also applies to fog_volume."
+	fadeOutDuration(float)	: "Fade out Duration"				: "0.0"	  					: "Dration of fade out on when disabled in seconds. Also applies to fog_volume."
+	exclusive(choices) 		: "Exlusive" 						: 0 						: "An exclusive color_correction entity disables and fades out all other color corrections when it is enabled. There should only be one active exclusive color_correction ent at any time." = 
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	minfalloff(float) 		: "OBSOLETE - Lookup Falloff Start"	: "0.0"						: "Must be  0, else This CC will not work! - This is the distance to the start of the falloff region (-1 = everywhere)."
+	maxfalloff(float) 		: "OBSOLETE - Lookup Falloff End"	: "-1" 						: "Must be -1, else This CC will not work! - This is the distance to the end of the falloff region (-1 = everywhere)."
+
+	// Inputs
+	input SetFadeInDuration(float) 	: "Sets the 'fadeInDuration' variable, used to fade cc lookup usage when entity is enabled."
+	input SetFadeOutDuration(float) : "Sets the 'fadeOutDuration' variable, used to fade cc lookup usage when entity is disabled."
+
+	spawnflags(flags) =
+	[
+		1 : "Master (Default color correction when used with L4D fog_volume)" : 0
+		2 : "Simulate client-side (Must be set when used with L4D fog_volume)" : 1
+	]
+]
+//Path Track Croshair model
+@PointClass base(Targetname, Parentname, Angles) cylinder(255 255 255, targetname, target, radius, targetname, targetname, radius) studio("models/editor/axis_helper.mdl") = path_track : 
+	"An entity used to build paths for other entities to follow. Each path_track is a node on the path, each holding the name of the next path_track in the path."
+[
+	spawnflags(Flags) =
+	[
+		1:  "Disabled" : 0
+		2:  "Fire once" : 0
+		4:  "Branch Reverse" : 0
+		8:  "Disable train" : 0
+		16: "Teleport to THIS path track" : 0
+	]
+	
+	target(target_destination) : "Next Stop Target" : : "The next path_track in the path."
+	altpath(target_destination) : "Branch Path" : : "An alternative path_track to be the next node in the path. Useful for making branching paths. Use the ToggleAlternatePath / EnableAlternatePath inputs to make the alternative path active."
+	speed(float) : "New Train Speed" : 0 : "When the train reaches this path_track, it will set its speed to this speed. "+
+		"This speed must be a positive value that is less than the train's max speed. A value of 0 will cause no change in the train's speed."
+	radius(float) : "Path radius" : 0 : "Used by NPCs who follow track paths (attack chopper/gunship). This tells them the maximum distance they're allowed to be from the path at this node."
+
+	orientationtype(choices) : "Orientation Type" : 1 : "The way that the path follower faces as it moves through this path track." =
+	[
+		0 : "No change"
+		1 : "Face direction of motion"
+		2 : "Face this path_track's angles"
+	]
+
+	// Inputs
+	input ToggleAlternatePath(void) : "Cause the track to toggle to/from its alternate path."
+	input EnableAlternatePath(void) : "Enable the alternate path of the track."
+	input DisableAlternatePath(void) : "Disable the alternate path of the track."
+
+	input TogglePath(void) : "Cause the track to toggle on/off/"
+	input EnablePath(void) : "Enable the track."
+	input DisablePath(void) : "Disable the track."
+
+	// Outputs
+	output OnPass(void) : "Fired when any entity following this path passes this path_track node."
+]
+
+//func_fish_pool helper shpere
+@PointClass sphere(max_range) = func_fish_pool : "Creates a school of interactive fish that swim near this entity."
+[
+	model(studio) : "World model" : "models/Junkola.mdl"
+	fish_count(integer) : "Fish Count" : 10 : "Number of Fish in this Pool"
+	max_range(float) : "Max Range" : 150 : "How far away a Fish can wander (max 255)"
+]
 
 
+//env_smoketrail with sphere for spawnradius
+@PointClass base(Targetname, Parentname) color(200 50 0)  sphere(spawnradius) size(-8 -8 -8, 8 8 8) = env_smoketrail : 
+	"An entity that creates a smoke trail." 
+[
+	opacity(float) : "Sprite Opacity" : "0.75" : "Opacity of the sprites (range from 0 - 1)."
+	spawnrate(float) : "Spawn Rate" : "20" : "Number of particles to emit each second."
+	lifetime(float) : "Particle Life Time" : "5.0" : "Number of seconds until each particle dies."
+	startcolor(color255) : "Start Color" : "192 192 192" : "Starting color of the emitted particles."
+	endcolor(color255) : "End Color" : "160 160 160" : "Ending color of the emitted particles."
+	emittime(float) : "Emitter Life Time" : "0" : "Number of seconds until the env_smoketrail stops emitting particles. 0 means never stop emitting particles."
+	minspeed(float) : "Minimum Random Speed" : "10" : "Minimum randomly-directed speed to use for emitted particles."
+	maxspeed(float) : "Maximum Random Speed" : "20" : "Maximum randomly-directed speed to use for emitted particles."
+	mindirectedspeed(float) : "Minimum Directed Speed" : "0" : "Minimum speed along the env_smoketrail's forward direction (x axis) to use for emitted particles."
+	maxdirectedspeed(float) : "Maximum Directed Speed" : "0" : "Maximum speed along the env_smoketrail's forward direction (x axis) to use for emitted particles."
+	startsize(float) : "Starting particle size" : "15" : "Starting particle size."
+	endsize(float) : "Ending particle size" : "50" : "Ending particle size."
+	spawnradius(float) : "Spawn radius" : "15" : "Distance from env_smoketrail at which particles are emitted."
 
+	firesprite(sprite) : "Fire Sprite" : "sprites/firetrail.spr"
+	smokesprite(sprite) : "Smoke Puff" : "sprites/whitepuff.spr"
+]
+//env_physics_blocker box size changes
+@PointClass obb(boxmins, boxmaxs) base(Angles, Targetname) = env_physics_blocker :
+	"An entity which blocks players and physics objects."
+[
+	boxmins(vector) : "Mins" : "0 -32 0"
+	boxmaxs(vector) : "Maxs" : "16 32 64"
+
+	initialstate(choices) : "Initial State" : 1 =
+	[
+		0 : "Disabled"
+		1 : "Enabled"
+	]
+	BlockType(choices) : "Blocks" : 0 =
+	[
+		0: "Everyone"
+		1: "Survivors"
+		2: "Player Infected"
+		3: "All Special Infected (Player and AI)"
+		4: "All players and physics objects"
+	]
+	// Inputs
+	input Enable(void) : "Enables the Blocker"
+	input Disable(void) : "Disables the Blocker"
+]
+//env_player_blocker box size changes
+@PointClass wirebox(mins, maxs) base(Targetname) color(255 0 255) = env_player_blocker :
+	"An entity which blocks any PC/NPC from entering of the specified type."
+[
+	mins(vector) : "Mins" : "0 -32 0"
+	maxs(vector) : "Maxs" : "16 32 64"
+
+	initialstate(choices) : "Initial State" : 1 =
+	[
+		0 : "Disabled"
+		1 : "Enabled"
+	]
+	BlockType(choices) : "Blocks" : 0 =
+	[
+		0: "Everyone"
+		1: "Survivors"
+		2: "Player Infected"
+		3: "All Special Infected (Player and AI)"
+	]
+
+	// Inputs
+	input Enable(void) : "Enables the Blocker"
+	input Disable(void) : "Disables the Blocker"
+]
+
+//Adding classname, LagCompensate, to env_fire
+@PointClass base(Targetname, Parentname, EnableDisable, Classname, LagCompensate) iconsprite("editor/env_fire") color(0 180 0) = env_fire : 
+	"An entity that handles a single flame at its origin. The flame causes heat 'damage' to other env_fire entities around it, and will eventually ignite non-flaming env_fire entities nearby, causing the fire to spread."
+[
+	health(integer) : "Duration" : 30 : "Amount of time the fire will burn."
+	firesize(integer) : "Size" : 64 : "Height (in world units) of the flame."
+	fireattack(integer) : "Attack" : 4 : "Amount of time the fire takes to grow to full strength."
+	firetype(choices) : "Type" : 0 =
+	[
+		0 : "Natural"
+		1 : "Plasma"
+	]
+	spawnflags(flags) =
+	[
+		1:	"Infinite Duration" : 0
+		2:	"Smokeless" : 0
+		4:	"Start On" : 0
+		8:	"Start Full" : 0
+		16:	"Don't drop" : 0
+		32: 	"No glow" : 0
+		128: 	"Delete when out" : 0
+		256: 	"Visible from above" : 0
+	]
+
+	ignitionpoint(float) : "Ignition Point" : 32 : "Amount of heat 'damage' to take before this flame should ignite."
+	damagescale(float) : "Damage Scale" : "1.0" : "Multiplier of the burn damage done by the flame."
+
+	// Inputs
+	input StartFire(void) : "Start the fire."
+	input Extinguish(float) : "Puts out the fire permanently in the number of seconds specified."
+	input ExtinguishTemporary(float): "Puts out the fire temporarily in the number of seconds specified."
+
+	// Outputs
+	output OnIgnited(void) : "Fires when the fire is first ignited."
+	output OnExtinguished(void) : "Fires when the fire is fully extinguished."
+]
+
+//move Track croshair model
+@MoveClass base(Targetname, Parentname, Mover, KeyFrame) size(-8 -8 -8, 8 8 8) studio("models/editor/axis_helper_thick.mdl") animator() = move_track : 
+	"Track Move Behavior"
+[
+	WheelBaseLength(integer) : "Distance between the wheels" : 50
+	Damage(integer) : "Damage done to blocking entities" : 0
+	NoRotate(choices) : "Turn to face down path" : 0 =
+	[
+		0 : "Yes"
+		1 : "No"
+	]
+]
 //Player Start with Helper Model and better model picker and stuffs
 @PointClass base(Targetname, Angles, Parentname) color(255 100 100) studio() = info_survivor_position : "A point where survivors are placed on map spawn, or when escaping the finale"
 [
@@ -124,25 +336,6 @@
 	input SpawnZombie(string) : "Spawn a specific zombie now. String format is zombie type followed by an optional target name (e.g. 'smoker,BostonJoe' or 'common_male_suit'). Zombie types: boomer, common_*, hunter, smoker, tank, witch"
 	output OnSpawnedZombieDeath(void) : "One of the zombies spawned by this entity has died"
 ]
-
-//Alarm Car with Default model
-@PointClass base(prop_dynamic) studioprop() sphere(fademindist) sphere(fademaxdist) = prop_car_glass :
-	"This class is the same as prop_dynamic, with a car alarm."
-[
-	model(studio) : "Model" : "models/props_vehicles/cara_95sedan_glass_alarm.mdl" : "default:\n models/props_vehicles/cara_95sedan_glass_alarm.mdl" 
-]
-
-@PointClass base(prop_physics, EnableDisable) studioprop() sphere(fademindist) sphere(fademaxdist) = prop_car_alarm :
-	"This class is the same as prop_physics, with a car alarm."
-[
-	model(studio) : "Model" : "models/props_vehicles/cara_95sedan.mdl" : "default:\n models/props_vehicles/cara_95sedan.mdl" 
-
-	output OnCarAlarmStart(void) : "Car alarm should go off"
-	output OnCarAlarmEnd(void) : "Car alarm has shut off"
-	output OnCarAlarmChirpStart(void) : ""
-	output OnCarAlarmChirpEnd(void) : ""
-]
-
 
 //Camera's
 @PointClass base(Targetname,Angles,Parentname) studioprop("models/editor/camera_multi.mdl") = point_viewcontrol_multiplayer : 
@@ -377,4 +570,146 @@
 	input HideSprite(void) : "Hide the sprite. Won't be drawn until the 'ShowSprite' input is received."
 	input ShowSprite(void) : "Show the sprite."
 	input ToggleSprite(void) : "Toggle the sprite between hidden and shown."
+]
+//Info_Remarkable
+@PointClass base(Origin,Targetname) sphere() iconsprite("editor/new/info_remarkable.vmt")= info_remarkable : "An object in the world such that characters seeing it will speak a TLK_REMARK concept"
+[
+	contextsubject(string) : "Subject context" : "" : "Text to put in the SUBJECT context of the TLK_REMARK fired upon sighting this object."
+	radius(string) : "helper radius for Placement" : "500" : "Set a helper radius as visual aid. Does not have any impact whatsoever. Actual radius is found in talker scripts."
+]
+//env_texturetoggle sprite
+@PointClass base(Targetname) iconsprite("editor/new/env_texturetoggle.vmt")= env_texturetoggle : 
+	"An entity that allows you to change the textures on other brush-built entities."
+[
+	target(target_destination) : "Target Brush(es)." 
+
+	// Inputs
+	input	IncrementTextureIndex(void) : "Increments target brush's current texture frame by one."
+	input	SetTextureIndex(integer) : "Sets target brush's texture frame to the specified index."
+]
+@PointClass base(Targetname, Parentname, Angles) iconsprite("editor/new/info_elevator_floor.vmt") = info_elevator_floor : 
+	"Elevator floor height target."
+[
+	// Outputs
+	output OnReachedFloor(void) : "Fired when an elevator reaches this floor."
+]
+@PointClass base(Targetname, Parentname, Angles) cylinder(255 255 255, targetname, target, radius, targetname, targetname, radius) color(255 192 0) iconsprite("editor/new/path_track.vmt")= path_track : 
+	"An entity used to build paths for other entities to follow. Each path_track is a node on the path, each holding the name of the next path_track in the path."
+[
+	spawnflags(Flags) =
+	[
+		1:  "Disabled" : 0
+		2:  "Fire once" : 0
+		4:  "Branch Reverse" : 0
+		8:  "Disable train" : 0
+		16: "Teleport to THIS path track" : 0
+	]
+	
+	target(target_destination) : "Next Stop Target" : : "The next path_track in the path."
+	altpath(target_destination) : "Branch Path" : : "An alternative path_track to be the next node in the path. Useful for making branching paths. Use the ToggleAlternatePath / EnableAlternatePath inputs to make the alternative path active."
+	speed(float) : "New Train Speed" : 0 : "When the train reaches this path_track, it will set its speed to this speed. "+
+		"This speed must be a positive value that is less than the train's max speed. A value of 0 will cause no change in the train's speed."
+	radius(float) : "Path radius" : 0 : "Used by NPCs who follow track paths (attack chopper/gunship). This tells them the maximum distance they're allowed to be from the path at this node."
+
+	orientationtype(choices) : "Orientation Type" : 1 : "The way that the path follower faces as it moves through this path track." =
+	[
+		0 : "No change"
+		1 : "Face direction of motion"
+		2 : "Face this path_track's angles"
+	]
+
+	// Inputs
+	input ToggleAlternatePath(void) : "Cause the track to toggle to/from its alternate path."
+	input EnableAlternatePath(void) : "Enable the alternate path of the track."
+	input DisableAlternatePath(void) : "Disable the alternate path of the track."
+
+	input TogglePath(void) : "Cause the track to toggle on/off/"
+	input EnablePath(void) : "Enable the track."
+	input DisablePath(void) : "Disable the track."
+
+	// Outputs
+	output OnPass(void) : "Fired when any entity following this path passes this path_track node."
+]
+//info_goal_infected_chase sprite
+@PointClass base(Targetname, Parentname) iconsprite("editor/new/info_goal_infected_chase.vmt") = info_goal_infected_chase :
+	"An entity that attracts infected like the pipe bomb to give them something "+
+	"to do during outros. Put this in hierarchy with the escape vehicle or with "+
+	"a func_tracktrain to make all the infected in the map chase it!"
+[
+	input Enable(void) : "Start attracting all infected in the map."
+	input Disable(void) : "Stop attracting infected."
+]
+
+//env_entity_maker sprite
+@PointClass base(Targetname,Parentname,Angles) iconsprite("editor/new/env_entity_maker.vmt")= env_entity_maker : 
+	"Spawns the specified entity template at its origin. If set to auto-spawn, it will spawn the template whenever there's room and the player "+
+	"is looking elsewhere." 
+[
+	spawnflags(Flags) =
+	[
+		1 : "Enable AutoSpawn (will spawn whenever there's room)" : 0
+		2 : "AutoSpawn: Wait for entity destruction" : 0
+		4 : "AutoSpawn: Even if the player is looking" : 0
+		8 : "ForceSpawn: Only if there's room" : 0
+	  	16 : "ForceSpawn: Only if the player isn't looking" : 0
+	]
+
+	EntityTemplate(target_destination) : "Point_template To Spawn" : "" : "Name of the point_template to spawn here."
+
+	PostSpawnSpeed(float) : "PostSpawn Movement Speed" : "0" : "If specified, all the entities created in the template will move this fast in the specified PostSpawn Movement Direction."
+	PostSpawnDirection(angle) : "PostSpawn Movement Direction" : "0 0 0" : "If a PostSpawn Movement Speed is specified, all the entities created in the template will move in this direction."
+	PostSpawnDirectionVariance(float) : "PostSpawn Direction Variance" : "0.15" : "This variance is applied to the PostSpawn Movement Direction for each spawned entity in the template. Use it to apply some randomness to the directions."
+	PostSpawnInheritAngles(choices) : "PostSpawn Inherit Angles" : 0 : "If in hierarchy, is spawn direction in world space, or object local space of parent" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Inputs
+	input ForceSpawn(void)				: "Spawn an instance of the template at this origin and angle."
+	input ForceSpawnAtEntityOrigin(target_destination) : "Spawn an instance of the template that the same origin and angle as the specified entity (specify by targetname in parameters)"
+
+	// Outputs
+	output OnEntitySpawned(void) : "Fired when an instance of the entity template has been spawned."
+	output OnEntityFailedSpawn(void) : "Fired when a ForceSpawn input failed to spawn the template, either due to lack of space or being in player's view, depending on the spawnflags."
+]
+
+@PointClass base(Targetname) iconsprite("editor/new/ambient_music.vmt") sphere() = ambient_music : "Play L4D specfic music."
+[
+	message(sound) : "Sound Name" : "" : "Name of the GameSound entry  to play. "
+
+	input PlaySound(void) : "Starts the sound."
+	input StopSound(void) : "Stops the sound if it is playing."
+//	input FadeIn(integer) : "Fades the sound up to full volume over a specified number of seconds, with a range from 0 to 100 seconds."
+//	input FadeOut(integer) : "Fades the sound to silence over a specified number of seconds, with a range from 0 to 100 seconds."
+]
+
+@PointClass base(Origin,Targetname) iconsprite("editor/new/point_script_use_target.vmt")= point_script_use_target: "Makes an entity 'usable' by a player. An attached script determines the display text and use time."
+[
+	model(target_destination) : "Use Model" : : "The name of the entity the player will be using."
+
+	output OnUseStarted(void) : "Fired when a player starts using this target."	
+	output OnUseCanceled(void) : "Fired when a player use is canceled."	
+	output OnUseFinished(void) : "Fired when a player use is complete."	
+]
+
+@PointClass base(Origin,Targetname) iconsprite("editor/new/point_prop_use_target.vmt")= point_prop_use_target : "A use target for carried props. Triggers the prop's use behavior."
+[
+	spawnflags(Flags) = 
+	[
+		1 : "Useable by Gas Can" : 1
+		2 : "Useable by Cola Bottles" : 0
+	]
+
+	nozzle(target_destination) : "Gas nozzle" : : "The name of the prop_dynamic gas nozzle for this use_target (scavenge mode)."
+
+	input Activate(void) : "Activate the use target."
+	input Deactivate(void) : "Deactivate the use target."
+
+	output OnUseStarted(void) : "Fired when a player starts using this target."	
+	output OnUseCancelled(void) : "Fired when a player use is cancelled."	
+	output OnUseFinished(void) : "Fired when a player use is complete."	
+]
+@PointClass base(Targetname,Parentname) iconsprite("editor/new/info_target_instructor_hint.vmt")= info_target_instructor_hint : "A generic target that gets replicated to the client for hud hint targeting"
+[
 ]
