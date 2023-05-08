@@ -287,3 +287,5 @@ Here are images of *some* abilities that have been added or changed.
 <img src="pictures/detail_picker.jpg"/>
 <p>Damage Types.</p>
 <img src="pictures/damagetypes.jpg"/>
+<p>Cubemap Helpers.</p>
+<img src="pictures/cubemap_helper.jpg"/>
