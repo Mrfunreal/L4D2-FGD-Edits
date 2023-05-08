@@ -13,6 +13,7 @@
 		6 	: "32x32"
 		7 	: "64x64"
 		8 	: "128x128"
+		9 	: "256x256"
 		10 	: "512x512   - needs 2048+ monitor resolution"
 		11	: "1024x1024 - needs 4096+ monitor resolution"
 		12	: "2048x2048 - needs 8192+ monitor resolution"
@@ -20,7 +21,7 @@
 	sides(sidelist) : "Brush faces": : "(Optional) Brush faces which will be forced to use this cubemap."
 	radius(string) : "Helper radius" : "128" : "Use the radius as a helper to show the influence of a cubemap. This radius will help placing cubemaps in hallways and around doors, to make sure that the radius drawn doesn't clip through the wall on either side. Otherwise the cubemaps of hallways may show up outside of the hallways."
 	targetname(target_source) : "Helper Name" : : "For when you want to give a cubemap a name. I.E: Some lowres Cube8 for lowres 8x8 cubemaps, Cube512 for highres 512x512 cubemaps. Will not have any effect ingame."
-	origin(origin) : "Helper Origin" : : "Compiled cubemap textures will have the origin as name. This field here shows the origin. DO NOT CHANGE THIS FIELD! changing this field will move the cubemap."
+	origin(origin) : "Helper Origin (DO NOT CHANGE)" : : "Compiled cubemap textures will have the origin as name. This field here shows the origin. DO NOT CHANGE THIS FIELD! changing this field will move the cubemap."
 
 ]
 //Edited Color_Correction
