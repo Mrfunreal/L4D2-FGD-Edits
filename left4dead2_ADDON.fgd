@@ -21,6 +21,10 @@
 [ 
 	thinkfunction(string) : "Script think function" : "" : "Name of a function in this entity's script scope which will be called automatically."
 ]
+@BaseClass = WarnBBox
+[ 
+	WarnBBox(string) : "Warning: Uses BBOX!" : "" : "This entity works based entirely on its Bounding Box! Diagonal walls will always be ignored, as it will take the furthest out corners of the diagonal walls and create one huge box around all of it. That box will be your brush entity. If you need a large diagonal brush, you must create multiple small square entities aligned diagonally."
+]
 
 // Including FGD files
 @include "../left4dead2.fgd"				//Loads left4dead2.fgd from Bin folder, loads base.fgd in return.

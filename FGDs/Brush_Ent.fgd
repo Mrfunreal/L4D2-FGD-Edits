@@ -14,9 +14,14 @@
 	input SetFadeStartDistance(integer) : "Set fade start distance."
 	input SetFadeEndDistance(integer) : "Set fade end distance."
 ]
+//Adds BBox warning
+@SolidClass base(WarnBBox, Targetname, Parentname) = func_detail_blocker : 
+	"A brush entity that prevents detail sprites from being placed inside its volume."
+[
+]
 
 //Func_block_charge edits
-@SolidClass base(Targetname, Parentname, Origin, Global, EnableDisable) = func_block_charge : "AI Chargers will not charge through this brush. (Based on Bounding Box!)"
+@SolidClass base(WarnBBox, Targetname, Parentname, Origin, Global, EnableDisable) = func_block_charge : "AI Chargers will not charge through this brush. (Based on Bounding Box!)"
 [
 	StartDisabled(choices) : "Start Disabled" : 0 =
 	[
@@ -37,28 +42,7 @@
 	]
 	
 ]
-//Func_block_charge edits
-@SolidClass base(Targetname, Parentname, Origin, Global, EnableDisable) = func_block_charge : "AI Chargers will not charge through this brush. (Based on Bounding Box!)"
-[
-	StartDisabled(choices) : "Start Disabled" : 0 =
-	[
-		0 : "No"
-		1 : "Yes"
-	]
-	//Solidity added because it compiles solid without these lines.
-	solidbsp(choices) : "Solid BSP" : 0 : "Set this if this brush is in heirarchy with a moving object of some kind, and the player can stand on this brush." =
-	[
-		0 : "No"
-		1 : "Yes"
-	]
-		Solidity(choices) : "Solidity" : 1 : "Used to control the solidity/collision of these brushes." =
-	[
-		0 : "Toggle"
-		1 : "Never Solid"
-		2 : "Always Solid"
-	]
-	
-]
+
 
 //Adds missing keyvalues
 @SolidClass base(Targetname, Classname, LagCompensate) sphere(DisappearMinDist) sphere(DisappearMaxDist) color(255 255 255) = func_lod : 

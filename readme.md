@@ -52,6 +52,7 @@ Should i ever add another branch, the *L4D2-FGD-Edits-main* folder which you dow
 - LagCompensate    	- Just to easily add this function to entities
 - ThinkFunction    	- Just to easily add this function to entities
 - WeaponSpawnCarry	- A base for Carryable weapons
+- WarnBBox			- Adds warning about brush entity using the BBox. Meaning you're unable to use diagonal brush entities.
 
 ## New Point Entities
 - hlp_origin_Vector - Just gives you the origin of where this entity is and gives you a radius option. Only useful for getting vectors for Vscripts.
@@ -74,6 +75,7 @@ Should i ever add another branch, the *L4D2-FGD-Edits-main* folder which you dow
 	- Trigger_hurt, trigger_hurt_ghost, point_hurt, and filter_damage_type make use of the new damage types.
 - Func_block_charge
 	- Remade fgd entry to only contain parts this entity actually uses.
+	- Added warning about this brush using AABB/BBOX.
 - Info_game_event_proxy
 	- Added all existing game events to a drop down list, so you can pick which to use.
 - Navattributeregion
@@ -130,9 +132,14 @@ Should i ever add another branch, the *L4D2-FGD-Edits-main* folder which you dow
 	- Turned SkyName into a dropdown to Skybox texture.
 - Visgroups
 	- Added a whole lot of visgroups for various entities.
+- func_nav_avoidance_obstacle
+	- Added warning about this brush using AABB/BBOX.
+- func_detail_blocker
+	- Added warning about this brush using AABB/BBOX.
 
 ## Other edits
 - Tool textures specifically for every kind of tool brush entity. like trigger_once, trigger_hurt, info_changelevel...
+- Entirely new tool texture: ToolsNonsolidButton. A texture that is not solid, does not cut visleafes and is invisible. Perfect for buttons that you would need to clip through, or don't want the collision of the brush entity to be a factor. (Does not need to be shipped with the map.)
 - A lot of new sprites for entities that didn't have one. Like the director and icons for all three tonemap entities.
 - Various differently colored sprites for logic_relay. For people who like to color code their things.
 - L4D2 specific measure textures for doors, jump height, crouch space...

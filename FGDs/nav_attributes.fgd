@@ -57,3 +57,8 @@
 	mins(vector) : "Mins" : "-32 -32 -8"
 	maxs(vector) : "Maxs" : "32 32 8"
 ]
+//Adds BBox warning
+
+@SolidClass base(WarnBBox, Targetname, EnableDisable) = func_nav_avoidance_obstacle : "A brush entity that tells bots to avoid nav areas touching its AABB." 
+[
+]
