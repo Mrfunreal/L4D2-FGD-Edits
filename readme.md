@@ -43,7 +43,8 @@ Game	hl2
 ```Game	bin\L4D2-FGD-Edits-main\hammer_vpk```
 
 <p>Note:</p>
-Should i ever add another branch, the *L4D2-FGD-Edits-main* folder which you download might use another name. In which case you'd also need to rename this name in the gameinfo.
+Should i ever add another branch, the *L4D2-FGD-Edits-main* folder which you download might use another name. In which case you'd also need to rename this name in the gameinfo.<br>
+I also made a Repo on navmesh editing, [you can find it here](https://www.github.com/Mrfunreal/L4D2_Navmesh_CFG "L4D2_Navmesh_CFG")
 
 # Full documentation of the FGD Edits:
 
