@@ -1,4 +1,3 @@
-##  ⚠️ ⚠️DO NOT UPDATE AT THE MOMENT ⚠️ ⚠️
 
 # L4D2-FGD-Edits
 This set of FGD edits make mapping nicer for Left 4 Dead 2.
