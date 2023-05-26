@@ -17,7 +17,7 @@ My FGD edits fix all of this. You get drowdpwn menus for picking skybox name, mu
 
 2. Download the entire "L4D2-FGD-Edits" repo folder into ```Steam\steamapps\common\Left 4 Dead 2\bin```
 
-3. You should end up with the directory ```Steam\steamapps\common\Left 4 Dead 2\bin\L4D2-FGD-Edits```
+3. You should end up with the directory ```Steam\steamapps\common\Left 4 Dead 2\bin\L4D2-FGD-Edits-main```
 
 4. In hammer click on **Tools - Options**
 
