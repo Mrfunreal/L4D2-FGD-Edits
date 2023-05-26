@@ -8676,22 +8676,62 @@
 	input Start(void) : "Start movement"
 	input Stop(void) : "Stop movement"
 ]
-@SolidClass base(Targetname) = func_weight_button : "A button which activates after a specified amount of weight is applied"
-[
-	WeightToActivate(float) 	: "Amount of weight required before this button activates."
-
-	//Outputs
-	output OnPressed(void)		: "Fired when the button is touching enough weight."
-	output OnReleased(void)		: "Fired when the button was pressed, but weight was removed."
-]
+//	@SolidClass base(Targetname) = func_weight_button : "A button which activates after a specified amount of weight is applied"
+//	[
+//		WeightToActivate(float) 	: "Amount of weight required before this button activates."
+//	
+//		//Outputs
+//		output OnPressed(void)		: "Fired when the button is touching enough weight."
+//		output OnReleased(void)		: "Fired when the button was pressed, but weight was removed."
+//	]
 @PointClass base(Targetname) size(-8 -8 -8, 8 8 8) = game_player_equip : 
-	"An entity that gives equipment to the player who activates it. To use, add new keys to this entity, where each key is the classname of a weapon/item, and the corresponding value is the number of those weapons/items to give to the player who uses this entity. If the 'Use Only' spawnflag isn't set, then players can just touch this entity to get the equipment."
+	"An entity that gives equipment to the player who activates it.  If the 'Use Only' spawnflag isn't set, then players can just touch this entity to get the equipment." 
+	
 [
 	spawnflags(flags) =
 	[
-		1: "Use Only" : 0
+		1: "Use Only - If NOT set, this will automatically give weapons to anyone who joins multiplayer servers with this entity" : 1
 	]
-	weapon_rifle(integer) : "Rifle" : 0 
+	hlpr(string) 							: "Help Comment" 				: "Readme"	: "To spawn weapons, you must turn smart edit OFF and manually add keys for every weapon you want, with the value being your desired weapon amount.                                        Example, Key Name `weapon_pistol`, Value `2` gives you two pistols."
+//	weapon_pistol(float) 					: "Pistol"                  : "1"
+//	weapon_adrenaline(float) 				: "Adrenaline"              : "None"
+//	weapon_autoshotgun(float) 				: "Autoshotgun"             : "None"
+//	weapon_chainsaw(float) 					: "Chainsaw"                : "None"
+//	weapon_cola_bottles(float) 				: "Cola Bottles"            : "None"
+//	weapon_defibrillator(float) 			: "Defibrillator"           : "None"
+//	weapon_fireworkcrate(float) 			: "Fireworkcrate"           : "None"
+//	weapon_first_aid_kit(float) 			: "First Aid Kit"           : "None"
+//	weapon_gascan(float) 					: "Gascan"                  : "None"
+//	weapon_gnome(float) 					: "Gnome"                   : "None"
+//	weapon_grenade_launcher(float) 			: "Grenade Launcher"        : "None"
+//	weapon_hunting_rifle(float) 			: "Hunting Rifle"           : "None"
+//	weapon_melee(float) 					: "Melee"                   : "None"
+//	weapon_molotov(float) 					: "Molotov"                 : "None"
+//	weapon_oxygentank(float) 				: "Oxygentank"              : "None"
+//	weapon_pain_pills(float) 				: "Pain Pills"              : "None"
+//	weapon_pipe_bomb(float) 				: "Pipe Bomb"               : "None"
+//	weapon_pistol_magnum(float) 			: "Pistol Magnum"           : "None"
+//	weapon_propanetank(float) 				: "Propanetank"             : "None"
+//	weapon_pumpshotgun(float) 				: "Pumpshotgun"             : "None"
+//	weapon_rifle(float) 					: "Rifle"                   : "None"
+//	weapon_rifle_ak47(float) 				: "Rifle Ak47"              : "None"
+//	weapon_rifle_desert(float) 				: "Rifle Desert"            : "None"
+//	weapon_rifle_m60(float) 				: "Rifle M60"               : "None"
+//	weapon_rifle_sg552(float) 				: "Rifle Sg552"             : "None"
+//	weapon_shotgun_chrome(float) 			: "Shotgun Chrome"          : "None"
+//	weapon_shotgun_spas(float) 				: "Shotgun Spas"            : "None"
+//	weapon_smg(float) 						: "Smg"                     : "None"
+//	weapon_smg_mp5(float) 					: "Smg Mp5"                 : "None"
+//	weapon_smg_silenced(float) 				: "Smg Silenced"            : "None"
+//	weapon_sniper_awp(float) 				: "Sniper Awp"              : "None"
+//	weapon_sniper_military(float) 			: "Sniper Military"         : "None"
+//	weapon_sniper_scout(float) 				: "Sniper Scout"            : "None"
+//	weapon_upgradepack_explosive(float) 	: "Upgradepack Explosive"   : "None"
+//	weapon_upgradepack_incendiary(float)	: "Upgradepack Incendiary"	: "None"
+//	weapon_vomitjar(float) 					: "Vomitjar"				: "None"
+
+
+
 ]
 
 
