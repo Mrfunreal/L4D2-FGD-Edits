@@ -1,3 +1,4 @@
+
 # L4D2-FGD-Edits
 This set of FGD edits make mapping nicer for Left 4 Dead 2.
 In short many entities in hammer are either difficult to use because it has no documentation, missing keyvalues, obsolete keyvalues or jsut requires you to look up the VDC to figure out how to use the entities.
@@ -17,7 +18,8 @@ My FGD edits fix all of this. You get drowdpwn menus for picking skybox name, mu
 
 2. Download the entire "L4D2-FGD-Edits" repo folder into ```Steam\steamapps\common\Left 4 Dead 2\bin```
 
-3. You should end up with the directory ```Steam\steamapps\common\Left 4 Dead 2\bin\L4D2-FGD-Edits-main```
+3. You should end up with the directory ```Steam\steamapps\common\Left 4 Dead 2\bin\L4D2-FGD-Edits-main```<br>
+If you got a version from before May.26th.2023, you will need to delete the entire `L4D2-FGD-Edits-main` and replace it with the new one.
 
 4. In hammer click on **Tools - Options**
 
