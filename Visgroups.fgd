@@ -99,6 +99,10 @@
 	[
 		"func_ladder"
 	]
+	"Area Portal"
+	[
+		"func_areaportalwindow"
+	]
 	"Navigation"
 	[
 		"func_nav_attribute_region"
@@ -110,11 +114,7 @@
 		"script_nav_blocker"
 		"func_block_charge"
 	]	
-	"Other"
-	[
-		"func_detail_blocker"
-		"env_physics_blocker"
-	]	
+
 	
 ]
 @AutoVisGroup = "Props"
