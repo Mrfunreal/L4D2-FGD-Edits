@@ -2383,30 +2383,29 @@
 		0 : "No"
 		1 : "Yes"
 	]
-	fogblend(choices) : "Fog Blend" : 0 : "TIP: make a duplicate of your master fog_controller and swap it to a sky_camera. All the fog setings will be carried over!" =
+	fogblend(choices) : "Fog Blend" : 0 =
 	[
 		0 : "No"
 		1 : "Yes"
 	]
-	use_angles(choices) : "Use Angles for Fog Dir" : 0 : "TIP: make a duplicate of your master fog_controller and swap it to a sky_camera. All the fog setings will be carried over!" =
+	use_angles(choices) : "Use Angles for Fog Dir" : 0 =
 	[
 		0 : "No"
 		1 : "Yes"
 	]
-	clip_3D_skybox_near_to_world_far(choices) : "Clip 3D sky near plane to world far plane" : 0 =
+	clip_3D_skybox_near_to_world_far(choices) : "Clip 3D sky near plane to world far plane" : 0 : "Should the skybox be 'clipped' when getting close to the map? Like a reverse Far-Z." =
 	[
 		0 : "No"
 		1 : "Yes"
 	]
 	clip_3D_skybox_near_to_world_far_offset(string) : "3D sky near plane offset" : "0.0" : "Offset for the near clip plane for the 3D sky in world units.  This is only used if the above field is true.  Negative values to pull closer, etc."
-	fogcolor(color255) : "Primary Fog Color" : "255 255 255" : "TIP: make a duplicate of your master fog_controller and swap it to a sky_camera. All the fog setings will be carried over!" 
-	fogcolor2(color255) : "Secondary Fog Color" : "255 255 255" : "TIP: make a duplicate of your master fog_controller and swap it to a sky_camera. All the fog setings will be carried over!"
-	fogdir(string) : "Primary Fog Direction" : "1 0 0" : "TIP: make a duplicate of your master fog_controller and swap it to a sky_camera. All the fog setings will be carried over!"
-	fogstart(string) : "Fog Start" : "500.0" : "TIP: make a duplicate of your master fog_controller and swap it to a sky_camera. All the fog setings will be carried over!"
-	fogend(string) : "Fog End" : "2000.0" : "TIP: make a duplicate of your master fog_controller and swap it to a sky_camera. All the fog setings will be carried over!"
-	fogmaxdensity(float) : "Fog Max Density [0..1]" : "1" : "TIP: make a duplicate of your master fog_controller and swap it to a sky_camera. All the fog setings will be carried over!"
+	fogcolor(color255) : "Primary Fog Color" : "255 255 255"
+	fogcolor2(color255) : "Secondary Fog Color" : "255 255 255"
+	fogdir(string) : "Primary Fog Direction" : "1 0 0"
+	fogstart(string) : "Fog Start" : "500.0" : "Distance at which the skybox fog should start."
+	fogend(string) : "Fog End" : "2000.0" : "Distance at which the skybox fog should be fully opaque."
+	fogmaxdensity(float) : "Fog Max Density [0..1]" : "1"
 	HDRColorScale(float) : "HDR color scale." : "1.0" : "float value to multiply fog color by when running in HDR mode."
-	input ActivateSkybox(void) : "Manually enable this skybox. Disables all others."
 ]
 
 @BaseClass base(Targetname, ResponseContext) = BaseSpeaker
@@ -6513,18 +6512,7 @@
 	replace10(string) : "Replace" : : "This is a replacement parameter.  It goes in the form of $variable value.  All entities inside of the spawn group that have $variable somewhere will be replaced with the value contents.  Example: $color 255 0 0"
 ]
 
-@PointClass base(Targetname) studio("models/survivors/survivor_biker.mdl") = info_l4d1_survivor_spawn : "Spawn a L4D1 survivor"
-[
-	character(choices) : "Character" : 5 : "Which survivor to spawn here" = 
-	[
-		4 : "Bill"
-		5 : "Zoey"
-		6 : "Francis"
-		7 : "Louis"
-	]
-	
-	input SpawnSurvivor(void) : "Spawn the survivor"
-]
+
 
 @PointClass base(Targetname) = env_airstrike_indoors : "Airstrike effect for indoors (crumbling ceiling)"
 [
@@ -7458,6 +7446,26 @@
 
 	// Inputs
 	input SetViewControl(string) : "If a survivor is assigned to this position, set his view to a point_viewcontrol"
+]
+
+@PointClass base(Targetname, Angles) studio() = info_l4d1_survivor_spawn : "Spawn a L4D1 survivor"
+[
+	model(choices) : "Helper Model" : "models/survivors/survivor_namvet.mdl" : "Visual aid, does not actually decide who spawns here." =
+	[
+		"models/survivors/survivor_namvet.mdl" 			: "Bill"
+		"models/survivors/survivor_biker.mdl" 			: "Francis"
+		"models/survivors/survivor_manager.mdl" 		: "Louis"
+		"models/survivors/survivor_teenangst.mdl" 		: "Zoey"
+	]	
+	character(choices) : "Character" : 5 : "Which survivor to spawn here" = 
+	[
+		4 : "Bill"
+		6 : "Francis"
+		7 : "Louis"
+		5 : "Zoey"
+	]
+	
+	input SpawnSurvivor(void) : "Spawn the survivor"
 ]
 
 @PointClass base(Targetname, PlayerClass, Angles) studio("models/survivors/survivor_coach.mdl") = info_survivor_rescue : "Survivor rescue point"
@@ -8846,4 +8854,17 @@
 		0 : "Yes"
 		1 : "No"
 	]
+]
+
+//added "SetMaxPieces" 
+@PointClass base(Targetname) = game_weapon_manager : 
+	"An entity used to limit the number of a particular weapon type in the world. Useful in places where NPCs are spawning rapidly, dying, and dropping weapons." 
+[
+	weaponname(string) : "Weapon Classname" : "" : "Classname of the weapon type to limit."
+	maxpieces(integer) : "Max Allowed in Level"	: 0 : "The maximum amount of the specified weapon type allowed in the world."
+	ammomod(float)	   : "Ammo modifier" : 1 : 	"Modifier for ammount of ammo dropped by a weapon."
+
+	// Inputs
+	input SetAmmoModifier(float): "Adjust the ammo modifier."
+	input SetMaxPieces(integer): "Adjust the maximum number of specified weapons in the map." // added
 ]
