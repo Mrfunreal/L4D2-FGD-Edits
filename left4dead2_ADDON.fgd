@@ -7480,7 +7480,7 @@
 //trigger_finale uses hamradio
 @PointClass base(Targetname, Angles, EnableDisable) studioprop() = trigger_finale : "Finale Trigger"
 [
-	model(studio) : "World model" : "models\props\terror\hamradio.mdl"
+	model(studio) : "World model" : "models/props/terror/hamradio.mdl"
 
 	disableshadows(choices) : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity." =
 	[
