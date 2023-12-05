@@ -2284,7 +2284,8 @@
 ]
 
 //Env_Sprite using world glow as default with a helper model to easier select them in hammer when the sprite is large
-@PointClass base(Targetname, Parentname, RenderFields)  studio("models/editor/sprite_ball.mdl") sprite() color(20 140 20) = env_sprite : 
+//@PointClass base(Targetname, Parentname, RenderFields)  studio("models/editor/sprite_ball.mdl") sprite() color(20 140 20) = env_sprite : 
+@PointClass base(Targetname, Parentname, RenderFields)  size(-1 -1 -1, 1 1 1) sprite() color(20 140 20) = env_sprite : 
 	"An entity that controls the drawing of a sprite in the world." 
 [
 	framerate(string) : "Framerate" : "10.0" : "Rate at which the sprite should animate, if at all."
@@ -2322,7 +2323,8 @@
 
 ]
 //env_sprite_oriented using world glow as default with a helper model to easier select them in hammer when the sprite is large
-@PointClass base(env_sprite, Angles)  studio("models/editor/sprite_oriented_ball.mdl") sprite() color(20 140 20) = env_sprite_oriented :
+//@PointClass base(env_sprite, Angles)  studio("models/editor/sprite_oriented_ball.mdl") sprite() color(20 140 20) = env_sprite_oriented :
+@PointClass base(env_sprite, Angles)  size(-1 -1 -1, 1 1 1) frustum( fov,near,far,rendercolor,-1 )sprite() color(20 140 20) = env_sprite_oriented :
     "A env_sprite that allows orientation."
 [
 	framerate(string) : "Framerate" : "10.0" : "Rate at which the sprite should animate, if at all."
@@ -2346,6 +2348,12 @@
 	input HideSprite(void) : "Hide the sprite. Won't be drawn until the 'ShowSprite' input is received."
 	input ShowSprite(void) : "Show the sprite."
 	input ToggleSprite(void) : "Toggle the sprite between hidden and shown."
+	
+	fov(string) 		: 	"Helper - fov" 			: "100"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
+	near(string) 		: 	"Helper - near" 		: "5"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
+	far(string) 		: 	"Helper - far" 			: "8"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
+	pitch_scale(string) :	"Helper - pitch_scale" 	: "1"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
+
 ]
 
 
@@ -3907,10 +3915,12 @@
 	output OnDemoMapSpawn(void) : "Fired when the map is loaded in Demo Mode."
 ]
 
-@PointClass base(Targetname,Angles,Parentname) studioprop("models/editor/camera.mdl") = point_viewcontrol : 
+@PointClass base(Targetname,Angles,Parentname)  frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera.mdl") = point_viewcontrol : 
 	"A camera entity that controls the player's view. While it's active, the player will see out of the camera." 
 [
 	obsolete(string) : "Obsolete" : : "Use point_viewcontrol_survivor for individual survivors or point_viewcontrol_multiplayer for all survivors at once"
+	rendercolor(color255) : "Color (R G B)" : "0 243 229" 
+	z_far(string) 		: 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
 ]
 
 @PointClass base(Targetname) = point_posecontroller : 
@@ -6547,7 +6557,7 @@
 //-------------------------------------------------------------------------
 //Camera's
 //-------------------------------------------------------------------------
-@PointClass base(Targetname,Angles,Parentname) studioprop("models/editor/camera_multi.mdl") = point_viewcontrol_multiplayer : 
+@PointClass base(Targetname,Angles,Parentname) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_multi.mdl") = point_viewcontrol_multiplayer : 
 	"A camera entity that controls all players' views. While it's active, the players will see out of the camera." 
 [
 	fov(float) : "Field of view" : "90" : "Player FOV"
@@ -6565,8 +6575,10 @@
 	input Enable(void) : "Enable the point_viewcontrol_multiplayer, and start controlling the players' view."
 	input Disable(void) : "Disable the point_viewcontrol_multiplayer, and stop controlling the players' view."
 	input StartMovement(void) : "Start the movement to the target entity."
+	rendercolor(color255) : "Color (R G B)" : "248 139 35" 
+	z_far(string) 		: 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
 ]
-@PointClass base(Targetname,Angles,Parentname) studioprop("models/editor/camera_survivor.mdl") = point_viewcontrol_survivor : 
+@PointClass base(Targetname,Angles,Parentname) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_survivor.mdl") = point_viewcontrol_survivor : 
 	"A camera entity that controls the player's view. Travels from camera position to a first-person view on input." 
 [
 	fov(float) : "Field of view" : "90" : "Player FOV (if Set FOV spawnflag is set)"
@@ -6579,15 +6591,19 @@
 	]
 
 	// Inputs
-	input Enable(string) : "Enable the point_viewcontrol, and start controlling the player's view. Pass a survivor name to control that survivor's view.(ie '!zoey')"
-	input Disable(void) : "Disable the point_viewcontrol, and stop controlling the player's view."
+	input Enable(string) : "Enable the point_viewcontrol_survivor, and start controlling the player's view. Pass a survivor name to control that survivor's view.(ie '!zoey')"
+	input Disable(void) : "Disable the point_viewcontrol_survivor, and stop controlling the player's view."
 	input StartMovement(void) : "Start the movement to first-person view."
+	rendercolor(color255) : "Color (R G B)" : "235 33 235" 
+	z_far(string) 		: 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
 ]
-@PointClass base(Targetname,Angles,Parentname) studioprop("models/editor/camera_deathfall.mdl") = point_deathfall_camera : 
+@PointClass base(Targetname,Angles,Parentname) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_deathfall.mdl") = point_deathfall_camera : 
 	"A camera entity that players falling to their deaths look through." 
 [
 	fov(float) : "Field of view" : "90" : "Player FOV"
 	fov_rate(float) : "Seconds to reach FOV target" : "1.0" : "Amount of time it should take to reach the specified FOV"
+	rendercolor(color255) : "Color (R G B)" : "85 92 141" 
+	z_far(string) 		: 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
 ]
 
 //-------------------------------------------------------------------------
@@ -7708,7 +7724,8 @@
 
 // Left4Dead Guns -----------
 
-@PointClass base(Targetname,Angles) = weapon_item_spawn
+//@PointClass base(Targetname,Angles) = weapon_item_spawn
+@PointClass base(Targetname,Angles) studioprop() = weapon_item_spawn
 [
 	weaponskin(integer) : "Weapon Skin" : -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
 	glowrange(float) : "Glow Range" : 0 : "Set a custom glow range for this spawner. 0 means use the default range."
@@ -7740,6 +7757,24 @@
 		2 : "Spawned Item Must Exist" : 0
 		8 : "Infinite Items" : 0
 	]
+	model(choices) : "Helper Model (Visual aid only)" : "models/editor/weapon_item_spawn.mdl" =
+	[
+	"models/editor/weapon_item_spawn.mdl" 					: "Generic Helper" 
+	"models/props/terror/ammo_stack.mdl"                    : "Ammo Pile"
+	"models/w_models/weapons/w_eq_Medkit.mdl"               : "First aid kit"
+	"models/w_models/weapons/w_eq_defibrillator.mdl"        : "Defibrillator"
+	"models/w_models/weapons/w_eq_painpills.mdl"            : "Pain Pills"
+	"models/w_models/weapons/w_eq_adrenaline.mdl"           : "Adrenaline"
+	"models/w_models/weapons/w_eq_pipebomb.mdl"             : "Pipe Bomb"
+	"models/w_models/weapons/w_eq_molotov.mdl"              : "Molotov Cocktail"
+	"models/w_models/weapons/w_eq_bile_flask.mdl"           : "Boomer Bile"
+	"models/props_junk/gascan001a.mdl"                      : "Gasoline Can"
+	"models/props_equipment/oxygentank01.mdl"               : "Oxygen Tank"
+	"models/props_junk/propanecanister001a.mdl"             : "Propane Tank"
+	"models/weapons/melee/w_chainsaw.mdl"                   : "Chainsaw"
+	"models/w_models/weapons/w_grenade_launcher.mdl"        : "Grenade Launcher"
+	"models/w_models/Weapons/w_m60.mdl"                     : "M60 Machinegun"
+	]	
 ]
 
 //Upgrade_spawn with helper model
