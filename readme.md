@@ -164,8 +164,6 @@ I also made a Repo on navmesh editing,
 - Env_Steam
 - Sky_Camera
 - Env_Lightglow
-- Env_Sprite
-- Env_Sprite_Oriented
 - Point_Spotlight
 - Beam_Spotlight
 - Light_Spot
@@ -282,9 +280,6 @@ Here are images of *some* abilities that have been added or changed.
 <p>Blend Textures displaying what detail they use.</p>
 <img src="pictures/blendtextures.jpg"/>
 <p>Optional Generic helper models for randomized weapon spawns.</p>
-<img src="pictures/generic_helpers.png"/>
-<p>Ball helper models for env_sprite.</p>
-<img src="pictures/sprite_ball.png"/>
 <p>More helper models, each camera entity got a different color. Orange Freeman there is info_teleport_destination.</p>
 <img src="pictures/helper_models.png"/>
 <p>Light_spot entities can be colored.</p>
