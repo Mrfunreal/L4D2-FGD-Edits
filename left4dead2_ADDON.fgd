@@ -818,16 +818,17 @@
 [
 	spawnflags(flags) = 
 	[
-		1: 		"Survivors, Special Infected, Tanks (Clients)"														: 1
-		2: 		"Common Infected, Witches           (NPCs)"															: 0
-		64: 	"Everything - Use filters to get specific models/classes to trigger. Works for Throwables that way"	: 0
-		4: 		"OBSOLETE - Pushables (technically works, but the pushable entity doesn't exist in the fgd)"		: 0
-		8: 		"OBSOLETE - Physics Objects" 																		: 0
-		1024: 	"OBSOLETE - Physics Debris" 																		: 0
-		16: 	"OBSOLETE - Only player ally NPCs" 																	: 0
-		512: 	"OBSOLETE - Only clients *not* in vehicles" 														: 0
-		32: 	"OBSOLETE - Only clients in vehicles" 																: 0
-		2048:	"OBSOLETE - Only NPCs in vehicles (respects player ally flag)" 										: 0
+		1: 		"Survivors, Special Infected, Tanks    (Clients)"														: 1
+		2: 		"Common Infected, Witches                (NPCs)"															: 0
+		64: 	"Everything    - Use filters to specify which item should trigger. Does not work with weapon_* entities!"	: 0
+//		0:	" " : 0
+		4: 		"! OBSOLETE ! - Pushables (technically works, but the pushable entity doesn't exist in the fgd)"		: 0
+		8: 		"! OBSOLETE ! - Physics Objects" 																		: 0
+		1024: 	"! OBSOLETE ! - Physics Debris" 																		: 0
+		16: 	"! OBSOLETE ! - Only player ally NPCs" 																	: 0
+		512: 	"! OBSOLETE ! - Only clients *not* in vehicles" 														: 0
+		32: 	"! OBSOLETE ! - Only clients in vehicles" 																: 0
+		2048:	"! OBSOLETE ! - Only NPCs in vehicles (respects player ally flag)" 										: 0
 	]
 
 	filtername(filterclass) : "Filter Name" : : "Filter to use to see if activator triggers me. See filter_activator_name for more explanation."
@@ -5842,16 +5843,15 @@
 ]
 
 @SolidClass base(Trigger) = trigger_playermovement : 
-	"An entity that can be used to disable player's automatic ducking/unducking when jumping."
+	"An entity that can be used to force players to crouch, or to force slow walking speeds. Can also prevent players from jumping. Requires Client/NPC flag to define who it should affect."
 [
 	spawnflags(flags) = 
 	[
-	// Remove this after maps fixed up:
-		16: "(OBSOLETE, Uncheck me)" : 0
-		128: "Disable auto player movement" : 1
-		2048: "Auto-duck while in trigger" : 0
-		4096: "Auto-walk while in trigger" : 0
-		8192: "Disable jump while in trigger" : 0
+		2048: 	"Force Crouching  (Auto-duck)" : 0
+		4096: 	"Force Slow Walk (Auto-walk)" : 0
+		8192: 	"Disallow Jumping" : 0
+		128: 	"Disable auto player movement (Obsolete?)" : 1
+	//	16: "(OBSOLETE, Uncheck me)" : 0
 	]
 ]
 
