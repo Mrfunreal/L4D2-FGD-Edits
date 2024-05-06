@@ -4106,8 +4106,50 @@
 	output OnEqual(void) : "Fires if the values are equal"
 	output OnNotEqual(void) : "Fires if the values are not equal"
 ]
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Hammer++ has a different setup for sprites.  You cannot swap iconsprite without reloading the map. But the "Sprite" can be swapped.
+// So, the logic_relay has two blocks in this FGD. The one below is for Hammer++. Uncomment it and comment out the one blelow it if you want to use the colored icons.
 
-// Relay with more colored sprites to ceep "Circuts" apart.
+// Relay with more colored sprites to ceep "Circuts" apart. (HAMMER++)
+//	@PointClass base(Targetname, EnableDisable) studioprop("models/editor/16x16.mdl") sprite() = logic_relay :
+//		"A message forwarder. Fires an OnTrigger output when triggered, and " +
+//		"can be disabled to prevent forwarding outputs.\n\n" +
+//		"Useful as an intermediary between one entity and another for turning " +
+//		"on or off an I/O connection, or as a container for holding a set of " +
+//		"outputs that can be triggered from multiple places."
+//	[
+//		model(choices) 		: "Helper Sprite" : "editor/logic_relay.vmt" : "Visual aid to keep 'Circuts' apart.\n Example:\n Versus only relays could be pink.\n Coop relays blue.\n All relays related to giane mechanism yellow, ect..."=
+//		[
+//		"editor/logic_relay.vmt" 		: "Default"
+//		"editor/new/logic_relay1.vmt" 	: "Red"
+//		"editor/new/logic_relay4.vmt" 	: "Pink"
+//		"editor/new/logic_relay5.vmt" 	: "Violet"
+//		"editor/new/logic_relay6.vmt" 	: "Purple"
+//		"editor/new/logic_relay7.vmt" 	: "Dark Blue"
+//		"editor/new/logic_relay8.vmt" 	: "Turquoise"
+//		"editor/new/logic_relay10.vmt" 	: "Green"
+//		"editor/new/logic_relay11.vmt" 	: "Lime"
+//		"editor/new/logic_relay12.vmt" 	: "Yellow"
+//		"editor/new/logic_relay13.vmt" 	: "Orange"
+//		]
+//		rendermode(integer) : "Ignore this" : 4 : "Hammer++ needs this to circumvent weird behaviour. So that you can adtually edit the sprite if you wanted to"
+//		spawnflags(flags) =
+//		[
+//			1: "Only trigger once" : 0
+//			2: "Allow fast retrigger" : 0
+//		]
+//		// Inputs
+//		input Trigger(void) : "Trigger the relay, causing its OnTrigger output to fire if it is enabled."
+//		input Toggle(void) : "Toggle the relay between enabled and disabled."
+//		input CancelPending(void) : "Cancel any events fired by this relay that are currently pending in the I/O event queue."
+//		// Outputs
+//		output OnSpawn(void) : "Fired when the relay is spawned. If the relay is set to only trigger once, it will "+
+//			"delete itself after firing this output."
+//		output OnTrigger(void) : "Fired when the relay is triggered. If the relay is set to only trigger once, it will "+
+//			"delete itself after firing this output."
+//	]
+
+// Relay with more colored sprites to ceep "Circuts" apart. (DEFAULT HAMMER)
 @PointClass base(Targetname, EnableDisable) iconsprite() = logic_relay :
 	"A message forwarder. Fires an OnTrigger output when triggered, and " +
 	"can be disabled to prevent forwarding outputs.\n\n" +
@@ -4115,7 +4157,6 @@
 	"on or off an I/O connection, or as a container for holding a set of " +
 	"outputs that can be triggered from multiple places."
 [
-
 	model(choices) : "Helper Sprite" : "editor/logic_relay.vmt" : "Visual aid to keep 'Circuts' apart.\n Example:\n Versus only relays could be pink.\n Coop relays blue.\n All relays related to giane mechanism yellow, ect..."=
 	[
 	"editor/logic_relay.vmt" : "Default"
@@ -4130,24 +4171,22 @@
 	"editor/new/logic_relay12.vmt" : "Yellow"
 	"editor/new/logic_relay13.vmt" : "Orange"
 	]
-
 	spawnflags(flags) =
 	[
 		1: "Only trigger once" : 0
 		2: "Allow fast retrigger" : 0
 	]
-
 	// Inputs
 	input Trigger(void) : "Trigger the relay, causing its OnTrigger output to fire if it is enabled."
 	input Toggle(void) : "Toggle the relay between enabled and disabled."
 	input CancelPending(void) : "Cancel any events fired by this relay that are currently pending in the I/O event queue."
-	
-	// Outputs
+		// Outputs
 	output OnSpawn(void) : "Fired when the relay is spawned. If the relay is set to only trigger once, it will "+
 		"delete itself after firing this output."
 	output OnTrigger(void) : "Fired when the relay is triggered. If the relay is set to only trigger once, it will "+
 		"delete itself after firing this output."
 ]
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 @PointClass base(Targetname, EnableDisable) iconsprite("editor/logic_timer.vmt") = logic_timer :
 	"An entity that fires a timer event at regular, or random, intervals. It can also be set to oscillate between" + 
@@ -6454,6 +6493,7 @@
 	Group13(target_destination) : "EntityGroup[13]"
 	Group14(target_destination) : "EntityGroup[14]"
 	Group15(target_destination) : "EntityGroup[15]"
+	rendercolor(color255) : "Sprite Color" : "255 255 255" : "Sometimes you just need a little color to differentiate the scripts. This only works in Hammer++"
 ]
 
 @PointClass base(Targetname,Angles) = func_timescale :
