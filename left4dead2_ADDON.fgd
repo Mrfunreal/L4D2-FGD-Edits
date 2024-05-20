@@ -28,6 +28,10 @@
 // New Base Classes
 //-------------------------------------------------------------------------
 
+@BaseClass = HelperName
+[ 
+	HelperName(string) : "Helper Name" : "" : "Some entities, like Light entities will immediately act different when they're given a 'Targetname'. So this is a hammer internal helper name that has no use, cannot be used for I/O either. It's only useful for when using 'Entity Report' to find all entities with the same Helper Name."
+]
 @BaseClass = Classname
 [ 
 	Classname(string) : "Classname" : "" : "Classname given to the entity."
@@ -50,7 +54,7 @@
 ]
 @BaseClass = obsolete 
 [ 
-	obsolete(string) : "This Is Obsolete" : : "This entity is obsolete in L4D2 and does nothing."
+	obsolete(string) readonly : "This Is Obsolete" : : "This entity is obsolete in L4D2 and does nothing."
 ]
 @BaseClass = BaseDamageTypeNew
 [ 
@@ -330,8 +334,8 @@
 	input Alpha(integer) : "Set the sprite's alpha (0 - 255)."
 	input Color(color255) : "Set the sprite's color (R G B)."
 
-	fademindist(float) : "Start Fade Dist" : -1 : "Distance at which the overlay starts to fade (<0 = subtract from fademaxdist)."
-	fademaxdist(float) : "End Fade Dist" : 0 : "Maximum distance at which the overlay is visible (0 = don't fade out)."
+	fademindist(float) : "Start Fade Dist" : -1 : "Distance at which the entity starts to fade (<0 = subtract from fademaxdist)."
+	fademaxdist(float) : "End Fade Dist" : 0 : "Distance at which the entity is invisible (0 = don't fade out)."
  	fadescale(float) : "Fade Scale" : 1 : "If you specify a fade in the worldspawn, or if the engine is running under low end/medium end/XBox360," +
  												 " then the engine will forcibly fade out props even if fademindist/fademaxdist isn't specified." +
 												 " This scale factor gives you some control over the fade. Using 0 here turns off the forcible fades." +
@@ -663,10 +667,10 @@
 
 @BaseClass color(180 10 180) = Light
 [
-	_light(color255) : "Brightness" : "255 255 255 200"
-	_lightHDR(color255) : "BrightnessHDR" : "-1 -1 -1 1"
-	_lightscaleHDR(float) : "BrightnessScaleHDR" : "0.5" : "Amount to scale the light by when compiling for HDR."
-	style(Choices) : "Appearance" : 0 =
+	_light(color255) 			: "Brightness" 			: "255 255 255 200" : "RGB and Brightness value of light color"
+	_lightHDR(color255) 		: "Brightness HDR" 		: "-1 -1 -1 1"		: "RGB and Brightness value of Light color, when compiling for hdr. '-1 -1 -1 1' means it copies valies from 'Brightness'. L4D2 only has HDR!"
+	_lightscaleHDR(float)		: "Brightness HDR Scale"	: "0.5" 		: "Light Scale when compiling for HDR. L4D2 only has HDR!"
+	style(Choices) 				: "Appearance" 			: 0 =
 	[
 		0 : "Normal"
 		10: "Fluorescent flicker"
@@ -1402,7 +1406,7 @@
 @SolidClass color(255 0 0) base(obsolete, Targetname)= func_wall : 
 	"Legacy support. Use func_brush instead." 
 [
-	obsolete(string) : "use func_brush" : : " "
+	obsolete(string) readonly : "use func_brush" : : " "
 ]
 
 @SolidClass base(Targetname, EnableDisable) = func_clip_vphysics : 
@@ -2134,7 +2138,7 @@
 @PointClass color(255 0 0) base(obsolete,gibshooterbase) iconsprite("editor/obsolete.vmt") = gibshooter : 
 	"An entity that shoots out gibs. Style of body part depends on language type."
 [
-	obsolete(string) : "Use env_shooter" : : " "
+	obsolete(string) readonly : "Use env_shooter" : : " "
 ]
 
 @PointClass base(gibshooterbase, RenderFields) iconsprite("editor/env_shooter.vmt") = env_shooter : 
@@ -2350,10 +2354,10 @@
 	input ShowSprite(void) : "Show the sprite."
 	input ToggleSprite(void) : "Toggle the sprite between hidden and shown."
 	
-	fov(string) 		: 	"Helper - fov" 			: "100"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
-	near(string) 		: 	"Helper - near" 		: "5"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
-	far(string) 		: 	"Helper - far" 			: "8"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
-	pitch_scale(string) :	"Helper - pitch_scale" 	: "1"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
+	fov(string) 		readonly : 	"Helper - fov" 			: "100"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
+	near(string) 		readonly : 	"Helper - near" 		: "5"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
+	far(string) 		readonly : 	"Helper - far" 			: "8"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
+	pitch_scale(string) readonly :	"Helper - pitch_scale" 	: "1"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
 
 ]
 
@@ -2667,7 +2671,7 @@
 	]
 ]
 
-@PointClass base(Targetname, SystemLevelChoice) size(-1 -1 0, 1 1 1) color(80 150 225) studio("models/editor/overlay_helper.mdl") sphere(fademindist) sphere(fademaxdist) overlay() = info_overlay : 
+@PointClass base(Targetname, Angles, SystemLevelChoice) size(-1 -1 0, 1 1 1) color(80 150 225) studio("models/editor/overlay_helper_new.mdl") sphere(fademindist) sphere(fademaxdist) overlay() = info_overlay : 
 	"An entity that places an overlay on the world." 
 [
 	material(material) : "Material"
@@ -2685,8 +2689,8 @@
 	uv1(vector) readonly : "Overlay Point 2(Read-Only)"
 	uv2(vector) readonly : "Overlay Point 3(Read-Only)"
 	uv3(vector) readonly : "Overlay Point 4(Read-Only)"
-	fademindist(float) : "Start Fade Dist" : -1 : "Distance at which the overlay starts to fade (<0 = subtract from fademaxdist)."
-	fademaxdist(float) : "End Fade Dist" : 0 : "Maximum distance at which the overlay is visible (0 = don't fade out)."
+	fademindist(float) : "Start Fade Dist" : -1 : "Distance at which the entity starts to fade (<0 = subtract from fademaxdist)."
+	fademaxdist(float) : "End Fade Dist" : 0 : "Distance at which the entity is invisible (0 = don't fade out)."
 ]
 
 
@@ -2698,7 +2702,7 @@
 @PointClass color(255 0 0) base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = info_null : 
 	"An entity that's immediately removed on spawning. Useful as a spotlight target."
 [
-	obsolete(string) : "Technically works, but any target will do." : : " "
+	obsolete(string) readonly : "Technically works, but any target will do." : : " "
 ]
 
 @PointClass base(Targetname, Parentname, Angles) iconsprite("editor/info_target.vmt") = info_target : 
@@ -2842,7 +2846,7 @@
 //-------------------------------------------------------------------------
 // Lights
 //-------------------------------------------------------------------------
-@PointClass light() iconsprite("editor/light.vmt") base(Targetname, Light) sphere(_fifty_percent_distance) sphere(_zero_percent_distance) = light :
+@PointClass light() iconsprite("editor/light.vmt") base(HelperName, Targetname, Light) sphere(_fifty_percent_distance) sphere(_zero_percent_distance) = light :
 	"An invisible omnidirectional lightsource."
 [
 	target(target_destination) : "Entity To Point At" : : "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
@@ -2853,30 +2857,30 @@
 @PointClass base(Angles) iconsprite("editor/light_env.vmt") = light_environment : 
 	"Sets the color and angle of the light from the sun and sky."
 [
-	pitch(integer) : "Pitch" : 0 : "The downward pitch of the light from the sun. 0 is horizontal, -90 is straight down."
-	_light(color255) : "Brightness" : "255 255 255 200"
-	_ambient(color255) : "Ambient" : "255 255 255 20"
-	_lightHDR(color255) : "BrightnessHDR" : "-1 -1 -1 1"
-	_lightscaleHDR(float) : "BrightnessScaleHDR" : "0.7" : "Amount to scale the light by when compiling for HDR."
-	_ambientHDR(color255) : "AmbientHDR" : "-1 -1 -1 1"
-	_AmbientScaleHDR(float) : "AmbientScaleHDR" : "0.7" : "Amount to scale the ambient light by when compiling for hdr."
-	pitch(integer) : "Pitch" : 0 : "The downward pitch of the light from the sun. 0 is horizontal, -90 is straight down."
-	SunSpreadAngle(float) : "SunSpreadAngle" : 0 : "The angular extent of the sun for casting soft shadows. Higher numbers are more diffuse. 5 is a good starting value."
+	pitch(integer) 			: "Pitch" 				: 0 				: "The downward pitch of the light from the sun. 0 is horizontal, -90 is straight down."
+	_light(color255) 		: "Brightness"			: "255 255 255 200"	: "RGB and Brightness value of sunlight color."
+	_lightHDR(color255) 	: "Brightness HDR" 		: "-1 -1 -1 1"		: "RGB and Brightness value of sunlight color, when compiling for hdr. '-1 -1 -1 1' means it copies valies from 'Brightness'. L4D2 only has HDR!"
+	_lightscaleHDR(float) 	: "Brightness HDR Scale" 	: "0.7" 		: "Light Scale when compiling for HDR. L4D2 only has HDR!"
+	_ambient(color255) 		: "Ambient"				: "255 255 255 20"	: "RGB and Brightness value of indirect light color. (Like shadow of buildings)"
+	_ambientHDR(color255) 	: "Ambient HDR"			: "-1 -1 -1 1"		: "RGB and Brightness value of indirect light color. (Like shadow of buildings). '-1 -1 -1 1' means it copies valies from 'Brightness'. L4D2 only has HDR!"
+	_AmbientScaleHDR(float) : "Ambient HDR Scale" 	: "0.7" 			: "Ambient Light Scale when compiling for HDR. L4D2 only has HDR!"
+	pitch(integer) 			: "Pitch" 				: 0 				: "The downward pitch of the light from the sun. 0 is horizontal, -90 is straight down."
+	SunSpreadAngle(float) 	: "SunSpreadAngle" 		: 3 				: "The angular extent of the sun for casting soft shadows. Higher numbers are more diffuse. 5 is a good starting value."
 ]
 
 //Light_directional sprite
 @PointClass base(Angles) iconsprite("editor/new/light_directional.vmt") = light_directional : 
 	"A directional light with no falloff. Similar to sunlight in light_environment."
 [
-	pitch(integer) : "Pitch" : 0 : "The downward pitch of the light from the sun. 0 is horizontal, -90 is straight down."
-	_light(color255) : "Brightness" : "255 255 255 200"
-	_lightHDR(color255) : "BrightnessHDR" : "-1 -1 -1 1"
-	_lightscaleHDR(float) : "BrightnessScaleHDR" : "0.7" : "Amount to scale the light by when compiling for HDR."
-	SunSpreadAngle(float) : "SpreadAngle" : 0 : "The angular extent of the light for casting soft shadows. Higher numbers are more diffuse. 5 is a good starting value."
+	pitch(integer) 			: "Pitch" 				: 0 				: "The downward pitch of the light from the sun. 0 is horizontal, -90 is straight down."
+	_light(color255) 		: "Brightness" 			: "255 255 255 200"	: "RGB and Brightness value of light color."
+	_lightHDR(color255) 	: "Brightness HDR" 		: "-1 -1 -1 1"		: "RGB and Brightness value of light color, when compiling for hdr. '-1 -1 -1 1' means it copies valies from 'Brightness'. L4D2 only has HDR!"
+	_lightscaleHDR(float) 	: "Brightness HDR Scale" 	: "0.7" 		: "Light Scale when compiling for HDR. L4D2 only has HDR!"
+	SunSpreadAngle(float) 	: "SpreadAngle" 		: 3 				: "The angular extent of the light for casting soft shadows. Higher numbers are more diffuse. 5 is a good starting value."
 ]
 
 //light_spot with colored helper model
-@PointClass base(Targetname, Angles, Light) lightprop("models/editor/spot_white.mdl") lightcone() sphere(_fifty_percent_distance) sphere(_zero_percent_distance) = light_spot :
+@PointClass base(HelperName, Targetname, Angles, Light) lightprop("models/editor/spot_white.mdl") lightcone() sphere(_fifty_percent_distance) sphere(_zero_percent_distance) = light_spot :
 	"An invisible and directional spotlight."
 [
 	rendercolor(color255) : "Helper Model Color" : "0 246 180" : "This Colors just the helper model, to show you what color the light would have. Unfortunately it is not possible to use the values of the _light field. You'll have to manually copy the _light color numbers in here."
@@ -2892,7 +2896,7 @@
 @PointClass base(Targetname, Parentname, Angles) iconsprite("editor/light.vmt") sphere(distance) lightcone() size(-4 -4 -4, 4 4 4) = light_dynamic : 
 	"An invisible lightsource that changes in some way over time." 
 [
-	obsolete(string) : "Does not function at all." : : " "
+	obsolete(string) readonly : "Does not function at all." : : " "
 	target(target_destination) : "Entity to point at" : : "The name of an entity in the map that the dynamic light will point at."
 	_light(color255) : "Light color" : "255 255 255 200"
 	brightness(integer) : "Light brightness" : 0
@@ -2943,7 +2947,7 @@
 // Shadow control
 //-------------------------------------------------------------------------
 @PointClass base(Targetname) iconsprite("editor/shadow_control.vmt") = shadow_control : 
-	"An entity to control the shadows in the map."
+	"An entity to control the entity shadows in the map. Such as players, weapons and dynamic props."
 [
 	angles(string) : "Pitch Yaw Roll (Y Z X)" : "80 30 0" : "This is the shadow direction. Pitch is rotation around the Y axis, yaw is the rotation around the Z axis, and roll is the rotation around the X axis."
 
@@ -3077,7 +3081,7 @@
 @SolidClass color(255 0 0) base(obsolete, Targetname, Parentname, Origin) = func_water_analog :
 	"A water brush entity that moves linearly along a given distance, in a given direction"
 [
-	obsolete(string) : "this does not work properly" : : " "
+	obsolete(string) readonly : "this does not work properly" : : " "
 	movedir(angle) : "Move Direction (Pitch Yaw Roll)" : "0 0 0" : "The direction the water will move, when told to 'Open'."
 	startposition(float) : "Start Position" : 0 : "Position of the water brush when spawned. The range is a value between 0.0 and 1.0, where 0 is the starting position and 1 is the starting position + (move direction * move distance)."	
 	speed(integer) : "Speed" : 100 : "The speed that the water brush moves, in inches per second."
@@ -3772,7 +3776,7 @@
 	sides(sidelist) : "Brush faces": : "(Optional) Brush faces which will be forced to use this cubemap."
 	radius(string) : "Helper radius" : "128" : "Use the radius as a helper to show the influence of a cubemap. This radius will help placing cubemaps in hallways and around doors, to make sure that the radius drawn doesn't clip through the wall on either side. Otherwise the cubemaps of hallways may show up outside of the hallways."
 	targetname(target_source) : "Helper Name" : : "For when you want to give a cubemap a name. I.E: Some lowres Cube8 for lowres 8x8 cubemaps, Cube512 for highres 512x512 cubemaps. Will not have any effect ingame."
-	origin(origin) : "Helper Origin (DO NOT CHANGE)" : : "Compiled cubemap textures will have the origin as name. This field here shows the origin. DO NOT CHANGE THIS FIELD! changing this field will move the cubemap."
+	origin(origin) readonly : "Helper Origin (DO NOT CHANGE)" : : "Compiled cubemap textures will have the origin as name. This field here shows the origin. DO NOT CHANGE THIS FIELD! changing this field will move the cubemap."
 
 ]
 
@@ -3919,7 +3923,7 @@
 @PointClass base(Targetname,Angles,Parentname)  frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera.mdl") = point_viewcontrol : 
 	"A camera entity that controls the player's view. While it's active, the player will see out of the camera." 
 [
-	obsolete(string) : "Obsolete" : : "Use point_viewcontrol_survivor for individual survivors or point_viewcontrol_multiplayer for all survivors at once"
+	obsolete(string) readonly : "Obsolete" : : "Use point_viewcontrol_survivor for individual survivors or point_viewcontrol_multiplayer for all survivors at once"
 	rendercolor(color255) : "Color (R G B)" : "0 243 229" 
 	z_far(string) 		: 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
 ]
@@ -5168,6 +5172,7 @@
 //Prop_static with with "disablevertexlighting" disabled. also adds description to skin and disableshadows
 @BaseClass base(Angles, SystemLevelChoice) = prop_static_base
 [
+	targetname(target_source) : "Helper Name" : : "Useful when using 'entity report' to find entities grouped by name. Has absolutely no use outside of hammer."
 	model(studio) : "World Model"
 	skin(integer) : "Skin" : 0 : "Some models have multiple skingroups. Set this to a number other than 0 to use that skin instead of the default."
 	solid(choices) : "Collisions" : 6 =
@@ -5364,7 +5369,7 @@
 ]
 
 //Color change only
-@PointClass base(BasePropPhysics, BaseFadeProp) studioprop() sphere(fademindist) sphere(fademaxdist) color(242 255 0) = prop_physics_override :
+@PointClass base(BasePropPhysics, BaseFadeProp, RenderFields) studioprop() sphere(fademindist) sphere(fademaxdist) color(242 255 0) = prop_physics_override :
 	"A prop that physically simulates as a single rigid body. It can be constrained to other physics objects using hinges "+
 	"or other constraints. It can also be configured to break when it takes enough damage. Health can be overridden on this version."
 [
@@ -5551,6 +5556,7 @@
 	"is not clipped to detail brushes, so if you have a small detail clump attached to a wall, the wall won't be cut up by the detail brush."+
 	"func_detail is great for high-frequency brush geometry that's visual detail only. It is also ideal for reducing map VIS time."
 [
+	Tip(string) : "Measurement tips"	: : "Player Height Standing	= 72 units		Player Height Crouching	= 56 units		Player Width:		= 33 units		Player Jump Height		= 56 units		Max Obstacle Height	= 18 units		Eye Height Standing	= 62 units		Eye Height Crouching	= 44 units		CI Max Climb Height		= 180 units"
 ]
 
 @SolidClass color(180 180 0) = func_viscluster : 
@@ -5561,7 +5567,7 @@
 @SolidClass color(255 0 0) base(obsolete, Targetname, Parentname) = func_illusionary : 
 	"Legacy support. Use func_brush instead." 
 [
-	obsolete(string) : "Use Func_brush" : : " "
+	obsolete(string) readonly : "Use Func_brush" : : " "
 ]
 
 @SolidClass base(Targetname, Parentname) = func_precipitation : 
@@ -5602,7 +5608,7 @@
 @SolidClass color(255 0 0) base(obsolete, func_wall) = func_wall_toggle : 
 	"Legacy support. Use func_brush instead." 
 [
-	obsolete(string) : "Use Func_brush" : : " "
+	obsolete(string) readonly : "Use Func_brush" : : " "
 ]
 
 
@@ -6230,7 +6236,7 @@
 	[
 		1  : "Enabled"				: 1
 	]
-	obsolete(string) : "Doesn't work." : : "This entity is reused as the player flashlight. You can only have on on a map. which is your flashlight"
+	obsolete(string) readonly : "Doesn't work." : : "This entity is reused as the player flashlight. You can only have on on a map. which is your flashlight"
 	target(target_destination)	: "target" : : "target"	
 	lightfov(float)				: "FOV" : "90.0" : "FOV"
 	nearz(float)				: "NearZ" : "4.0" : "Near Z for projected texture"
@@ -6272,7 +6278,7 @@
 	"NOTE: currently, you cannot use reflective glass in scenes with water, and you can only " +
 	"have 1 reflective glass in your view frustum ( + pvs ) at a time."
 [
-	obsolete(string) : "No idea if it works as intended." : : " "
+	obsolete(string) readonly : "No idea if it works as intended." : : " "
 ]
 
 @PointClass base(Targetname) = env_particle_performance_monitor : 
@@ -6616,7 +6622,7 @@
 	input Disable(void) : "Disable the point_viewcontrol_multiplayer, and stop controlling the players' view."
 	input StartMovement(void) : "Start the movement to the target entity."
 	rendercolor(color255) : "Color (R G B)" : "248 139 35" 
-	z_far(string) 		: 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
+	z_far(string) readonly : 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
 ]
 @PointClass base(Targetname,Angles,Parentname) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_survivor.mdl") = point_viewcontrol_survivor : 
 	"A camera entity that controls the player's view. Travels from camera position to a first-person view on input." 
@@ -6635,7 +6641,7 @@
 	input Disable(void) : "Disable the point_viewcontrol_survivor, and stop controlling the player's view."
 	input StartMovement(void) : "Start the movement to first-person view."
 	rendercolor(color255) : "Color (R G B)" : "235 33 235" 
-	z_far(string) 		: 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
+	z_far(string) readonly : 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
 ]
 @PointClass base(Targetname,Angles,Parentname) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_deathfall.mdl") = point_deathfall_camera : 
 	"A camera entity that players falling to their deaths look through." 
@@ -6643,7 +6649,7 @@
 	fov(float) : "Field of view" : "90" : "Player FOV"
 	fov_rate(float) : "Seconds to reach FOV target" : "1.0" : "Amount of time it should take to reach the specified FOV"
 	rendercolor(color255) : "Color (R G B)" : "85 92 141" 
-	z_far(string) 		: 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
+	z_far(string) readonly : 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
 ]
 
 //-------------------------------------------------------------------------
@@ -7391,7 +7397,7 @@
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = prop_minigun :
 	"Old L4D1 gatling entity, but is used as prop_mounted_machineun in L4D2. Use prop_minigun_l4d1 instead."
 [
-	obsolete(string) : "!!!! Use prop_minigun_l4d1 !!!!" : : "This entity is obsolete in L4D2 and spawns as prop_mounted_machineun instead."
+	obsolete(string) readonly : "!!!! Use prop_minigun_l4d1 !!!!" : : "This entity is obsolete in L4D2 and spawns as prop_mounted_machineun instead."
 ]
 
 
@@ -7589,7 +7595,7 @@
 @PointClass color(255 0 0) base(obsolete,Targetname, Angles) iconsprite("editor/obsolete.vmt")= trigger_standoff :
 	"use 'trigger_finale'"
 [
-	obsolete(string) : "use trigger_finale" : : " "
+	obsolete(string) readonly : "use trigger_finale" : : " "
 ]
 
 @SolidClass = info_changelevel : 
@@ -7617,7 +7623,7 @@
 @SolidClass color(255 0 0) base(obsolete, info_changelevel) = trigger_changelevel : 
 	"use info_changelevel"
 [
-	obsolete(string) : "USE INFO_CHANGELEVEL" : : " "
+	obsolete(string) readonly : "USE INFO_CHANGELEVEL" : : " "
 	obsolete2(string) : "surrogates to info_changelevel" : : " "
 ]
 
@@ -7673,37 +7679,52 @@
 //weapon_spawn_single with better listing of keyvalues. such as distinguishing skin and weaponskin.
 @BaseClass color(0 255 0) base(Parentname, Global, Targetname, Angles, Studiomodel) = WeaponSpawnSingle
 [
-	disableshadows(choices) : "Disable Shadows" : 1 : "Used to disable dynamic shadows on this entity. Disabled by default, because often times shadows of gun on tables are found on the floor. Which looks weird" =
-	[
-		0 : "No"
-		1 : "Yes"
-	]
-	skin(integer) 		: "Skin               (Worldmodel)" : 0 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
-	weaponskin(integer) : "Weapon Skin (Viewmodel)" : -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
-	glowrange(float) : "Glow Range" : 0 : "Set a custom glow range for this spawner. 0 means use the default range."
-
-	solid(choices) : "Collisions" : 6 =
+	weaponskin(integer) : "Weapon Skin (Viewmodel)" 		: -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
+	skin(integer) 		: "Skin               (Worldmodel)"	: 0  : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
+	glowrange(float) 	: "Glow Range" 						: 0  : "Set a custom glow range for this spawner. 0 means use the default range."
+	fademindist(float) 	: "Start Fade Dist"					: -1 : "Distance at which the weapon starts to fade. Even if dropped after being used. (<0 = subtract from fademaxdist)."
+	fademaxdist(float) 	: "End Fade Dist" 					: 0  : "Distance at which the weapon is invisible. Even if dropped after being used. (0 = don't fade out)."
+	solid(choices) 		: "Collisions" 						: 6 =
 	[
 		0: "Not Solid"
 		2: "Use Bounding Box"
 		6: "Use VPhysics"
 	]
+	disableshadows(choices) : "Disable Shadows" : 1 : "Used to disable dynamic shadows on this entity. Disabled by default, because often times shadows of gun on tables are found on the floor. Which looks weird" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
 
 	spawnflags(Flags) =
 	[
-		1 : "Enable Physics" : 0
-		2 : "Must Exist" : 0
-		8 : "Infinite items (overrides count)" : 0
+		1 : "Constrain to spawn position (don't drop to the ground)" : 0 
 	]
 ]
 
-@BaseClass color(0 0 200) base(WeaponSpawnSingle) = WeaponSpawn
+@BaseClass color(0 0 200) base(Parentname, Global, Targetname, Angles, Studiomodel) = WeaponSpawn
 [
-	count(integer) : "Count" : 5 : "Max number of weapons given before disappearing."
-	
+	count(integer) 		: "Count" 							: 5  : "How many weapons this spawnpoint gives before disappearing. Check the 'Infinite Items' Flag for having unlimited drops."
+	skin(integer) 		: "Skin               (Worldmodel)"	: 0  : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
+	weaponskin(integer) : "Weapon Skin (Viewmodel)" 		: -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
+	glowrange(float) 	: "Glow Range" 						: 0  : "Set a custom glow range for this spawner. 0 means use the default range."
+	solid(choices) 		: "Collisions" 						: 6 =
+	[
+		0: "Not Solid"
+		2: "Use Bounding Box"
+		6: "Use VPhysics"
+	]
+	disableshadows(choices) : "Disable Shadows" : 1 : "Used to disable dynamic shadows on this entity. Disabled by default, because often times shadows of gun on tables are found on the floor. Which looks weird" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
 	spawnflags(Flags) = 
 	[
-		4 : "Absorb any dropped weapon type" : 0
+		1 : "Enable Physics" : 0
+		4 : "Absorb dropped weapons. (Weapon you previously held will be deleted, if this is set)" : 0
+		2 : "Must Exist" : 0
+		8 : "Infinite items (overrides count)" : 0
 	]
 ]
 //CARRIABLES 
@@ -7897,7 +7918,7 @@
 [
 
 	melee_weapon(string) : "Melee Weapon" : "any" : "Options: 'Any' or a comma-delimited string of melee weapon script names. Leave blank for none.                                                            Valid names are: Golfclub, Fireaxe, Frying_pan, Machete, Baseball_bat, Crowbar, Cricket_bat, Tonfa, Katana, Electric_guitar, Knife, Pitchfork, Shovel - Or the  weapon script name of a custom melee weapon."
-	count(integer) : "Count" : 5 : "Max number of weapons given before disappearing."
+	count(integer) : "Count" : 5 : "How many weapons this spawnpoint gives before disappearing. Check the 'Infinite Items' Flag for having unlimited drops."
 //	model(studio) : "Helper Model" : "models/weapons/melee/w_crowbar.mdl" : "ONLY for visual aid. Actual model in game is set by the 'Melee Weapon' String"
 	model(choices) : "Helper Model" : "models/weapons/melee/w_crowbar.mdl" : "Visual aid. Does not determine what spawns here." =
   	[
@@ -7947,7 +7968,7 @@
 	[
 		1 : "Enable Physics" : 0
 		2 : "Must Exist" : 0
-		4 : "Absorb any dropped weapon type (will NOT drop previously held weapon to the ground when set to 1)" : 0
+		4 : "Absorb dropped weapons. (Weapon you previously held will be deleted, if this is set)" : 0
 		8 : "Infinite items (overrides count)" : 0
 	]	
 ]
@@ -8058,11 +8079,11 @@
 
 	spawnflags(Flags) = 
 	[
-		1 : "Enable Physics" : 0
+//		1 : "Enable Physics" : 0 //redundant. Already does so by default, unless flag 16 is set.
 		2 : "Must Exist" : 0
-		4 : "Absorb any dropped weapon type (will NOT drop previously held weapon to the ground when set to 1)" : 0
+		4 : "Absorb dropped weapons. (Weapon you previously held will be deleted, if this is set)" : 0
 		8 : "Infinite items (overrides count)" : 0
-		16 : "Constrain to spawn position (don't drop to the ground)" : 0
+		16 : "Constrain to spawn position. Makes Spawner ignore physics, forcing the gun to stay where it is." : 0
 	]
 
 	no_cs_weapons(choices) : "No CS Weapons" : 0 : "When selecting 'any' weapon, set this to true if you do not want CS weapons." =
@@ -8070,7 +8091,7 @@
 		0 : "No"
 		1 : "Yes"
 	]		
-	count(integer) : "Count" : 5 : "Max number of weapons given before disappearing."
+	count(integer) : "Count" : 5 : "How many weapons this spawnpoint gives before disappearing. Check the 'Infinite Items' Flag for having unlimited drops."
 
 	skin(integer) 		: "Skin               (Worldmodel)" : 0 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
 	weaponskin(integer) : "Weapon Skin (Viewmodel)" : -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
