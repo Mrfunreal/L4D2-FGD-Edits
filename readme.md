@@ -278,6 +278,7 @@ Here are images of *some* abilities that have been added or changed.
 <p>More specific tool textures.</p>
 <img src="pictures/tooltextures.png"/>
 <p>Blend Textures displaying what detail they use.</p>
+Doesn't work in Hammer++!
 <img src="pictures/blendtextures.jpg"/>
 <p>Optional Generic helper models for randomized weapon spawns.</p>
 <p>More helper models, each camera entity got a different color. Orange Freeman there is info_teleport_destination.</p>
