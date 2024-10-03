@@ -1176,7 +1176,7 @@
 		1 : "Yes"
 	]
 
-	pitch(integer) : "Pitch" : 0
+	pitch(integer) : "Pitch" : 0 : "The downward pitch of the light from the sun. 0 is horizontal, -90 is straight down. This value sets the pitch position of the sun. It overrides the Pitch in Pitch Yaw Roll, even if left at 0."
 
 	rendercolor(color255) : "Sun Color (R G B)" : "100 80 80"
 	overlaycolor(color255) : "Overlay Color (R G B)" : "0 0 0" : "A value of 0 0 0 will act the old way."
@@ -1363,6 +1363,7 @@
 	input SetTonemapScale(void) : "Set the player's tonemap scale. It should be a value between 0 and 2, where 0 is the eyes fully closed, 1 is use the unchanged autoexposure (default), and 2 is the eye fully wide open."
 	input BlendTonemapScale(string) : "Blend from the player's current tonemap scale to a new one. The parameter syntax is as follows: <target tonemap scale> <blend duration>. For example: '0.5 10' would blend from the current tonemap scale to 0.5 over a period of 10 seconds. Tonemap scale is a value between 0 and 2, where 0 is the eyes fully closed, 1 is use the unchanged autoexposure (default), and 2 is the eye fully wide open."
 	input UseDefaultAutoExposure(void) : "Revert to using the default tonemap auto exposure."
+	input UseDefaultBloomScale(void) : "Revert to using the default bloom scale."
 	input SetAutoExposureMin(float) : "Set a custom tonemap auto exposure minimum."
 	input SetAutoExposureMax(float) : "Set a custom tonemap auto exposure maximum."
 	input SetBloomScale(float) : "Set a custom bloom scale."
@@ -2864,23 +2865,26 @@
 	"Sets the color and angle of the light from the sun and sky."
 [
 	pitch(integer) 			: "Pitch" 				: 0 				: "The downward pitch of the light from the sun. 0 is horizontal, -90 is straight down."
-	_light(color255) 		: "Brightness"			: "255 255 255 200"	: "RGB and Brightness value of sunlight color."
-	_lightHDR(color255) 	: "Brightness HDR" 		: "-1 -1 -1 1"		: "RGB and Brightness value of sunlight color, when compiling for hdr. '-1 -1 -1 1' means it copies valies from 'Brightness'. L4D2 only has HDR!"
-	_lightscaleHDR(float) 	: "Brightness HDR Scale" 	: "0.7" 		: "Light Scale when compiling for HDR. L4D2 only has HDR!"
-	_ambient(color255) 		: "Ambient"				: "255 255 255 20"	: "RGB and Brightness value of indirect light color. (Like shadow of buildings)"
-	_ambientHDR(color255) 	: "Ambient HDR"			: "-1 -1 -1 1"		: "RGB and Brightness value of indirect light color. (Like shadow of buildings). '-1 -1 -1 1' means it copies valies from 'Brightness'. L4D2 only has HDR!"
+	_light(color255) 		: "Brightness"			: "255 255 255 200"	: "Sun Light color and brightness."
+	_lightHDR(color255) 	: "Brightness HDR" 		: "-1 -1 -1 1"		: "Sun Light color and brightness, when compiling for hdr. '-1 -1 -1 1' means it copies valies from 'Brightness'. L4D2 only has HDR!"
+	_lightscaleHDR(float) 	: "Brightness HDR Scale" 	: "0.7" 		: "Sun Light Scale when compiling for HDR. L4D2 only has HDR!"
+	_ambient(color255) 		: "Ambient"				: "255 255 255 20"	: "Ambient color and brightness. (The spots where the sun can not reach, like shadows)"
+	_ambientHDR(color255) 	: "Ambient HDR"			: "-1 -1 -1 1"		: "Ambient color and brightness. (The spots where the sun can not reach, like shadows). '-1 -1 -1 1' means it copies valies from 'Brightness'. L4D2 only has HDR!"
 	_AmbientScaleHDR(float) : "Ambient HDR Scale" 	: "0.7" 			: "Ambient Light Scale when compiling for HDR. L4D2 only has HDR!"
 	pitch(integer) 			: "Pitch" 				: 0 				: "The downward pitch of the light from the sun. 0 is horizontal, -90 is straight down."
 	SunSpreadAngle(float) 	: "SunSpreadAngle" 		: 3 				: "The angular extent of the sun for casting soft shadows. Higher numbers are more diffuse. 5 is a good starting value."
+	targetname(target_source) : "Name (Read warning!)" : : "ONLY set this value if you want to use the 'Initially dark' flag."
+	spawnflags(Flags) = [ 1 : "Initially dark - must set targetname to use this." : 0 ]
+
 ]
 
 //Light_directional sprite
 @PointClass base(Angles) iconsprite("editor/new/light_directional.vmt") = light_directional : 
-	"A directional light with no falloff. Similar to sunlight in light_environment."
+	"A directional light with no falloff. Similar to sunlight in light_environment, except multiple can be used, in different colors, pointing into different directions."
 [
 	pitch(integer) 			: "Pitch" 				: 0 				: "The downward pitch of the light from the sun. 0 is horizontal, -90 is straight down."
-	_light(color255) 		: "Brightness" 			: "255 255 255 200"	: "RGB and Brightness value of light color."
-	_lightHDR(color255) 	: "Brightness HDR" 		: "-1 -1 -1 1"		: "RGB and Brightness value of light color, when compiling for hdr. '-1 -1 -1 1' means it copies valies from 'Brightness'. L4D2 only has HDR!"
+	_light(color255) 		: "Brightness" 			: "255 255 255 200"	: "Light color and brightness (acts like another sun)."
+	_lightHDR(color255) 	: "Brightness HDR" 		: "-1 -1 -1 1"		: "Light color and brightness (acts like another sun), when compiling for hdr. '-1 -1 -1 1' means it copies valies from 'Brightness'. L4D2 only has HDR!"
 	_lightscaleHDR(float) 	: "Brightness HDR Scale" 	: "0.7" 		: "Light Scale when compiling for HDR. L4D2 only has HDR!"
 	SunSpreadAngle(float) 	: "SpreadAngle" 		: 3 				: "The angular extent of the light for casting soft shadows. Higher numbers are more diffuse. 5 is a good starting value."
 ]
@@ -2998,8 +3002,8 @@
 		0 : "No"
 		1 : "Yes"
 	]
-	minfalloff(float) 		: "OBSOLETE - Lookup Falloff Start"	: "0.0"						: "Must be  0, else This CC will not work! - This is the distance to the start of the falloff region (-1 = everywhere)."
-	maxfalloff(float) 		: "OBSOLETE - Lookup Falloff End"	: "-1" 						: "Must be -1, else This CC will not work! - This is the distance to the end of the falloff region (-1 = everywhere)."
+	minfalloff(float) readonly : "OBSOLETE - Lookup Falloff Start"	: "0.0"						: "Must be  0, else This CC will not work! - This is the distance to the start of the falloff region (-1 = everywhere)."
+	maxfalloff(float) readonly : "OBSOLETE - Lookup Falloff End"	: "-1" 						: "Must be -1, else This CC will not work! - This is the distance to the end of the falloff region (-1 = everywhere)."
 
 	// Inputs
 	input SetFadeInDuration(float) 	: "Sets the 'fadeInDuration' variable, used to fade cc lookup usage when entity is enabled."
@@ -3269,9 +3273,9 @@
 [
 	movedir(angle) : "Move Direction (Pitch Yaw Roll)" : "0 0 0" : "Specifies the direction of motion to move when the button is used."
 	speed(integer) : "Speed" : 5 : "The speed that the button moves, in inches per second."
-	health(integer) : "Health (Obsolete)" : 0 : "Legacy method of specifying whether or not the button can be shot to activate it. Use the 'Damage Activates' spawnflag instead."
+	health(integer) readonly : "Health (Obsolete)" : 0 : "Legacy method of specifying whether or not the button can be shot to activate it. Use the 'Damage Activates' spawnflag instead."
 	lip(integer) : "Lip" : 0 : "The amount, in inches, of the button to leave sticking out of the wall it recedes into when pressed. Negative values make the button recede even further into the wall."
-	master(string) : "Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this button cannot be pressed."
+	master(string)  readonly : "Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this button cannot be pressed."
 	glow(target_destination) : "Glow Entity" : : "The name of an entity that will get the +use glow for this button."
 	sounds(choices) : "Sounds" : 0 = 
 	[
@@ -3323,13 +3327,13 @@
 	wait(integer) : "Delay Before Reset (-1 stay)" : 3 : "Amount of time, in seconds, after the button has been pressed before it returns to the starting position. Once it has returned, it can be used again. If the value is set to -1, the button never returns."
 	spawnflags(flags) =
 	[
-		1: "Don't move" : 0
-		32: "Toggle" : 0
-		256: "Touch Activates": 0
-		512: "Damage Activates": 0
-		1024: "Use Activates" : 1
-		2048: "Starts locked" : 0
-		4096: "Sparks" : 0
+		1: 		"Don't move button brush" 												: 0
+		32: 	"Toggle - Fires 'OnIn' when pressed, then 'OnOut' when pressed again" 	: 0
+		256: 	"Touch Activates"														: 0
+		512: 	"Damage Activates"														: 0
+		1024: 	"Use Activates" 														: 1
+		2048: 	"Starts locked" 														: 0
+		4096: 	"Sparks" 																: 0
 	]
 	locked_sound(choices) : "Locked Sound" : 0 : "Sound played when the player tries to use the button, and fails because it's locked." = 
 	[
@@ -3386,9 +3390,9 @@
 @SolidClass base(Parentname, Global, Targetname, Origin, Angles, Button, EnableDisable) = func_rot_button : 
 	"A brush entity that's designed to be used for a rotating player-useable button. When used by the player, it rotates to a pressed position."
 [
-	master(string) : "Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this button cannot be used."
+	master(string) readonly : "Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this button cannot be used."
 	speed(integer) : "Speed" : 50 : "The speed that the button rotates, in degrees per second."
-	health(integer) : "Health (Obsolete)" : 0 : "Legacy method of specifying whether or not the button can be shot to activate it. Use the 'Damage Activates' spawnflag instead."
+	health(integer) readonly : "Health (Obsolete)" : 0 : "Legacy method of specifying whether or not the button can be shot to activate it. Use the 'Damage Activates' spawnflag instead."
 	sounds(choices) : "Sounds" : 21 = 
 	[
 		0: "None (Silent)"
@@ -3420,7 +3424,7 @@
 	"A brush entity that's designed to be used for rotating wheels, where the player can rotate them to arbitrary positions before stopping."
 [
 	speed(integer) : "Speed (deg/sec)" : 50 : "The amount, in degrees, that the wheel turns per second."
-	master(string) : "Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this button cannot be used."
+	master(string) readonly : "Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this button cannot be used."
 	glow(target_destination) : "Glow Entity" : : "The name of an entity that will get the +use glow for this button."
 	sounds(choices) : "Sounds" : 0 = 
 	[
@@ -3488,7 +3492,7 @@
 @BaseClass base(Parentname, Global, Targetname, RenderFields, Shadow) = Door
 [
 	speed(integer) : "Speed" : 100 : "The speed at which the door moves."
-	master(string) : "Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this button cannot be used."
+	master(string) readonly : "Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this button cannot be used."
 	noise1(sound) : "Start Sound" : : "Sound to play when the door starts moving."
 	noise2(sound) : "Stop Sound" : : "Sound to play when the door stops moving."
 	startclosesound(sound) : "Start Close Sound" : : "(Optional) Sound to play when the door starts closing."
@@ -3667,7 +3671,7 @@
 	soundmoveoverride(sound) 		: "Moving Sound" 		: 				: "Sound when the door starts to move."
 	soundopenoverride(sound) 		: "Fully Open Sound" 	: 				: "Sound when door reached its open position."
 	soundcloseoverride(sound) 		: "Fully Closed Sound" 	: 				: "Sound when door reached its closed position."
-	rendercolor(color255) 			: "Color (R G B)" 		: "255 255 255"	: "Tint the entire damn door, if ya want."
+	rendercolor(color255) 			: "Color (R G B)" 		: "255 255 255"	: "Tint the whole model. You can color only parts of a model by using  '$blendtintbybasealpha 1' in the materials of a model. More info on the VDC."
 
 //NEW BEGIN
 	renderamt(integer) : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
@@ -3927,7 +3931,7 @@
 	"A camera entity that controls the player's view. While it's active, the player will see out of the camera." 
 [
 	obsolete(string) readonly : "Obsolete" : : "Use point_viewcontrol_survivor for individual survivors or point_viewcontrol_multiplayer for all survivors at once"
-	rendercolor(color255) : "Color (R G B)" : "0 243 229" 
+	rendercolor(color255) : "Helper Color (R G B)" : "0 243 229" 
 	z_far(string) 		: 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
 ]
 
@@ -5195,7 +5199,7 @@
 												 " This scale factor gives you some control over the fade. Using 0 here turns off the forcible fades." +
 												 " Numbers smaller than 1 cause the prop to fade out at further distances, and greater than 1 cause it to fade out at closer distances."
 	lightingorigin(target_destination) : "Lighting Origin" : "" : "Select an info_lighting to specify a location to sample lighting from, instead of using this entity's origin."
-	disablevertexlighting(choices) : "Disable Vertex lighting" : 0 = //changes here
+	disablevertexlighting(choices) : "Disable Vertex lighting" : 0 : "Disabling vertex lighting causes the model to have the same lighting across it. Which may look out of place on larger props, but can speed up vrad passes on small props and foliage." = //changes here
 	[
 		0 : "No"
 		1 : "Yes"
@@ -5211,7 +5215,7 @@
 		1 : "Yes"
 	]
 	renderamt(integer) : "Alpha" : 255 : "Alpha of the fade, where 0 = fully transparent and 255 = fully opaque." 
-	rendercolor(color255) : "Color (R G B)" : "255 255 255"
+	rendercolor(color255) : "Color (R G B)" : "255 255 255" : "Tint the whole model. You can color only parts of a model by using  '$blendtintbybasealpha 1' in the materials of a model. More info on the VDC."
 ]
 
 @BaseClass base(Modelscale, Parentname, Global, Angles, Studiomodel, BreakableProp, RenderFields, Glow) = prop_dynamic_base
@@ -5265,7 +5269,7 @@
 	lightingorigin(target_destination) : "Lighting Origin" : "" : "Select a path_corner entity to specify a location to sample lighting from, instead of using this entity's origin."
 
 	renderamt(integer) : "Alpha" : 255 : "Alpha of the fade, where 0 = fully transparent and 255 = fully opaque." 
-	rendercolor(color255) : "Color (R G B)" : "255 255 255"
+	rendercolor(color255) : "Color (R G B)" : "255 255 255" : "Tint the whole model. You can color only parts of a model by using  '$blendtintbybasealpha 1' in the materials of a model. More info on the VDC."
 	updatechildren(choices) : "Update children" : 0 : "Update touches for any children that are attached to attachment points as this prop animates. "+
 		"This allows SetParentAttached triggers or func_brushes to touch properly." =
 	[
@@ -5647,7 +5651,7 @@
 //func_fish_pool helper shpere
 @PointClass sphere(max_range) = func_fish_pool : "Creates a school of interactive fish that swim near this entity."
 [
-	model(studio) : "World model" : "models/Junkola.mdl"
+	model(studio) : "World model" : "models/Junkola.mdl" : "Warning, too many fish can cause dynamic entity lighting to go wild. You should make sure your fish models have a LOD set up that will remove them from view when far enough away, as the fish entities have no fademin/max distance settings available!"
 	fish_count(integer) : "Fish Count" : 10 : "Number of Fish in this Pool"
 	max_range(float) : "Max Range" : 150 : "How far away a Fish can wander (max 255)"
 ]
@@ -5916,7 +5920,7 @@
 @SolidClass base(Trigger, Targetname, BaseDamageTypeNew) = trigger_hurt :
 	"A trigger volume that damages entities that touch it."
 [
-	master(string) : "Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this entity will not activate."
+	master(string) readonly : "Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this entity will not activate."
 	damage(integer) : "Damage" : 0 : "HALF of the damage value set will be applied EVERY HALF-SECOND.               Negative values will heal!               See also 'Damage Model' for extra details on how damage can be dealt."
 	damagecap(integer) : "Damage Cap" : 20 : "Maximum damage dealt per second. This field is only used if you select the Doubling w/Forgiveness damage model, via the spawnflag."
 
@@ -6624,7 +6628,7 @@
 	input Enable(void) : "Enable the point_viewcontrol_multiplayer, and start controlling the players' view."
 	input Disable(void) : "Disable the point_viewcontrol_multiplayer, and stop controlling the players' view."
 	input StartMovement(void) : "Start the movement to the target entity."
-	rendercolor(color255) : "Color (R G B)" : "248 139 35" 
+	rendercolor(color255) : "Helper Color (R G B)" : "248 139 35" 
 	z_far(string) readonly : 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
 ]
 @PointClass base(Parentname, Targetname, Angles) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_survivor.mdl") = point_viewcontrol_survivor : 
@@ -6643,7 +6647,7 @@
 	input Enable(string) : "Enable the point_viewcontrol_survivor, and start controlling the player's view. Pass a survivor name to control that survivor's view.(ie '!zoey')"
 	input Disable(void) : "Disable the point_viewcontrol_survivor, and stop controlling the player's view."
 	input StartMovement(void) : "Start the movement to first-person view."
-	rendercolor(color255) : "Color (R G B)" : "235 33 235" 
+	rendercolor(color255) : "Helper Color (R G B)" : "235 33 235" 
 	z_far(string) readonly : 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
 ]
 @PointClass base(Parentname, Targetname, Angles) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_deathfall.mdl") = point_deathfall_camera : 
@@ -6651,7 +6655,7 @@
 [
 	fov(float) : "Field of view" : "90" : "Player FOV"
 	fov_rate(float) : "Seconds to reach FOV target" : "1.0" : "Amount of time it should take to reach the specified FOV"
-	rendercolor(color255) : "Color (R G B)" : "85 92 141" 
+	rendercolor(color255) : "Helper Color (R G B)" : "85 92 141" 
 	z_far(string) readonly : 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
 ]
 
