@@ -1,15 +1,16 @@
 
 # L4D2-FGD-Edits
-This set of FGD edits make mapping nicer for Left 4 Dead 2.
-In short many entities in hammer are either difficult to use because it has no documentation, missing keyvalues, obsolete keyvalues or jsut requires you to look up the VDC to figure out how to use the entities.
-I took it upon myself to fix all of that.
+This set of FGD edits make mapping nicer for Left 4 Dead 2.<br>
+Varioue entities in L4D2's hammer editor are missing keyvalues, while other entities are missing entirely. Other times, there is just no documentation on what keyvalues do.<br>
+This repo fixes that. All important keyvalues i could find have been added, documented, altered, while more things have been changed that are merely quality of life.<br>
 
-As an example: "Worldspawn" would define the music post string, skybox name and how the witch behaves (Sitting/Walking).
-However, the entity does not tell you which music post string even exist, so you'd need to manually enter the text, or open the VDC to copy paste a valid string.
-There's also no skybox texture list, so you'd need to check the VDC for that too.
-The "timeofday" keyvalue lists four day times, but what it really does is make the witch sit down when its afternoon. But that info is not mentioned anywhere in hammer either.
-It also contains "WorldIsCold" which does absolutely nothing.
-My FGD edits fix all of this. You get drowdpwn menus for picking skybox name, music post string, witch behaviour and removes the useless TimeOfDay.
+As an example: "Worldspawn" would define the music post string, skybox name and how the witch behaves (Sitting/Walking).<br>
+Yet the music post string and the skybox value have no drop down list, so you have to go look what names you could use to begin with.<br>
+It also has a "Time Of Day" value which has four options, and makes the witch walk when set to afternoon. How the hell would you know that "Afternoon" means the witch walks?<br>
+
+My FGD Fixes all of this weird nonsense and makes hammer nicer to use.<br>
+Along with adding new tool textures for every type of brush entity like func_detail_blocker or all various versions of triggers.<br>
+It's also compatible to be used along Hammer++.<br>
 
 ⚠️ **Warning:** You must change the default entity from info_survivor_position to info_player_start, or another entitiy without a model. Swapping from any entity with a model to an entity that now got a helper model -when it previously did not have one- can cause crashes.
 
