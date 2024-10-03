@@ -1,18 +1,19 @@
 
 # L4D2-FGD-Edits
-This set of FGD edits make mapping nicer for Left 4 Dead 2.<br>
-Varioue entities in L4D2's hammer editor are missing keyvalues, while other entities are missing entirely. Other times, there is just no documentation on what keyvalues do.<br>
-This repo fixes that. All important keyvalues i could find have been added, documented, altered, while more things have been changed that are merely quality of life.<br>
+This set of FGD edits makes map creation for Left 4 Dead 2 a lot smoother.<br>
+In L4D2's Hammer editor, some entities are missing key values, while others aren't there at all. On top of that, there's often no clear documentation explaining what these key values do.<br>
+This project fixes that. I've added, documented, and tweaked all the important key values I could find, while also improving the editor with various quality-of-life changes.<br>
 
-As an example: "Worldspawn" would define the music post string, skybox name and how the witch behaves (Sitting/Walking).<br>
-Yet the music post string and the skybox value have no drop down list, so you have to go look what names you could use to begin with.<br>
-It also has a "Time Of Day" value which has four options, and makes the witch walk when set to afternoon. How the hell would you know that "Afternoon" means the witch walks?<br>
+For example, in Worldspawn, you can define things like the music track, skybox name, and how the Witch behaves (whether she's sitting or walking).<br>
+But there’s no dropdown list for the music or skybox names, so you have to dig around and copy-paste the correct names. Plus, there's a "Time Of Day" setting that makes the witch wander when set to "Afternoon" because that is entirely intuitive, right?<br>
 
-My FGD Fixes all of this weird nonsense and makes hammer nicer to use.<br>
-Along with adding new tool textures for every type of brush entity like func_detail_blocker or all various versions of triggers.<br>
-It's also compatible to be used along Hammer++.<br>
+My FGD fixes all these quirks, making Hammer easier to use.<br>
+I've also added new tool textures for different brush entities like func_detail_blocker and the various trigger types.<br>
+it's fully compatible with Hammer++, with possible exception of the relay sprite type.<br>
 
-⚠️ **Warning:** You must change the default entity from info_survivor_position to info_player_start, or another entitiy without a model. Swapping from any entity with a model to an entity that now got a helper model -when it previously did not have one- can cause crashes.
+⚠️ **$${\color{red}Warning:}$$**<br> 
+You must change the default entity from info_survivor_position to info_player_start, or another entitiy without a model!<br>
+Swapping from any entity with a model to an entity that now got a helper model -when it previously did not have one- can cause crashes.
 
 ### Install
 1. Click on "Code - Download ZIP"
