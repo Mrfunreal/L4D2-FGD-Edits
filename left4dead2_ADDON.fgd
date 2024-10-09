@@ -3782,7 +3782,7 @@
 	]
 	sides(sidelist) : "Brush faces": : "(Optional) Brush faces which will be forced to use this cubemap."
 	radius(string) : "Helper radius" : "128" : "Use the radius as a helper to show the influence of a cubemap. This radius will help placing cubemaps in hallways and around doors, to make sure that the radius drawn doesn't clip through the wall on either side. Otherwise the cubemaps of hallways may show up outside of the hallways."
-	targetname(target_source) : "Helper Name" : : "For when you want to give a cubemap a name. I.E: Some lowres Cube8 for lowres 8x8 cubemaps, Cube512 for highres 512x512 cubemaps. Will not have any effect ingame."
+	targetname(target_source) : "Helper Name" : : "For when you want to give a cubemap a name. I.E: naming all lowres cubemaps the same name, while all highres cubemaps have their own name. Only useful for finding specific cubemaps in 'entity report'."
 	origin(origin) readonly : "Helper Origin (DO NOT CHANGE)" : : "Compiled cubemap textures will have the origin as name. This field here shows the origin. DO NOT CHANGE THIS FIELD! changing this field will move the cubemap."
 
 ]
@@ -3904,6 +3904,7 @@
 	"It can be set to check a global state before firing. This allows you to only fire events based on "+
 	"what took place in a previous map."
 [
+	targetname(target_source) : "Helper Name" : : "Useful when using 'entity report' to find entities grouped by name. Has absolutely no use outside of hammer."
 	spawnflags(Flags) =
 	[
 		1 : "Remove on fire" : 1
@@ -3919,12 +3920,12 @@
 	// Outputs
 	output OnMapSpawn(void) : "Fired when the map is loaded for any reason."
 	output OnNewGame(void) : "Fired when the map is loaded to start a new game."
-	output OnLoadGame(void) : "Fired when the map is loaded from a saved game."
+//	output OnLoadGame(void) : "Fired when the map is loaded from a saved game."
 	output OnMapTransition(void) : "Fired when the map is loaded due to a level transition."
-	output OnBackgroundMap(void) : "Fired when the map is loaded as a background to the main menu."
+//	output OnBackgroundMap(void) : "Fired when the map is loaded as a background to the main menu."
 	output OnMultiNewMap(void) : "Fired only in multiplayer, when a new map is loaded."
 	output OnMultiNewRound(void) : "Fired only in multiplayer, when a new round is started. Only fired in multiplayer games that use round-based gameplay."
-	output OnDemoMapSpawn(void) : "Fired when the map is loaded in Demo Mode."
+//	output OnDemoMapSpawn(void) : "Fired when the map is loaded in Demo Mode."
 ]
 
 @PointClass base(Parentname, Targetname, Angles) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera.mdl") = point_viewcontrol : 
