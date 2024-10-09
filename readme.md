@@ -1,17 +1,19 @@
 
 # L4D2-FGD-Edits
-This set of FGD edits make mapping nicer for Left 4 Dead 2.
-In short many entities in hammer are either difficult to use because it has no documentation, missing keyvalues, obsolete keyvalues or jsut requires you to look up the VDC to figure out how to use the entities.
-I took it upon myself to fix all of that.
+This set of FGD edits makes map creation for Left 4 Dead 2 a lot smoother.<br>
+In L4D2's Hammer editor, some entities are missing key values, while others aren't there at all. On top of that, there's often no clear documentation explaining what these key values do.<br>
+This project fixes that. I've added, documented, and tweaked all the important key values I could find, while also improving the editor with various quality-of-life changes.<br>
 
-As an example: "Worldspawn" would define the music post string, skybox name and how the witch behaves (Sitting/Walking).
-However, the entity does not tell you which music post string even exist, so you'd need to manually enter the text, or open the VDC to copy paste a valid string.
-There's also no skybox texture list, so you'd need to check the VDC for that too.
-The "timeofday" keyvalue lists four day times, but what it really does is make the witch sit down when its afternoon. But that info is not mentioned anywhere in hammer either.
-It also contains "WorldIsCold" which does absolutely nothing.
-My FGD edits fix all of this. You get drowdpwn menus for picking skybox name, music post string, witch behaviour and removes the useless TimeOfDay.
+For example, in Worldspawn, you can define things like the music track, skybox name, and how the Witch behaves (whether she's sitting or walking).<br>
+But there’s no dropdown list for the music or skybox names, so you have to dig around and copy-paste the correct names. Plus, there's a "Time Of Day" setting that makes the witch wander when set to "Afternoon" because that is entirely intuitive, right?<br>
 
-⚠️ **Warning:** You must change the default entity from info_survivor_position to info_player_start, or another entitiy without a model. Swapping from any entity with a model to an entity that now got a helper model -when it previously did not have one- can cause crashes.
+My FGD fixes all these quirks, making Hammer easier to use.<br>
+I've also added new tool textures for different brush entities like func_detail_blocker and the various trigger types.<br>
+it's fully compatible with Hammer++, with possible exception of the relay sprite type.<br>
+
+⚠️ **$${\color{red}Warning:}$$**<br> 
+You must change the default entity from info_survivor_position to info_player_start, or another entitiy without a model!<br>
+Swapping from any entity with a model to an entity that now got a helper model -when it previously did not have one- can cause crashes.
 
 ### Install
 1. Click on "Code - Download ZIP"
