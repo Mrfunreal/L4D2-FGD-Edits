@@ -6106,8 +6106,9 @@
 	"set to that of the Remote Destination's. If a Local Destination Landmark is specified, teleported entities are offset from the target "+
 	"by their initial offset from the landmark, and their angles are left alone."
 [
-	target(target_destination) : "Remote Destination" : : "The entity specifying the point to which entities should be teleported."
-	landmark(target_destination) : "Local Destination Landmark" : : "If specified, then teleported entities are offset from the target by their initial offset from the landmark."
+	tip(string) readonly : "! Check flags !" : : "You need to determine what or who to teleport by default!"
+	target(target_destination) : "Destination Entity" : : "The entity that objects and players get teleported to. Any entity will do, but usually a 'info_teleport_destination' is used."
+	landmark(target_destination) : "Local Destination Landmark" : : "If specified, all teleported objects will remember their offset relative to the landmark when entering the trigger, and then apply the same offset relative to the destination.             Example: if you are ten units left of the specified landmark, you'll end up ten units left of the teleport destination."
 	spawnflags(flags) =
 	[
 		32: "Preserve angles even when a local landmark is not specified" : 0
