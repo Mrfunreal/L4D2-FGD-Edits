@@ -54,7 +54,7 @@
 ]
 @BaseClass = WarnBBox
 [ 
-	WarnBBox(string) : "Warning: Uses BBOX!" : "" : "This entity works based entirely on its Bounding Box! Diagonal walls will always be ignored, as it will take the furthest out corners of the diagonal walls and create one huge box around all of it. That box will be your brush entity. If you need a large diagonal brush, you must create multiple small square entities aligned diagonally."
+	WarnBBox(string) readonly : "Warning: Uses BBOX!" : "" : "This entity works based entirely on its Bounding Box! Diagonal walls will always be ignored, as it will take the furthest out corners of the diagonal walls and create one huge box around all of it. That box will be your brush entity. If you need a large diagonal brush, you must create multiple small square entities aligned diagonally."
 ]
 @BaseClass = obsolete 
 [ 
@@ -427,19 +427,19 @@
 	input SetHealth(integer) : "Sets a new value for the breakable's health. If the breakable's health reaches zero it will break."
 	input AddHealth(integer) : "Adds health to the breakable. If the breakable's health reaches zero it will break."
 	input RemoveHealth(integer) : "Removes health from the breakable. If the breakable's health reaches zero it will break."
-	input EnablePhyscannonPickup(void) : "Makes the breakable able to picked up by the physcannon."
-	input DisablePhyscannonPickup(void) : "Makes the breakable not able to picked up by the physcannon."
+//	input EnablePhyscannonPickup(void) : "Makes the breakable able to picked up by the physcannon."
+//	input DisablePhyscannonPickup(void) : "Makes the breakable not able to picked up by the physcannon."
 	input SetMass(float) : "Set mass of this object."
 
 	// Outputs	
 	output OnBreak(void) : "Fired when this breakable breaks."
 	output OnTakeDamage(void) : "Fired each time this breakable takes any damage."
 	output OnHealthChanged(float) : "Fired when the health of this breakable changes, passing the new value of health as a percentage of max health, from [0..1]."
-	output OnPhysCannonDetach(void) : "Fired when the physcannon has ripped this breakable off of the wall. Only fired if ACT_PHYSCANNON_DETACH is defined in the model this breakable is using."
-	output OnPhysCannonAnimatePreStarted(void) : "Fired when this prop starts playing the Pre physcannon-pull activity, caused by the player trying to grab this prop with the physcannon. Only fired if the ACT_PHYSCANNON_ANIMATE_PRE activity is defined in the model this breakable is using."
-	output OnPhysCannonAnimatePullStarted(void) : "Fired when this prop starts playing the physcannon-pull activity, caused by the player trying to grab this prop with the physcannon. Only fired if the ACT_PHYSCANNON_ANIMATE activity is defined in the model this breakable is using. If the prop has Pre pull anim, this will be fired after the Pre anim has finished playing."
-	output OnPhysCannonPullAnimFinished(void) : "Fired when this prop has finished playing the physcannon-pull activity, caused by the player trying to grab this prop with the physcannon. Only fired if the ACT_PHYSCANNON_ANIMATE activity is defined in the model this breakable is using. If the prop has Pre & Post pull anims, this will be fired after the Post anim has finished playing."
-	output OnPhysCannonAnimatePostStarted(void) : "Fired when this prop starts playing the Post physcannon-pull activity. Only fired if the ACT_PHYSCANNON_ANIMATE_POST activity is defined in the model this breakable is using."
+//	output OnPhysCannonDetach(void) : "Fired when the physcannon has ripped this breakable off of the wall. Only fired if ACT_PHYSCANNON_DETACH is defined in the model this breakable is using."
+//	output OnPhysCannonAnimatePreStarted(void) : "Fired when this prop starts playing the Pre physcannon-pull activity, caused by the player trying to grab this prop with the physcannon. Only fired if the ACT_PHYSCANNON_ANIMATE_PRE activity is defined in the model this breakable is using."
+//	output OnPhysCannonAnimatePullStarted(void) : "Fired when this prop starts playing the physcannon-pull activity, caused by the player trying to grab this prop with the physcannon. Only fired if the ACT_PHYSCANNON_ANIMATE activity is defined in the model this breakable is using. If the prop has Pre pull anim, this will be fired after the Pre anim has finished playing."
+//	output OnPhysCannonPullAnimFinished(void) : "Fired when this prop has finished playing the physcannon-pull activity, caused by the player trying to grab this prop with the physcannon. Only fired if the ACT_PHYSCANNON_ANIMATE activity is defined in the model this breakable is using. If the prop has Pre & Post pull anims, this will be fired after the Post anim has finished playing."
+//	output OnPhysCannonAnimatePostStarted(void) : "Fired when this prop starts playing the Post physcannon-pull activity. Only fired if the ACT_PHYSCANNON_ANIMATE_POST activity is defined in the model this breakable is using."
 ]
 
 @BaseClass base(Parentname, Global, Breakable) = BreakableBrush
@@ -3637,9 +3637,9 @@
 @PointClass base(Parentname, Global, Targetname, Angles, Studiomodel, BaseFadeProp, Glow) studioprop() color(255 255 255) = prop_door_rotating : 
 	"An entity used to place a door in the world."
 [
-	model(studio) : "World model" : "models/props_downtown/door_interior_112_01.mdl"
+	model(studio) : "World model" : "models/props_downtown/door_interior_112_01.mdl" : "Make sure custom door models have a Door_Options $keyvalue, else you'll get console errors!"
 	slavename(target_destination) : "Slave Name" : : "Name of door that should open and close when this one is being opened and closed. Note: Having the same 'Targetname' causes all doors of the same name to open and close at the same time."
-	axis(axis) : "Hinge Axis"
+	axis(axis) readonly : "Hinge Axis" : : "This is broken and does NOTHING! Edit the door model if you want to change the axis."
 	health(integer) 				: "Health (0 = Unbreakable)" : 0			// NEEDHELP: Doesn't look like this is hooked up anymore?
 	returndelay(integer) 			: "Delay Before close (-1 stay open)" : -1 : "Amount of time, in seconds, after the door has opened before it closes. If the value is set to -1, the door never closes itself."
 	dmg(integer) 					: "Damage Inflicted When Blocked" : 0 : "Amount of damage done to entities that block the movement of this door, per frame."
@@ -4757,13 +4757,13 @@
 	[
 		16384 : "Debris - Don't collide with the player or other debris" : 0
 		32768 : "Motion Disabled" : 0
-		65536 : "Use Preferred Carry Angles" : 0
-		131072: "Enable motion on Physcannon grab" : 0
+//		65536 : "Use Preferred Carry Angles" : 0
+//		131072: "Enable motion on Physcannon grab" : 0
 		262144: "Ignore +USE for Pickup" : 0
 		524288: "Generate output on +USE " : 1
 		1048576 : "Start Asleep" : 0
-		2097152 : "Physgun is NOT allowed to pick this up." : 0 
-		4194304 : "Physgun is NOT allowed to punt this object." : 0
+//		2097152 : "Physgun is NOT allowed to pick this up." : 0 
+//		4194304 : "Physgun is NOT allowed to punt this object." : 0
 		8388608: "Prevent motion enable on player bump" : 0
 	]
 	
@@ -4778,7 +4778,7 @@
 	damagetoenablemotion(integer) : "Health Level to Override Motion" : 0 : "If specified, this object will start motion disabled. Once its health has dropped below this specified amount, it will enable motion."
 	forcetoenablemotion(float) : "Physics Impact Force to Override Motion" : 0 : "If specified, this object will start motion disabled. Any impact that imparts a force greater than this value on the physbox will enable motion."
 	health(integer) : "Strength" : 0 : "Number of points of damage to take before breaking. 0 means don't break."
-	preferredcarryangles(vector) : "Preferred Player-carry Angles" : "0 0 0" : "If the 'Use Preferred Carry Angles' spawnflag is set, this angle is the angle which the object should orient to when the player picks it up, with the physgun or +USE."
+//	preferredcarryangles(vector) : "Preferred Player-carry Angles" : "0 0 0" : "If the 'Use Preferred Carry Angles' spawnflag is set, this angle is the angle which the object should orient to when the player picks it up, with the physgun or +USE."
 	notsolid(choices) : "Not solid to world" : 0 =
 	[
 		0: "Solid to World"
@@ -4796,10 +4796,10 @@
 	output OnDamaged(void) : "Fired when this entity is damaged."
 	output OnAwakened(void) : "Fired when this entity becomes awake (collision/force is applied)."
 	output OnMotionEnabled(void) : "Fired when motion is enabled due to damage/physcannon/force."
-	output OnPhysGunPickup(void) : "Fired when a player picks this object up, either with the physgun or +USE."
-	output OnPhysGunPunt(void) : "Fired when a player punts this object with the physgun."
-	output OnPhysGunOnlyPickup(void) : "Fired when a player picks this object up WITH THE PHYSGUN. +USE pickups do not fire this output."
-	output OnPhysGunDrop(void) : "Fired when a player drops this object."
+//	output OnPhysGunPickup(void) : "Fired when a player picks this object up, either with the physgun or +USE."
+//	output OnPhysGunPunt(void) : "Fired when a player punts this object with the physgun."
+//	output OnPhysGunOnlyPickup(void) : "Fired when a player picks this object up WITH THE PHYSGUN. +USE pickups do not fire this output."
+//	output OnPhysGunDrop(void) : "Fired when a player drops this object."
 	output OnPlayerUse(void) : "Fired when the player tries to +USE the physbox. This output will fire only if the Generate output on +USE spawnflag is set."
 ]
 
@@ -5315,7 +5315,7 @@
 		2 : "Don't take physics damage" : 0
 		4 : "Debris - Don't collide with the player or other debris" : 0
 		8 : "Motion Disabled" : 0
-		64 : "Enable motion on Physcannon grab" : 0
+//		64 : "Enable motion on Physcannon grab" : 0
 		128 : "Not affected by rotor wash" : 0
 		256 : "Generate output on +USE " : 1
 		512 : "Prevent pickup" : 0
@@ -5366,12 +5366,12 @@
 	// Outputs
 	output OnMotionEnabled(void) : "Fired when motion is enabled on this prop, either via 'Health Level to Override Motion' or from the EnableMotion input."
 	output OnAwakened(void) : "Fired when this entity becomes awake (collision/force is applied to it while it's asleep)."
-	output OnPhysGunPickup(void) : "Fired when the player picks up the prop with the physcannon or +USE."
-	output OnPhysGunPunt(void) : "Fired when a player punts this object with the physgun."
-	output OnPhysGunOnlyPickup(void) : "Fired when a player picks this object up WITH THE PHYSGUN. +USE pickups do not fire this output."
-	output OnPhysGunDrop(void) : "Fired when the player drops the prop with the physcannon or USE."
+//	output OnPhysGunPickup(void) : "Fired when the player picks up the Carryable weapon. Only works for the first time, because when dropping the item, the entity turns to a weapon entity instead of a physics prop entity."
+//	output OnPhysGunPunt(void) : "Fired when a player punts this object with the physgun."
+//	output OnPhysGunOnlyPickup(void) : "Fired when a player picks this object up WITH THE PHYSGUN. +USE pickups do not fire this output."
+//	output OnPhysGunDrop(void) : "Fired when the player drops the prop with the physcannon or USE."
 	output OnPlayerUse(void) : "Fired when the player tries to +USE the prop. This output will fire only if the Generate output on +USE spawnflag is set."
-	output OnPlayerPickup(void) : "Fired whenever the player picks up this prop (with the physcannon or with +USE)."
+	output OnPlayerPickup(void) : "Fired when the player picks up the carriable item for the FIRST TIME. Because after dropping it, it transforms into a weapon entity, so it no longer os a prop_physics."
 	output OnOutOfWorld(void) : "Fired whenever the prop is out of the allowed world bounds."
 	output OnHitByTank(void) : "Fired whenever the prop is hit by a tank (L4D)."
 ]
@@ -7737,7 +7737,7 @@
 	]
 ]
 //CARRIABLES 
- @BaseClass color(200 200 0) base(Targetname, Angles, Weapon) = WeaponSpawnCarry
+ @BaseClass color(200 200 0) base(Targetname, Angles) = WeaponSpawnCarry
 [
 	skin(integer) 		: "Skin        (Worldmodel)" : 0 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
 	weaponskin(integer) : "Weapon Skin (Viewmodel)" : -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
@@ -7771,9 +7771,9 @@
 	// Outputs
 	output OnMotionEnabled(void) : "Fired when motion is enabled on this prop, either via 'Health Level to Override Motion' or from the EnableMotion input."
 	output OnAwakened(void) : "Fired when this entity becomes awake (collision/force is applied to it while it's asleep)."
-	output OnPhysGunDrop(void) : "Fired when the player drops the prop with +USE."
-	output OnPlayerUse(void) : "Fired when the player tries to +USE the prop. This output will fire only if the Generate output on +USE spawnflag is set."
-	output OnPlayerPickup(void) : "Fired whenever the player picks up this prop with +USE."
+//	output OnPhysGunDrop(void) : "Fired when the player drops the prop with +USE."
+//	output OnPlayerUse(void) : "Fired when the player tries to +USE the prop. This output will fire only if the Generate output on +USE spawnflag is set."
+//	output OnPlayerPickup(void) : "Fired whenever the player picks up this prop with +USE."
 	output OnOutOfWorld(void) : "Fired whenever the prop is out of the allowed world bounds."
 	output OnHitByTank(void) : "Fired whenever the prop is hit by a tank (L4D)."
 	
@@ -7781,7 +7781,7 @@
 	[
 		1 : "Start Asleep (Constrain to spawn position, until woken by touch)" : 0
 		8 : "Motion Disabled (Constrain to spawn position, until picked up and thrown)" : 0
-		256 : "Generate output on +USE " : 1
+//		256 : "Generate output on +USE " : 1
 		512 : "Prevent pickup" : 0
 		8192: "Force server-side (Multiplayer only)" : 0
 	]
@@ -7790,6 +7790,15 @@
 @PointClass color(0 200 0)base(WeaponSpawnCarry) studioprop("models/props_junk/gascan001a.mdl") 	= weapon_gascan : "Gas Can" []
 @PointClass color(0 200 0)base(WeaponSpawnCarry) studioprop("models/props_junk/gnome.mdl") 			= weapon_gnome : "Gnome" []
 @PointClass color(0 200 0)base(WeaponSpawnCarry) studioprop("models/w_models/weapons/w_cola.mdl") 	= weapon_cola_bottles : "Cola" []
+
+@BaseClass = carryablestip
+[ 
+	Tip(string) readonly : "WILL NOT EXPLODE" : "Unless picked up and dropped first!" : "This entity will NOT explode when shot at, unless you pick it up and then drop it first! If you want it to behave like any other carryable that you can shoot at any time, use prop_physics with the model name of your desired carryable."
+]
+@PointClass color(0 200 0)base(carryablestip, WeaponSpawnCarry) studioprop("models/props_junk/explosive_box001.mdl") 	= weapon_fireworkcrate : "Fireworks" []
+@PointClass color(0 200 0)base(carryablestip, WeaponSpawnCarry) studioprop("models/props_equipment/oxygentank01.mdl") 	= weapon_oxygentank : "Oxygen Tank" []
+@PointClass color(0 200 0)base(carryablestip, WeaponSpawnCarry) studioprop("models/props_junk/propanecanister001a.mdl") = weapon_propanetank : "Propane Canister" []
+
 
 
 // Left4Dead Guns -----------
