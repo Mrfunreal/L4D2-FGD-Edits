@@ -64,9 +64,12 @@ I also made a Repo on navmesh editing,
 
 ## New Point Entities
 - hlp_origin_Vector - Just gives you the origin of where this entity is and gives you a radius option. Only useful for getting vectors for Vscripts.
-- weapon_gascan         	- usually you'd have a prop_physics using the gas can model.
-- weapon_gnome          	- usually you'd have a prop_physics using the gnome model.
-- weapon_cola_bottles		- usually you'd have a prop_physics using the cola model.
+- weapon_gascan         	- Usually you'd have a prop_physics using desired model.
+- weapon_gnome          	- Usually you'd have a prop_physics using desired model.
+- weapon_cola_bottles		- Usually you'd have a prop_physics using desired model.
+- weapon_fireworkcrate		- Usually you'd have a prop_physics using desired model. (Does not explode until picked up first)
+- weapon_oxygentank			- Usually you'd have a prop_physics using desired model. (Does not explode until picked up first)
+- weapon_propanetank		- Usually you'd have a prop_physics using desired model. (Does not explode until picked up first)
 - upgrade_laser_sight		- Spawnpoint for JUST the laser.
 - upgrade_ammo_incendiary	- Already deployed Incendiary ammo.
 - upgrade_ammo_explosive	- Already deployed explosive ammo.
@@ -98,14 +101,14 @@ I also made a Repo on navmesh editing,
 	- Made "disablevertexlighting" to be off by default.
 - Prop_door_rotating
 	- Spawns with a model of a door 
-	- Made "hardware options" obsolete. L4d2 does not have this.
+	- Made "Hinge Axis" obsolete, as it didn't do anything to begin with.
 - Prop_door_rotating_checkpoint 
 	- Same changes as prop_door_rotating
 	- The model window has a note listing all saferoom doors, to copypaste into model field.
 - Color_correction
 	- Added tip notes and obsoleted things.
 - Func_fish_pool
-	- Added helper sphere to see how largethe pool is.
+	- Added helper sphere to see how large the pool is.
 - Env_smoketrail
 	- Added sphere for spawnradius.
 - Env_physics_blocker & env_player_blocker
@@ -152,7 +155,7 @@ I also made a Repo on navmesh editing,
 - Various differently colored sprites for logic_relay. For people who like to color code their things.
 - L4D2 specific measure textures for doors, jump height, crouch space...
 - Added **alleydirt_leaves** and **urban_overgrown_docks** $detailtype, with the required **detail.vbsp**
-- Added "tool" keyword to Scavengeboundary texture and TankWall texture. (use the material keywork search, not material name search.)
+- Added "tool" keyword to Scavengeboundary texture  TankWall texture. (use the material keywork search, not material name search.)
 
 ## New / Better Helpermodels
 - Weapon_Item_Spawn 
