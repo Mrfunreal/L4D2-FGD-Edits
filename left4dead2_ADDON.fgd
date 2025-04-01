@@ -30,11 +30,13 @@
 
 @BaseClass = Modelscale
 [ 
-	Modelscale(string) : "Model Scale (Dev Tool)" : "1" : "This changes model scale FOR HAMMER ONLY! Useful for when you need to rescale props and you want to find out by how much."
+			 Modelscale(string) : "Model Scale (Dev Tool)" : "1" : "This changes model scale FOR HAMMER ONLY! Useful for when you need to rescale props and you want to find out by how much."
+	input SetModelScale(string) : "Takes two values separated by a space. The first is the target model scale. The second value is the number of seconds the change in scale will be spread over."
+
 ]
 @BaseClass = HelperName
 [ 
-	HelperName(string) : "Helper Name" : "" : "Some entities, like Light entities will immediately act different when they're given a 'Targetname'. So this is a hammer internal helper name that has no use, cannot be used for I/O either. It's only useful for when using 'Entity Report' to find all entities with the same Helper Name."
+	HelperName(string) report : "Helper Name" : "" : "Some entities, like Light entities will immediately act different when they're given a 'Targetname'. So this is a hammer internal helper name that has no use, cannot be used for I/O either. It's only useful for when using 'Entity Report' to find all entities with the same Helper Name."
 ]
 @BaseClass = Classname
 [ 
@@ -133,6 +135,7 @@
 
 	// Inputs
 	input Skin(integer) : "Changes the model skin to the specified number."
+	input SetBodyGroup(integer) : "Set the visible bodygroup, by index."
 	input DisableShadow(void) : "Turn shadow off."
 	input EnableShadow(void) : "Turn shadow on."
 	input AlternativeSorting(bool) : "Used to attempt to fix sorting problems when rendering. True activates, false deactivates"
@@ -485,7 +488,7 @@
 	]
 
 	health(integer) : "Strength" : 1 : "Number of points of damage to take before breaking. 0 means don't break."
-	material(choices) :"Material Type" : 0 : "Set to the material type of the brush. Used to decide what sounds to make when damaged, and what gibs to produce when broken." =
+	material(choices) :"Material Type" : 0 : "If Strength is Nonzero, this decided what sounds to play when this entity is damaged, and what gibs to spawn when it breaks." =
 	[
 		0: "Glass"
 		1: "Wood"
@@ -496,8 +499,8 @@
 		6: "Computer"
 		7: "Unbreakable Glass"
 		8: "Rocks"
-		// 9: "Web(defunct)"
-		10: "None"
+		// 9: "Web (defunct)"
+		//10: "None (BROKEN)"
 	]
 	explosion(choices) : "Gibs Direction" : 0 : "Used to decide which direction to throw gibs when broken." =
 	[
@@ -519,35 +522,35 @@
 	input DisableDamageForces(void) : "Damaging the entity does *not* apply physics forces to it."
 
 	gibmodel(string) : "Gib Model" : "" : "Used by HL1Port to specify a custom gib model to break into, overriding the 'Material Type'."
-	spawnobject(choices) : "Spawn On Break" : 0 : "When broken, an entity of the selected type will be created." =
-	[
-		1:	"item_battery"				
-		2:	"item_healthkit"			
-		3:	"item_ammo_pistol"			
-		4:	"item_ammo_pistol_large"	
-		5:	"item_ammo_smg1"			
-		6:	"item_ammo_smg1_large"	
-		7:	"item_ammo_ar2"			
-		8:	"item_ammo_ar2_large"	
-		9:	"item_box_buckshot"		
-		10:	"item_flare_round"			
-		11:	"item_box_flare_rounds"		
-		12:	"item_ml_grenade"		
-		13:	"item_smg1_grenade"			
-		14:	"item_box_sniper_rounds"	
-		15:	"unused1"			
-		16:	"weapon_stunstick"		
-		17:	"weapon_ar1"				
-		18:	"weapon_ar2"			
-		19:	"unused2"				
-		20:	"weapon_ml"					
-		21:	"weapon_smg1"				
-		22:	"weapon_smg2"				
-		23:	"weapon_slam"				
-		24:	"weapon_shotgun"			
-		25:	"weapon_molotov"
-		26:	"item_dynamic_resupply"							
-	]
+//	spawnobject(choices) : "Spawn On Break" : 0 : "When broken, an entity of the selected type will be created. OBSOLETE" =
+//	[
+//		1:	"item_battery"				
+//		2:	"item_healthkit"			
+//		3:	"item_ammo_pistol"			
+//		4:	"item_ammo_pistol_large"	
+//		5:	"item_ammo_smg1"			
+//		6:	"item_ammo_smg1_large"	
+//		7:	"item_ammo_ar2"			
+//		8:	"item_ammo_ar2_large"	
+//		9:	"item_box_buckshot"		
+//		10:	"item_flare_round"			
+//		11:	"item_box_flare_rounds"		
+//		12:	"item_ml_grenade"		
+//		13:	"item_smg1_grenade"			
+//		14:	"item_box_sniper_rounds"	
+//		15:	"unused1"			
+//		16:	"weapon_stunstick"		
+//		17:	"weapon_ar1"				
+//		18:	"weapon_ar2"			
+//		19:	"unused2"				
+//		20:	"weapon_ml"					
+//		21:	"weapon_smg1"				
+//		22:	"weapon_smg2"				
+//		23:	"weapon_slam"				
+//		24:	"weapon_shotgun"			
+//		25:	"weapon_molotov"
+//		26:	"item_dynamic_resupply"							
+//	]
 	explodemagnitude(integer) : "Explode Magnitude" : 0 : "If non-zero, when this entity breaks it will create an explosion that causes the specified amount of damage."
 	pressuredelay(float) : "Pressure Delay" : 0 : "Delay, in seconds, after 'broken' by pressure before breaking apart (allows for sound to play before breaking apart)."
 ]
@@ -898,10 +901,11 @@
 		"detail/detailsprites_overgrown" 	: "detail/detailsprites_overgrown"
 		"detail/ruraldetailsprites" 		: "detail/ruraldetailsprites"
 	]
-	timeofday(choices) : "Witch behaviour (Time Of Day)" : 2 =
+	timeofday(choices) : "CI + Witch behaviour (Time Of Day)" : 2 : "Common infected will aggro from a further distance if set to 'Dawn' through 'Dusk' and will sit or lie down if set to 'Midnight' or 'Evening'. Witches will wander if set to 'Afternoon'. This list only contains the actual useful choices."=
 	[
-		2 : "Sitting Witch"
-		3 : "Walking Witch"
+		0 : "Sitting Witch & Ci (Midnight)"
+		2 : "Sitting Witch (Morning)"
+		3 : "Walking Witch (Afternoon)"
 	]
 	startmusictype(choices) : "Start Music Type" : 0 =
 	[
@@ -1392,16 +1396,37 @@
 [
 ]
 
+@SolidClass base(Targetname) color(0 255 255) = func_areaportal :
+	"A portal brush used to manage visibility in maps. Portals define areas, which are spaces " +
+	"that are connected in the map. Both sides of a portal cannot touch the same area, for example, a " +
+	"doughnut shaped map would require at least two portals to divide the map into two areas. A linear map " +
+	"could be divided into two areas with a single area portal."
+[
+	target(target_destination) : "Name of Linked Door" : : "(Optional) The name of a door whose open/closed state controls the on/off state of this area portal."
+	StartOpen(choices) : "Initial State" : 1 =
+	[
+		0 : "Closed"
+		1 : "Open"
+	]
+
+	PortalVersion(integer)	readonly	: "Portal Version"   : 1 : "(Don't change). Differentiates between shipping HL2 maps and maps using new engine features."
+
+	// Inputs
+	input Open(void) : "Open the portal. When the portal is open is can be seen through."
+	input Close(void) : "Close the portal. When the portal is closed it cannot be seen through."
+	input Toggle(void) : "Toggle the open/closed state of the portal."
+]
+
 //areaportalwindow with distance helper
 @SolidClass base(Targetname) sphere(FadeStartDist) sphere(FadeDist) color(0 128 255) = func_areaportalwindow : 
 	"An entity that can be used to optimize the visibility in a map. If you seal off an area with them, when the viewer moves the specified distance away from them, they will go opaque and the parts inside the area will not be drawn. The 'target' brush model should enclose the func_areaportal window so no parts of it are culled by the window. If you use the optional foreground brush model, then it should enclose the 'target' brush model."
 [
-	target(target_destination)  : "Rendered Window" : : "The name of a brush model to render as the window."
-	FadeStartDist(integer) : "Fade Start Distance" : 128 : "When the viewer is closer than this distance, the alpha is set to 'TranslucencyLimit'."
-	FadeDist(integer) : "Fade End Distance"   : 512 : "When the viewer is at this distance, the portal becomes solid and closes off."
+	target(target_destination)  : "Rendered Brush" 		: 		: "The name of a func_brush to render when the areaportal closes. Usually toolsblack or 'dev/dev_windowportal', which shows the nearest cubemap as a texture."
+	BackgroundBModel(string) 	: "Foreground Brush"   	: "" 	: "(Optional) brush model that is drawn after the fading brush model. This model should have alpha in its textures so you can see through it."
+	FadeStartDist(integer) 		: "Fade Start Distance" : 128 	: "Fully open and see-through areaportal at this distance.                                                            For 'Foreground Brush': When the viewer is closer than this distance, the alpha is set to 'TranslucencyLimit'."
+	FadeDist(integer) 			: "Fade End Distance"   : 512 	: "Fully closed and rendering chosen func_brush areaportal at this distance."
 
-	TranslucencyLimit(string) : "Translucency limit"  : "0" : "This value limits the translucency of the bmodel and prevents it from becoming invisible when the viewer is right on top of it."
-	BackgroundBModel(string) : "Foreground bmodel"   : "" : "(Optional) brush model that is drawn after the fading brush model. This model should have alpha in its textures so you can see through it."
+	TranslucencyLimit(string) 	: "Translucency limit"  : "0" : "This value limits the translucency of the 'Foreground Brush' and prevents it from becoming invisible when the viewer is right on top of it."
 	PortalVersion(integer)	readonly	: "Portal Version"      : 1  : "(Don't change). Differentiates between shipping HL2 maps and maps using new engine features."
 	
 	// Inputs
@@ -1409,6 +1434,21 @@
 	input SetFadeEndDistance(integer) : "Set fade end distance."
 ]
 
+@SolidClass base(Targetname) color(0 255 255) = func_occluder :
+	"A occluder brush used to manage dynamic visibility in maps. Occluders are used to dynamically " +
+	"determine what things are behind them, to prevent trying to draw them at all."
+[
+	StartActive(choices) : "Initial State" : 1 =
+	[
+		0 : "Inactive"
+		1 : "Active"
+	]
+
+	// Inputs
+	input Deactivate(void) : "Deactivate the occluder, When inactive, it can be seen through."
+	input Activate(void) : "Activate the occluder. When active, it cannot be seen through."
+	input Toggle(void) : "Toggle the active/inactive state of the occluder."
+]
 
 @SolidClass color(255 0 0) base(obsolete, Targetname)= func_wall : 
 	"Legacy support. Use func_brush instead." 
@@ -1455,6 +1495,7 @@
 		1 : "Yes"
 	]	
 	
+	input Toggle(void) : "Toggle - If on, turn off, if off, turn on."
 	input Alpha(integer) : "Sets the brush's alpha value."
 	input SetExcluded( string ) : "Change the NPC class excluded from collisions"
 	input SetInvert( integer ) : "Set the state of invversion for NPC class exclusion (0 or 1)"
@@ -1549,7 +1590,7 @@
 	m_flVelocity(integer) : "Gib Velocity" : 200 : "Speed of the fired gibs"
 	m_flVariance(string) : "Course Variance" : "0.15" : "How much variance in the direction gibs are fired."
 	m_flGibLife(string) : "Gib Life" : "4" : "Time in seconds for gibs to live +/- 5%"
-	lightingorigin(target_destination) : "Lighting Origin" : "" : "Select an info_lighting to specify a location to sample lighting from for all gibs spawned by this shooter, instead of their own origins."
+	lightingorigin(target_destination) : "Lighting Origin" : "" : "Select any entity to specify a location to sample lighting from for all gibs spawned by this shooter, instead of their own origins."
 
 	spawnflags(Flags) = 
 	[
@@ -3491,53 +3532,41 @@
 
 @BaseClass base(Parentname, Global, Targetname, RenderFields, Shadow) = Door
 [
-	speed(integer) : "Speed" : 100 : "The speed at which the door moves."
-	master(string) readonly : "Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this button cannot be used."
-	noise1(sound) : "Start Sound" : : "Sound to play when the door starts moving."
-	noise2(sound) : "Stop Sound" : : "Sound to play when the door stops moving."
-	startclosesound(sound) : "Start Close Sound" : : "(Optional) Sound to play when the door starts closing."
-	closesound(sound) : "Stop Close Sound" : : "(Optional) Sound to play when the door stops closing."
-	wait(integer) : "Delay Before Reset (-1 stay)" : 4 : "Amount of time, in seconds, after the door has opened before it closes. Once it has closed, it can be used again. If the value is set to -1, the door never closes itself."
-	lip(integer) : "Lip" : 0 : "The amount, in inches, of the button to leave sticking out of the wall it recedes into when pressed. Negative values make the button recede even further into the wall."
-	dmg(integer) : "Blocking Damage" : 0 : "Amount of damage done to entities that block the movement of this door, per frame."
-	forceclosed(choices) : "Force Closed" : 0 : "If set, this door will close no matter what. Useful for doors that have to close even if the player tries to block them with objects." =
+	master(string) readonly : "Master (Obsolete)" 				: 		: "Legacy support: The name of a master entity. If the master hasn't been activated, this button cannot be used."
+	health(integer) 		: "Health (shoot open)" : 0		// NEEDHELP: Looks like this was removed
+	speed(integer) 			: "Speed" 							: 100 	: "The speed at which the door moves. Units per second, or degrees per second."
+	lip(integer) 			: "Lip" 							: 0 	: "Doors move its own brush size as distance.    Lip alters this distance.                          Positive Lip = Move this many units LESS. Negative Lip = Move this many units MORE.                                                                 Example: 20 unit door moves 20 units.            Lip 5 makes the door move 15 units (5 less). Lip -5 makes the door move 25 units (5 more)."
+	wait(integer) 			: "Delay Before Reset (-1 stay)" 	: 4 	: "Amount of time, in seconds, after the door has opened before it closes. Once it has closed, it can be used again. If the value is set to -1, the door never closes itself."
+	dmg(integer) 			: "Blocking Damage" 				: 0 	: "Amount of damage done to entities that block the movement of this door, per frame."
+	forceclosed(choices) 	: "Force Closed" 					: 0 : "If set, this door will close no matter what. Useful for doors that have to close even if the player tries to block them with objects." =
 	[
-		0 : "No"
-		1 : "Yes"
+		0: "No"
+		1: "Yes"
 	]
+	spawnpos(choices) : "Spawn Position" : 0 =
+	[
+		0 : "Closed"
+		1 : "Open"
+	]	
+
 	ignoredebris(choices) : "Ignore Debris" : 0 : "If set this will change the door's collision group to one that ignore collisions with debris objects (note that this is not compatible with the non-solid-to-player spawnflag)." =
 	[
 		0 : "No"
 		1 : "Yes"
 	]
-
-	message(string) : "Message If Triggered"		// NEEDHELP: Looks like this was removed
-	health(integer) : "Health (shoot open)" : 0		// NEEDHELP: Looks like this was removed
-
-	locked_sound(sound) : "Locked Sound" : : "Sound played when the player tries to use the door, and fails because it's locked."
-	unlocked_sound(sound) : "Unlocked Sound" : : "Sound played when the button is door."
-
-	spawnpos(choices) : "Spawn Position" : 0 =
+	message(string) 			: "Message If Triggered"		// NEEDHELP: Looks like this was removed
+	_minlight(string) : "Minimum Light Level" : : "The minimum level of ambient light that hits this brush."
+	loopmovesound(choices) 	: "Loop Moving Sound?" 				: 0 	: "If set to true, the door's 'Start Sound' will be continually looped until the door finishes moving." =
 	[
-		0 : "Closed"
-		1 : "Open"
+		0 : "No"
+		1 : "Yes"
 	]
-
-	spawnflags(flags) =
-	[
-		1 : "Starts Open - OBSOLETE, use 'Spawn Position' key instead" : 0
-		4 : "Non-solid to Player" : 0
-		8: "Passable" : 0
-	  32: "Toggle" : 0
-		256:"Use Opens" : 0
-		512: "NPCs Can't" : 0
-		1024: "Touch Opens" : 1
-		2048: "Starts locked" : 0
-		4096:	"Door Silent" : 0
-		131072: "Block Infected nav when closed" : 0
-		262144: "Block Survivor nav when closed" : 0
-	]
-	locked_sentence(choices) : "Locked Sentence" : 0 : "A sentence played when the player tries to use the door, and fails because it's locked." = 
+	noise1(sound) 			: "Start Sound" 					:		: "Sound to play when the door starts moving. Warning: Plays sound if left empty. Use flag 'Door Silent' to NOT have any sound. Or use sound 'DoorSound.Null'."
+	noise2(sound) 			: "Stop Sound" 						: 		: "Sound to play when the door stops moving."
+	startclosesound(sound) 	: "Start Close Sound" 				: 		: "(Optional) Sound to play when the door starts closing."
+	closesound(sound) 		: "Stop Close Sound" 				: 		: "(Optional) Sound to play when the door stops closing."
+	locked_sound(sound) 	: "Locked Sound" 					: 		: "Sound played when the player tries to use the door, and fails because it's locked."
+	locked_sentence(choices) 	: "Locked Sentence" : 0 : "A sentence played when the player tries to use the door, and fails because it's locked." = 
 	[
 		0: "None"
 		1: "Gen. Access Denied"
@@ -3550,6 +3579,7 @@
 		8: "Maintenance Door"
 		9: "Broken Shut Door"
 	]
+	unlocked_sound(sound) 	: "Unlocked Sound" 					: 		: "Sound played when the button is door."
 	unlocked_sentence(choices) : "Unlocked Sentence" : 0 : "A sentence played when the door is unlocked." = 
 	[
 		0: "None"
@@ -3562,11 +3592,20 @@
 		7: "Gen. Containment"
 		8: "Maintenance area"
 	]	
-	_minlight(string) : "Minimum Light Level" : : "The minimum level of ambient light that hits this brush."
-	loopmovesound(choices) : "Loop Moving Sound?" : 0 : "If set to true, the door's 'Start Sound' will be continually looped until the door finishes moving." =
+
+	spawnflags(flags) =
 	[
-		0: "No"
-		1: "Yes"
+		1 : "Starts Open - OBSOLETE, use 'Spawn Position' key instead" : 0
+		4 : "Non-solid to Player" : 0
+		8: "Passable" : 0
+		32: "Toggle" : 0
+		256:"Use Opens" : 0
+		512: "NPCs Can't" : 0
+		1024: "Touch Opens" : 1
+		2048: "Starts locked" : 0
+		4096:	"Door Silent" : 0
+		131072: "Block Infected nav when closed" : 0
+		262144: "Block Survivor nav when closed" : 0
 	]
 
 	// Outputs
@@ -3592,9 +3631,8 @@
 @SolidClass base(Door, Origin) = func_door : 
 	"A brush entity for use as a player-useable door."
 [
-	movedir(angle) : "Move Direction (Pitch Yaw Roll)" : "0 0 0" : "The direction the door will move, when it opens."
-
-	filtername(filterclass) : "Block Filter Name" : : "Filter to use to determine entities that block the door. ( Half-Life: Source port only )"
+	movedir(angle) : "Move Direction (Pitch Yaw Roll)" 	: "0 0 0" 	: "The direction the door will move, when it opens."
+	filtername(filterclass) : "Block Filter Name" 		: 			: "Filter to use to determine entities that block the door. ( Half-Life: Source port only )"
 ]
 
 @SolidClass base(Door, Origin, Angles) = func_door_rotating : 
@@ -3637,13 +3675,13 @@
 @PointClass base(Parentname, Global, Targetname, Angles, Studiomodel, BaseFadeProp, Glow) studioprop() color(255 255 255) = prop_door_rotating : 
 	"An entity used to place a door in the world."
 [
-	model(studio) : "World model" : "models/props_downtown/door_interior_112_01.mdl" : "Make sure custom door models have a Door_Options $keyvalue, else you'll get console errors!"
-	slavename(target_destination) : "Slave Name" : : "Name of door that should open and close when this one is being opened and closed. Note: Having the same 'Targetname' causes all doors of the same name to open and close at the same time."
-	axis(axis) readonly : "Hinge Axis" : : "This is broken and does NOTHING! Edit the door model if you want to change the axis."
-	health(integer) 				: "Health (0 = Unbreakable)" : 0			// NEEDHELP: Doesn't look like this is hooked up anymore?
-	returndelay(integer) 			: "Delay Before close (-1 stay open)" : -1 : "Amount of time, in seconds, after the door has opened before it closes. If the value is set to -1, the door never closes itself."
-	dmg(integer) 					: "Damage Inflicted When Blocked" : 0 : "Amount of damage done to entities that block the movement of this door, per frame."
-	forceclosed(choices) : "Force Closed" : 0 : "If set, this door will close no matter what. Useful for doors that have to close even if the player tries to block them with objects." =
+	lightingorigin(target_destination)	: "Lighting Origin" : "" : "Select any entity to specify a location to sample lighting from, instead of using this entity's origin."
+	model(studio) : "World model" 		: "models/props_downtown/door_interior_112_01.mdl" : "Make sure custom door models have a Door_Options $keyvalue, else you'll get console errors!"
+	slavename(target_destination) 		: "Slave Name" : : "Name of door that should open and close when this one is being opened and closed. Note: Having the same 'Targetname' causes all doors of the same name to open and close at the same time."
+	health(integer) 					: "Health (0 = Unbreakable)" : 0			// NEEDHELP: Doesn't look like this is hooked up anymore?
+	returndelay(integer) 				: "Delay Before close (-1 stay open)" : -1 : "Amount of time, in seconds, after the door has opened before it closes. If the value is set to -1, the door never closes itself."
+	dmg(integer) 						: "Damage Inflicted When Blocked" : 0 : "Amount of damage done to entities that block the movement of this door, per frame."
+	forceclosed(choices) 				: "Force Closed" : 0 : "If set, this door will close no matter what. Useful for doors that have to close even if the player tries to block them with objects." =
 	[
 		0 : "No"
 		1 : "Yes"
@@ -3672,6 +3710,7 @@
 	soundopenoverride(sound) 		: "Fully Open Sound" 	: 				: "Sound when door reached its open position."
 	soundcloseoverride(sound) 		: "Fully Closed Sound" 	: 				: "Sound when door reached its closed position."
 	rendercolor(color255) 			: "Color (R G B)" 		: "255 255 255"	: "Tint the whole model. You can color only parts of a model by using  '$blendtintbybasealpha 1' in the materials of a model. More info on the VDC."
+	axis(axis) readonly : "Hinge Axis (BROKEN)" : : "This is broken and does NOTHING! Edit the door model if you want to change the axis."
 
 //NEW BEGIN
 	renderamt(integer) : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
@@ -3761,10 +3800,13 @@
 //-------------------------------------------------------------------------
 
 //bigger cubemap and origin to know where it is.
-@PointClass color(0 255 255) sidelist(sides) sphere() iconsprite("editor/env_cubemap.vmt") = env_cubemap : 
+@PointClass color(0 255 255) sidelist(sides) sphere() base(HelperName) iconsprite("editor/env_cubemap.vmt") = env_cubemap : 
 	"An entity that creates a sample point for the Cubic Environment Map."
 [
-	cubemapsize(choices) : "Cubemap Size" : 6 : "Large resolutions require at least 4 times of screen resolution. which may need Dynamic Super Resolution (DSR) to build them." =
+	radius(string) 			: "Helper radius" 					: "128"	: "Use the radius as a helper to show the influence of a cubemap. This radius will help placing cubemaps in hallways and around doors, to make sure that the radius drawn doesn't clip through the wall on either side. Otherwise the cubemaps of hallways may show up outside of the hallways."
+	origin(origin) readonly : "Helper Origin (DO NOT CHANGE)" 	: 		: "Compiled cubemap textures will have the origin as name. This field here shows the origin. DO NOT CHANGE THIS FIELD! changing this field will move the cubemap."
+	sides(sidelist) 		: "Brush faces"						: 		: "(Optional) Brush faces which will be forced to use this cubemap."
+	cubemapsize(choices) 	: "Cubemap Size" 					: 6 	: "Large resolutions require at least 4 times of screen resolution. which may need Dynamic Super Resolution (DSR) to build them." =
 	[
 		0 	: "Default (32x32)"
 		1 	: "1x1"
@@ -3780,11 +3822,6 @@
 		11	: "1024x1024 - needs 4096+ monitor resolution"
 		12	: "2048x2048 - needs 8192+ monitor resolution"
 	]
-	sides(sidelist) : "Brush faces": : "(Optional) Brush faces which will be forced to use this cubemap."
-	radius(string) : "Helper radius" : "128" : "Use the radius as a helper to show the influence of a cubemap. This radius will help placing cubemaps in hallways and around doors, to make sure that the radius drawn doesn't clip through the wall on either side. Otherwise the cubemaps of hallways may show up outside of the hallways."
-	targetname(target_source) : "Helper Name" : : "For when you want to give a cubemap a name. I.E: naming all lowres cubemaps the same name, while all highres cubemaps have their own name. Only useful for finding specific cubemaps in 'entity report'."
-	origin(origin) readonly : "Helper Origin (DO NOT CHANGE)" : : "Compiled cubemap textures will have the origin as name. This field here shows the origin. DO NOT CHANGE THIS FIELD! changing this field will move the cubemap."
-
 ]
 
 @BaseClass = BModelParticleSpawner
@@ -4441,7 +4478,7 @@
 [
 	spawnflags(flags) =
 	[
-		1 : "Don't remove template entities" : 0
+		1 : "Don't remove template entities - Prevents the 'to be spawned' entities from being deleted on map spawn" : 0
 		2 : "Preserve entity names (Don't do name fixup)" : 1
 	]
 
@@ -5199,7 +5236,7 @@
 	fadescale(float) : "Fade Scale" : 1 : "If you specify a fade in the worldspawn, or if the engine is running under low end/medium end/XBox360, then the engine will forcibly fade out props even if fademindist/fademaxdist isn't specified." +
 												 " This scale factor gives you some control over the fade. Using 0 here turns off the forcible fades." +
 												 " Numbers smaller than 1 cause the prop to fade out at further distances, and greater than 1 cause it to fade out at closer distances."
-	lightingorigin(target_destination) : "Lighting Origin" : "" : "Select an info_lighting to specify a location to sample lighting from, instead of using this entity's origin."
+	lightingorigin(target_destination) : "Lighting Origin" : "" : "Select any entity to specify a location to sample lighting from, instead of using this entity's origin."
 	disablevertexlighting(choices) : "Disable Vertex lighting" : 0 : "Disabling vertex lighting causes the model to have the same lighting across it. Which may look out of place on larger props, but can speed up vrad passes on small props and foliage." = //changes here
 	[
 		0 : "No"
@@ -5267,7 +5304,7 @@
 	output OnAnimationBegun(void) : "Fired whenever a new animation has begun playing."
 	output OnAnimationDone(void) : "Fired whenever an animation is complete."
 
-	lightingorigin(target_destination) : "Lighting Origin" : "" : "Select a path_corner entity to specify a location to sample lighting from, instead of using this entity's origin."
+	lightingorigin(target_destination) : "Lighting Origin" : "" : "Select any entity to specify a location to sample lighting from, instead of using this entity's origin."
 
 	renderamt(integer) : "Alpha" : 255 : "Alpha of the fade, where 0 = fully transparent and 255 = fully opaque." 
 	rendercolor(color255) : "Color (R G B)" : "255 255 255" : "Tint the whole model. You can color only parts of a model by using  '$blendtintbybasealpha 1' in the materials of a model. More info on the VDC."
@@ -5307,8 +5344,11 @@
 	health(integer) : "Health" : 0 : "Number of points of damage to take before breaking. 0 means don't break."	
 ]
 
+//adds parentname and body.
 @BaseClass base(Parentname, Global, Targetname, Angles, Studiomodel, Modelscale, BreakableProp, SystemLevelChoice, Glow) = BasePropPhysics
 [ 
+
+	
 	spawnflags(flags) = 
 	[
 		1 : "Start Asleep" : 0
@@ -5390,7 +5430,6 @@
 	input IgniteHitboxFireScale(float) : "Ignite, with a parameter hitbox fire scale."
 ]
 
-//Physics prop with parentname
 @PointClass base(BasePropPhysics, RenderFields) studioprop() sphere(fademindist) sphere(fademaxdist) color(242 255 0) = prop_physics : //changes here
 	"A prop that physically simulates as a single rigid body. It can be constrained to other physics objects using hinges "+
 	"or other constraints. It can also be configured to break when it takes enough damage. "+
@@ -5467,43 +5506,6 @@
 //-------------------------------------------------------------------------
 // Solid Entities
 //-------------------------------------------------------------------------
-
-@SolidClass base(Targetname) color(0 255 255) = func_areaportal :
-	"A portal brush used to manage visibility in maps. Portals define areas, which are spaces " +
-	"that are connected in the map. Both sides of a portal cannot touch the same area, for example, a " +
-	"doughnut shaped map would require at least two portals to divide the map into two areas. A linear map " +
-	"could be divided into two areas with a single area portal."
-[
-	target(target_destination) : "Name of Linked Door" : : "(Optional) The name of a door whose open/closed state controls the on/off state of this area portal."
-	StartOpen(choices) : "Initial State" : 1 =
-	[
-		0 : "Closed"
-		1 : "Open"
-	]
-
-	PortalVersion(integer)	readonly	: "Portal Version"   : 1 : "(Don't change). Differentiates between shipping HL2 maps and maps using new engine features."
-
-	// Inputs
-	input Open(void) : "Open the portal. When the portal is open is can be seen through."
-	input Close(void) : "Close the portal. When the portal is closed it cannot be seen through."
-	input Toggle(void) : "Toggle the open/closed state of the portal."
-]
-
-@SolidClass base(Targetname) color(0 255 255) = func_occluder :
-	"A occluder brush used to manage dynamic visibility in maps. Occluders are used to dynamically " +
-	"determine what things are behind them, to prevent trying to draw them at all."
-[
-	StartActive(choices) : "Initial State" : 1 =
-	[
-		0 : "Inactive"
-		1 : "Active"
-	]
-
-	// Inputs
-	input Deactivate(void) : "Deactivate the occluder, When inactive, it can be seen through."
-	input Activate(void) : "Activate the occluder. When active, it cannot be seen through."
-	input Toggle(void) : "Toggle the active/inactive state of the occluder."
-]
 
 @SolidClass base(BreakableBrush, Origin, RenderFields, Shadow) = func_breakable : 
 	"A brush entity that can be broken from damage, or an input." 
