@@ -75,7 +75,6 @@ Game	hl2
 - Areaportals
 	- Added sphere for easy setup of fade distances.
 - Cubemap
-	- Added origin helper, only to know location of this entity in the world. (Never move this origin. This will relocate the cubemap.)
 	- Added 512x512, 1024x1024x 2048x2048 resolution.
 - Damagetype
 	- Properly documented existin damage types.
