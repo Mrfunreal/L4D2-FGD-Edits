@@ -1355,7 +1355,7 @@
 ]
 
 
-@SolidClass base(Targetname) = trigger_tonemap : "Changes tonemap controllers for players touching the trigger."
+@SolidClass base(Trigger) = trigger_tonemap : "Changes tonemap controllers for players touching the trigger."
 [
 	TonemapName(target_destination) : "Tonemap Name" : : "The name of the tonemap controller entity associated with this trigger."
 ]
@@ -1477,12 +1477,13 @@
 		1 : "Never Solid"
 		2 : "Always Solid"
 	]
-	excludednpc(string) : "NPC class excluded from collisions" : "" : "If an NPC classname is specified here, NPCs of that type won't collide with these brushes. In Episodic, you may also specify an individual entity's name."
-	invert_exclusion(choices) : "Invert NPC class exclusion" : 0 : "If set, then the excluded NPC class will consider this brush solid, and all other NPC classes will consider it non-solid." =
-	[
-		0 : "No"
-		1 : "Yes"
-	]	
+	//this isn't used in L4D
+	//excludednpc(string) : "NPC class excluded from collisions" : "" : "If an NPC classname is specified here, NPCs of that type won't collide with these brushes. In Episodic, you may also specify an individual entity's name."
+	//invert_exclusion(choices) : "Invert NPC class exclusion" : 0 : "If set, then the excluded NPC class will consider this brush solid, and all other NPC classes will consider it non-solid." =
+	//[
+	//	0 : "No"
+	//	1 : "Yes"
+	//]	
 
 	solidbsp(choices) : "Solid BSP" : 0 : "Set this if this brush is in heirarchy with a moving object of some kind, and the player can stand on this brush." =
 	[
@@ -3804,7 +3805,9 @@
 	"An entity that creates a sample point for the Cubic Environment Map."
 [
 	radius(string) 			: "Helper radius" 					: "128"	: "Use the radius as a helper to show the influence of a cubemap. This radius will help placing cubemaps in hallways and around doors, to make sure that the radius drawn doesn't clip through the wall on either side. Otherwise the cubemaps of hallways may show up outside of the hallways."
-	origin(origin) readonly : "Helper Origin (DO NOT CHANGE)" 	: 		: "Compiled cubemap textures will have the origin as name. This field here shows the origin. DO NOT CHANGE THIS FIELD! changing this field will move the cubemap."
+// removing origin, because its only useful in a niche case
+// however, if placed in an instance, or removed via smart edit, the cubemap will be moved to the center of the map when the map is saved.
+//	origin(origin) readonly : "Helper Origin (DO NOT CHANGE)" 	: 		: "Compiled cubemap textures will have the origin as name. This field here shows the origin. DO NOT CHANGE THIS FIELD! changing this field will move the cubemap."
 	sides(sidelist) 		: "Brush faces"						: 		: "(Optional) Brush faces which will be forced to use this cubemap."
 	cubemapsize(choices) 	: "Cubemap Size" 					: 6 	: "Large resolutions require at least 4 times of screen resolution. which may need Dynamic Super Resolution (DSR) to build them." =
 	[

@@ -6,176 +6,180 @@ WARNING:	A map can only use one Material File. Make sure your displacements use 
 
 %detailtype name					║	Material File used					║ From
 ════════════════════════════════════╬═══════════════════════════════════════╬════════════════════════════════════
-compound_gravelgrass	            ║	detail/detailsprites				║ Counterstrike: Source
-desert_2weeds1shrub_01	            ║	detail/detailsprites				║ Counterstrike: Source
-militia_darkleaves_grass	        ║	detail/detailsprites				║ Counterstrike: Source
-militia_leaves_darkleaves	        ║	detail/detailsprites				║ Counterstrike: Source
-militia_leaves_grass	            ║	detail/detailsprites				║ Counterstrike: Source
-militia_leaves_sand	                ║	detail/detailsprites				║ Counterstrike: Source
-militia_rock_grass	                ║	detail/detailsprites				║ Counterstrike: Source
-militia_sand_grass	                ║	detail/detailsprites				║ Counterstrike: Source
-prodgrasses	                        ║	detail/detailsprites				║ Counterstrike: Source
-rural_cornfield_leaves 				║	detail/ruraldetailsprites           ║ Left 4 Dead
-rural_dirt_leaves 					║	detail/ruraldetailsprites           ║ Left 4 Dead
-rural_dirt_leaves02 				║	detail/ruraldetailsprites           ║ Left 4 Dead
-rural_dirt_leaves02_lowdensity 		║	detail/ruraldetailsprites           ║ Left 4 Dead
-rural_dirt_road 					║	detail/ruraldetailsprites           ║ Left 4 Dead
-rural_dkdirt_grass 					║	detail/ruraldetailsprites           ║ Left 4 Dead
-rural_dkdirt_grass_smalltown 		║	detail/ruraldetailsprites           ║ Left 4 Dead
-rural_dkdirt_grass_trainyard 		║	detail/ruraldetailsprites           ║ Left 4 Dead
-rural_grass_leaves 					║	detail/ruraldetailsprites           ║ Left 4 Dead
-rural_gravel_weeds01 				║	detail/ruraldetailsprites           ║ Left 4 Dead
-rural_trainyarddirt_leaves 			║	detail/ruraldetailsprites           ║ Left 4 Dead
-swamp_ground01 						║	detail/ruraldetailsprites           ║ Left 4 Dead 2
-urban_dirt_leaves02 				║	detail/ruraldetailsprites           ║ Left 4 Dead
-urban_dry_overgrown 				║	detail/detailsprites_overgrown      ║ Left 4 Dead 2
-urban_grass_overgrown 				║	detail/detailsprites_overgrown      ║ Left 4 Dead 2
+compound_gravelgrass				║	detail/detailsprites				║ Counterstrike: Source
+desert_2weeds1shrub_01				║	detail/detailsprites				║ Counterstrike: Source
+militia_darkleaves_grass			║	detail/detailsprites				║ Counterstrike: Source
+militia_leaves_darkleaves			║	detail/detailsprites				║ Counterstrike: Source
+militia_leaves_grass				║	detail/detailsprites				║ Counterstrike: Source
+militia_leaves_sand					║	detail/detailsprites				║ Counterstrike: Source
+militia_rock_grass					║	detail/detailsprites				║ Counterstrike: Source
+militia_sand_grass					║	detail/detailsprites				║ Counterstrike: Source
+prodgrasses							║	detail/detailsprites				║ Counterstrike: Source
+rural_cornfield_leaves				║	detail/ruraldetailsprites			║ Left 4 Dead
+rural_dirt_leaves					║	detail/ruraldetailsprites			║ Left 4 Dead
+rural_dirt_leaves02					║	detail/ruraldetailsprites			║ Left 4 Dead
+rural_dirt_leaves02_lowdensity		║	detail/ruraldetailsprites			║ Left 4 Dead
+rural_dirt_road						║	detail/ruraldetailsprites			║ Left 4 Dead
+rural_dkdirt_grass					║	detail/ruraldetailsprites			║ Left 4 Dead
+rural_dkdirt_grass_smalltown		║	detail/ruraldetailsprites			║ Left 4 Dead
+rural_dkdirt_grass_trainyard		║	detail/ruraldetailsprites			║ Left 4 Dead
+rural_grass_leaves					║	detail/ruraldetailsprites			║ Left 4 Dead
+rural_gravel_weeds01				║	detail/ruraldetailsprites			║ Left 4 Dead
+rural_trainyarddirt_leaves			║	detail/ruraldetailsprites			║ Left 4 Dead
+urban_dirt_leaves02					║	detail/ruraldetailsprites			║ Left 4 Dead
+swamp_ground01						║	detail/ruraldetailsprites			║ Left 4 Dead 2
+urban_dry_overgrown					║	detail/detailsprites_overgrown		║ Left 4 Dead 2
+urban_grass_overgrown				║	detail/detailsprites_overgrown		║ Left 4 Dead 2
 urban_grass_overgrown_lowdensity	║	detail/detailsprites_overgrown		║ Left 4 Dead 2
-urban_overgrown 					║	detail/detailsprites_overgrown      ║ Left 4 Dead 2
-urban_overgrown_lowdensity 			║	detail/detailsprites_overgrown      ║ Left 4 Dead 2
+urban_overgrown						║	detail/detailsprites_overgrown		║ Left 4 Dead 2
+urban_overgrown_lowdensity			║	detail/detailsprites_overgrown		║ Left 4 Dead 2
 alleydirt_leaves					║	detail/ruraldetailsprites			║ Left 4 Dead. Not ported, Use my VBSP to get it back.
 urban_overgrown_docks				║	detail/ruraldetailsprites			║ Does not exist in L4D1 or L4D2, so i made my own.
 
-List if all blend materials, showing what %detailtype they use.
+List if all materials, showing what %detailtype they use.
 Material name						║	%detailtype name					║ Material File used
 ════════════════════════════════════╬═══════════════════════════════════════╬════════════════════════════════════
+blendleavestrainayarddirtb			║	militia_sand_grass                  ║	detail/detailsprites
 blendswampmudroots01_lowdensity		║	urban_overgrown_lowdensity          ║	detail/detailsprites_overgrown
-blendswampmudroots01				║	urban_overgrown                     ║	detail/detailsprites_overgrown
-blendswamprootleaves01_cheap		║	-                                   ║
-blendswamprootleaves01				║	urban_overgrown                     ║	detail/detailsprites_overgrown
-blendswamprootleaves01_lowdensity	║	urban_overgrown_lowdensity          ║	detail/detailsprites_overgrown
-grassdirt_blend						║	-                                   ║
-ti_nospr_blendrockstone1			║	-                                   ║
-ti_nospr_blendrockstone2			║	-                                   ║
-ti_nospr_blendrockstone3			║	-                                   ║
-ti_nospr_blendrockstone4			║	-                                   ║
-tiblendrockleaves1                  ║	rural_dirt_leaves                   ║	detail/ruraldetailsprites
-tiblendrockstone1                   ║	rural_dirt_leaves                   ║	detail/ruraldetailsprites
-tiblendrockstone2                   ║	rural_dirt_leaves                   ║	detail/ruraldetailsprites
-tiblendrockstone3                   ║	rural_dirt_leaves                   ║	detail/ruraldetailsprites
-tiblendrockstone4                   ║	rural_dirt_leaves                   ║	detail/ruraldetailsprites
-tiblendwaterrockstone               ║                                       ║
-zblendwetrockurock                  ║                                       ║
-blend_alley_conc_dirt				║	-                                   ║
-blend_alleydirt_leaves				║	alleydirt_leaves                    ║	detail/ruraldetailsprites //selfmade
-blend_blacktop_01					║	-                                   ║
-blend_blacktop_01_cheap				║	-                                   ║
-blend_blacktop_01_wet				║	-                                   ║
-blend_blacktop_02					║	-                                   ║
-blend_blacktop_02wet				║	-                                   ║
-blend_blacktop_03					║	-                                   ║
-blend_blacktop_03wet				║	-                                   ║
-blend_blacktop_03wet_dirt			║	-                                   ║
-blend_blacktop_04					║	-                                   ║
-blend_blacktop_05					║	-                                   ║
-blend_blacktop_06					║	-                                   ║
-blend_blacktop_06					║	-                                   ║
 blend_blacktop_07					║	urban_grass_overgrown               ║	detail/detailsprites_overgrown
 blend_blacktop_08					║	urban_grass_overgrown               ║	detail/detailsprites_overgrown
 blend_blacktop_09					║	urban_grass_overgrown               ║	detail/detailsprites_overgrown
-blend_blacktop_brick_01				║	-                                   ║
-blend_blacktop_brick_01b			║	-                                   ║
-blend_blacktop_cobb_01				║	-                                   ║
-blend_blacktop_cobb_01dry			║	-                                   ║
-blend_blacktop_cobb_02				║	-                                   ║
-blend_blacktop_cobb_02_dry			║	-                                   ║
 blend_brick_brick01					║	urban_grass_overgrown               ║	detail/detailsprites_overgrown
 blend_brick_brick02					║	urban_grass_overgrown               ║	detail/detailsprites_overgrown
 blend_brick_dirt_01					║	urban_grass_overgrown               ║	detail/detailsprites_overgrown
 blend_brick_grass_01				║	urban_dry_overgrown                 ║	detail/detailsprites_overgrown
-blend_cliff_leaves					║	-                                   ║
-blend_concrete_01					║	-                                   ║
 blend_dirt_cane						║	urban_dry_overgrown                 ║	detail/detailsprites_overgrown
-blend_dirt_concrete_01				║	-                                   ║
-blend_dirt_concrete_01wet			║	-                                   ║
-blend_dirt_concrete_02				║	-                                   ║
-blend_dirt_concrete_03				║	-                                   ║
-blend_dirt_concrete_03wet			║	-                                   ║
-blend_dirt_concrete_04				║	-                                   ║
-blend_dirt_concrete_06				║	-                                   ║
-blend_dirt_ext_01					║	-                                   ║
-blend_dirt_ext_03					║	-                                   ║
-blend_dirt_mud_01					║	-                                   ║
-blend_dirtrubble01					║	-                                   ║
-blend_docks_dirt_gravel				║	-                                   ║
-blend_docks_grass_dirt				║	urban_overgrown_docks               ║	detail/ruraldetailsprites //selfmade
-blend_docks_grass_pavement			║	-                                   ║
-blend_donner_rubble1_dirtfloor013a	║	-                                   ║
-blend_grass_black_01				║	-                                   ║
 blend_grass_concrete_01				║	urban_dry_overgrown                 ║	detail/detailsprites_overgrown
-blend_grass_grass_01				║	-                                   ║
 blend_grass_grass_02				║	urban_grass_overgrown               ║	detail/detailsprites_overgrown
-blend_grass_grass_02_cheap			║	-                                   ║
 blend_grass_grass_02_lowdensity		║	urban_grass_overgrown_lowdensity	║	detail/detailsprites_overgrown
 blend_grass_gravel_01				║	urban_grass_overgrown               ║	detail/detailsprites_overgrown
-blend_grass_gravel_01_cheap			║	-                                   ║
 blend_grass_gravel_lowdensity		║	urban_grass_overgrown_lowdensity    ║	detail/detailsprites_overgrown
 blend_grass_mud_01					║	urban_grass_overgrown               ║	detail/detailsprites_overgrown
-blend_grasslawn_dirt_nosprites		║	-                                   ║
-blend_leaves_dirt					║	rural_dirt_leaves02                 ║	detail/ruraldetailsprites
-blend_leaves_dirt_nodetail			║	-                                   ║
-blend_leaves_dirt_nodetail_mod		║	-                                   ║
-blend_leaves_dirt_nomod				║	rural_dirt_leaves02                 ║	detail/ruraldetailsprites
-blend_leaves_estuary				║	-                                   ║
-blend_leaves_forest					║	rural_dirt_leaves02                 ║	detail/ruraldetailsprites
-blend_logs_moss						║	-                                   ║
-blend_lots_conc_dirt				║	-                                   ║
-blend_lots_conc_grass				║	-                                   ║
-blend_lots_conc_pavement			║	-                                   ║
 blend_milltowngrass01wet			║	urban_dry_overgrown                 ║	detail/detailsprites_overgrown
-blend_milltowngrass02wet			║	-                                   ║
-blend_milltowngrass03wet			║	-                                   ║
-blend_milltowngrass04wet			║	-                                   ║
-blend_river_dirt02					║	-                                   ║
-blend_roof_01						║	-                                   ║
-blend_rubble_01						║	-                                   ║
-blend_rubble_02						║	-                                   ║
 blend_rubble_03						║	urban_grass_overgrown               ║	detail/detailsprites_overgrown
-blend_sand03_cliff					║	-                                   ║
-blend_sidewalk_01					║	-                                   ║
-blend_sidewalk_01_wet				║	-                                   ║
-blend_sidewalk_01dry				║	-                                   ║
-blend_sidewalk_dirt					║	-                                   ║
-blend_sidewalk_grass				║	-                                   ║
-blend_sidewalk02					║	-                                   ║
 blend_urbandirtlawn01				║	urban_dry_overgrown                 ║	detail/detailsprites_overgrown
-blend_urbandirtlawn01_cheap			║	-                                   ║
 blend_urbandirtlawn01wet			║	urban_dry_overgrown                 ║	detail/detailsprites_overgrown
 blend_urbandirtlawn01wet			║	urban_dry_overgrown                 ║	detail/detailsprites_overgrown
-blendbeachleaves					║	-                                   ║
-blendconcrete_dirt					║	-                                   ║
-blendconcrete38a12a_noshadow		║	-                                   ║
-blenddirt01grass_ruddy_small		║	rural_dkdirt_grass                  ║	detail/ruraldetailsprites 
-blenddirtcorn01						║	-                                   ║
-blenddirtdirt001a					║	-                                   ║
-blenddirtlawn01						║	rural_dkdirt_grass_smalltown        ║	detail/ruraldetailsprites 
-blenddirtleaves						║	rural_dirt_leaves                   ║	detail/ruraldetailsprites 
-blenddirtleaves_docks				║	urban_overgrown_docks               ║	detail/ruraldetailsprites //selfmade
-blenddirtleaves02					║	rural_dirt_leaves                   ║	detail/ruraldetailsprites 
-blenddirtleaves03					║	rural_dirt_leaves02                 ║	detail/ruraldetailsprites
-blenddirtleaves03_burned			║	-                                   ║
-blenddirtleaves03_nodetail			║	-                                   ║
-blenddirtleaves03_smalltown			║	rural_dirt_leaves02	                ║	detail/ruraldetailsprites 
-blenddirtleaves03_smalltown2		║	rural_dirt_leaves02	                ║	detail/ruraldetailsprites 
-blenddirtleaves04					║	rural_dirt_leaves02                 ║	detail/ruraldetailsprites
-blenddirtparkinglot01				║	-                                   ║
-blenddrkdirtgrass_ruddy				║	rural_dkdirt_grass_trainyard        ║	detail/ruraldetailsprites 
-blenddrygrassdirt					║	rural_dirt_road                     ║	detail/ruraldetailsprites 
-blendgrassstonepath					║	-                                   ║
-blendgraveldirt001a					║	-                                   ║
-blendleavestrainyarddirt			║	rural_trainyarddirt_leaves          ║	detail/ruraldetailsprites 
-blendleavestrainayarddirtb			║	militia_sand_grass                  ║	detail/detailsprites
-milground011_rock2b					║	-                                   ║
-blendmudleaves						║	-                                   ║
-blendpavementleaves					║	-                                   ║
-blendroadleaves01					║	rural_dirt_leaves02                 ║	detail/ruraldetailsprites
-blendroadleaves01b					║	rural_dirt_leaves02                 ║	detail/ruraldetailsprites
-blendrockcavewall					║	-                                   ║
-blendrockleaves						║	-                                   ║
-blendrockleaves02					║	-                                   ║
-blendrockleaves03					║	-                                   ║
-blendrockwaterleaves				║	-                                   ║
-blendrockwaterrock					║	-                                   ║
-blendrootleaves01					║	rural_dirt_leaves02                 ║	detail/ruraldetailsprites
 blendswampmudleaves02b				║	urban_overgrown                     ║	detail/detailsprites_overgrown
+blendswampmudroots01				║	urban_overgrown                     ║	detail/detailsprites_overgrown
+blendswamprootleaves01				║	urban_overgrown                     ║	detail/detailsprites_overgrown
+blendswamprootleaves01_lowdensity	║	urban_overgrown_lowdensity          ║	detail/detailsprites_overgrown
+════════════════════════════════════╬═══════════════════════════════════════╬════════════════════════════════════
+blend_leaves_dirt					║	rural_dirt_leaves02					║	detail/ruraldetailsprites
+blend_leaves_dirt_nomod				║	rural_dirt_leaves02					║	detail/ruraldetailsprites
+blend_leaves_forest					║	rural_dirt_leaves02					║	detail/ruraldetailsprites
+blenddirt01grass_ruddy_small		║	rural_dkdirt_grass					║	detail/ruraldetailsprites
+blenddirtlawn01						║	rural_dkdirt_grass_smalltown		║	detail/ruraldetailsprites
+blenddirtleaves						║	rural_dirt_leaves					║	detail/ruraldetailsprites
+blenddirtleaves02					║	rural_dirt_leaves					║	detail/ruraldetailsprites
+blenddirtleaves03					║	rural_dirt_leaves02					║	detail/ruraldetailsprites
+blenddirtleaves03_smalltown			║	rural_dirt_leaves02					║	detail/ruraldetailsprites
+blenddirtleaves03_smalltown2		║	rural_dirt_leaves02					║	detail/ruraldetailsprites
+blenddirtleaves04					║	rural_dirt_leaves02					║	detail/ruraldetailsprites
+blenddrkdirtgrass_ruddy				║	rural_dkdirt_grass_trainyard		║	detail/ruraldetailsprites
+blenddrygrassdirt					║	rural_dirt_road						║	detail/ruraldetailsprites
+blendleavestrainyarddirt			║	rural_trainyarddirt_leaves			║	detail/ruraldetailsprites
+blendroadleaves01					║	rural_dirt_leaves02					║	detail/ruraldetailsprites
+blendroadleaves01b					║	rural_dirt_leaves02					║	detail/ruraldetailsprites
+blendrootleaves01					║	rural_dirt_leaves02					║	detail/ruraldetailsprites
+grasslawn_dry01						║	rural_dkdirt_grass					║	detail/ruraldetailsprites
+grasslawn_patchy01_detailprop		║	rural_dirt_leaves02					║	detail/ruraldetailsprites
+tiblendrockleaves1					║	rural_dirt_leaves					║	detail/ruraldetailsprites
+tiblendrockstone1					║	rural_dirt_leaves					║	detail/ruraldetailsprites
+tiblendrockstone2					║	rural_dirt_leaves					║	detail/ruraldetailsprites
+tiblendrockstone3					║	rural_dirt_leaves					║	detail/ruraldetailsprites
+tiblendrockstone4					║	rural_dirt_leaves					║	detail/ruraldetailsprites
+blend_alleydirt_leaves				║	alleydirt_leaves					║	detail/ruraldetailsprites //selfmade
+blend_docks_grass_dirt				║	urban_overgrown_docks				║	detail/ruraldetailsprites //selfmade
+blenddirtleaves_docks				║	urban_overgrown_docks				║	detail/ruraldetailsprites //selfmade
+════════════════════════════════════╬═══════════════════════════════════════╬════════════════════════════════════
+blend_alley_conc_dirt				║	None								║
+blend_blacktop_01					║	None								║
+blend_blacktop_01_cheap				║	None								║
+blend_blacktop_01_wet				║	None								║
+blend_blacktop_02					║	None								║
+blend_blacktop_02wet				║	None								║
+blend_blacktop_03					║	None								║
+blend_blacktop_03wet				║	None								║
+blend_blacktop_03wet_dirt			║	None								║
+blend_blacktop_04					║	None								║
+blend_blacktop_05					║	None								║
+blend_blacktop_06					║	None								║
+blend_blacktop_06					║	None								║
+blend_blacktop_brick_01				║	None								║
+blend_blacktop_brick_01b			║	None								║
+blend_blacktop_cobb_01				║	None								║
+blend_blacktop_cobb_01dry			║	None								║
+blend_blacktop_cobb_02				║	None								║
+blend_blacktop_cobb_02_dry			║	None								║
+blend_cliff_leaves					║	None								║
+blend_concrete_01					║	None								║
+blend_dirt_concrete_01				║	None								║
+blend_dirt_concrete_01wet			║	None								║
+blend_dirt_concrete_02				║	None								║
+blend_dirt_concrete_03				║	None								║
+blend_dirt_concrete_03wet			║	None								║
+blend_dirt_concrete_04				║	None								║
+blend_dirt_concrete_06				║	None								║
+blend_dirt_ext_01					║	None								║
+blend_dirt_ext_03					║	None								║
+blend_dirt_mud_01					║	None								║
+blend_dirtrubble01					║	None								║
+blend_docks_dirt_gravel				║	None								║
+blend_docks_grass_pavement			║	None								║
+blend_donner_rubble1_dirtfloor013a	║	None								║
+blend_grass_black_01				║	None								║
+blend_grass_grass_01				║	None								║
+blend_grass_grass_02_cheap			║	None								║
+blend_grass_gravel_01_cheap			║	None								║
+blend_grasslawn_dirt_nosprites		║	None								║
+blend_leaves_dirt_nodetail			║	None								║
+blend_leaves_dirt_nodetail_mod		║	None								║
+blend_leaves_estuary				║	None								║
+blend_logs_moss						║	None								║
+blend_lots_conc_dirt				║	None								║
+blend_lots_conc_grass				║	None								║
+blend_lots_conc_pavement			║	None								║
+blend_milltowngrass02wet			║	None								║
+blend_milltowngrass03wet			║	None								║
+blend_milltowngrass04wet			║	None								║
+blend_river_dirt02					║	None								║
+blend_roof_01						║	None								║
+blend_rubble_01						║	None								║
+blend_rubble_02						║	None								║
+blend_sand03_cliff					║	None								║
+blend_sidewalk02					║	None								║
+blend_sidewalk_01					║	None								║
+blend_sidewalk_01_wet				║	None								║
+blend_sidewalk_01dry				║	None								║
+blend_sidewalk_dirt					║	None								║
+blend_sidewalk_grass				║	None								║
+blend_urbandirtlawn01_cheap			║	None								║
+blendbeachleaves					║	None								║
+blendconcrete38a12a_noshadow		║	None								║
+blendconcrete_dirt					║	None								║
+blenddirtcorn01						║	None								║
+blenddirtdirt001a					║	None								║
+blenddirtleaves03_burned			║	None								║
+blenddirtleaves03_nodetail			║	None								║
+blenddirtparkinglot01				║	None								║
+blendgrassstonepath					║	None								║
+blendgraveldirt001a					║	None								║
+blendmudleaves						║	None								║
+blendpavementleaves					║	None								║
+blendrockcavewall					║	None								║
+blendrockleaves						║	None								║
+blendrockleaves02					║	None								║
+blendrockleaves03					║	None								║
+blendrockwaterleaves				║	None								║
+blendrockwaterrock					║	None								║
+blendswamprootleaves01_cheap		║	None								║
+grassdirt_blend						║	None								║
+milground011_rock2b					║	None								║
+ti_nospr_blendrockstone1			║	None								║
+ti_nospr_blendrockstone2			║	None								║
+ti_nospr_blendrockstone3			║	None								║
+ti_nospr_blendrockstone4			║	None								║
+tiblendwaterrockstone				║	None								║
+zblendwetrockurock					║	None								║
 
