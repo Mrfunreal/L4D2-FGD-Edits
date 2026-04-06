@@ -13,8 +13,9 @@ I've also added new tool textures for different brush entities like func_detail_
 it's fully compatible with Hammer++, with possible exception of the relay sprite type.<br>
 
 ⚠️ **$${\color{red}Warning:}$$**<br> 
-You must change the default entity from info_survivor_position to info_player_start, or another entitiy without a model!<br>
-Swapping from any entity with a model to an entity that now got a helper model -when it previously did not have one- can cause crashes.
+- You must change the default entity from info_survivor_position to info_player_start, or another entitiy without a model!<br>
+  Swapping from any entity with a model to an entity that now got a helper model -when it previously did not have one- can cause crashes.
+- **The VPK for hammer seems to crash VBSP++. No idea how to fix it yet!** 
 
 ### Install
 1. Click on "Code - Download ZIP"
