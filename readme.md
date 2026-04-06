@@ -1,5 +1,7 @@
 
 # L4D2-FGD-Edits
+Note: **The VPK for hammer seems to crash VBSP++. turn the vpk into a multi chunk for now, till i release an update soon!** 
+
 This set of FGD edits makes map creation for Left 4 Dead 2 a lot smoother.<br>
 In L4D2's Hammer editor, some entities are missing key values, while others aren't there at all. On top of that, there's often no clear documentation explaining what these key values do.<br>
 This project fixes that. I've added, documented, and tweaked all the important key values I could find, while also improving the editor with various quality-of-life changes.<br>
@@ -15,7 +17,6 @@ it's fully compatible with Hammer++, with possible exception of the relay sprite
 ⚠️ **$${\color{red}Warning:}$$**<br> 
 - You must change the default entity from info_survivor_position to info_player_start, or another entitiy without a model!<br>
   Swapping from any entity with a model to an entity that now got a helper model -when it previously did not have one- can cause crashes.
-- **The VPK for hammer seems to crash VBSP++. No idea how to fix it yet!** 
 
 ### Install
 1. Click on "Code - Download ZIP"
