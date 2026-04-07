@@ -9041,18 +9041,18 @@
 // FGD for the ++ compiler suite (vbsp++, vvis++, vrad++.)
 // No idea if they work in l4d2. But i merged its fgd with this.
 //-------------------------------------------------------------------------
-//	@PointClass base(Light) = LightSpot :
-//		"An invisible and directional spotlight. Doesn't seem to work on L4D2?"
-//	[
-//		target(target_destination) : "Entity to point at" : : "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
-//		_inner_cone(integer) : "Inner (bright) angle" : 30
-//		_cone(integer) : "Outer (fading) angle" : 45
-//		_exponent(integer) : "Focus" : 1
-//		_distance(integer) : "Maximum distance" : 0 : "This is the distance that light is allowed to cast, in inches."
-//		pitch(angle_negative_pitch) : "Pitch" : -90
-//		spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
-//	]
- basically a func_brush with less functionality
+@PointClass base(Light) = LightSpot :
+	"An invisible and directional spotlight."
+[
+	target(target_destination) : "Entity to point at" : : "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
+	_inner_cone(integer) : "Inner (bright) angle" : 30
+	_cone(integer) : "Outer (fading) angle" : 45
+	_exponent(integer) : "Focus" : 1
+	_distance(integer) : "Maximum distance" : 0 : "This is the distance that light is allowed to cast, in inches."
+	pitch(angle_negative_pitch) : "Pitch" : -90
+	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
+]
+// basically a func_brush with less functionality
 	@SolidClass color(0 180 0) = func_detail_illusionary : 
 		"Similar to func_detail, but non-solid."
 	[
