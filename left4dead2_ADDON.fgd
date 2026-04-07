@@ -2901,6 +2901,9 @@
 	target(target_destination) : "Entity To Point At" : : "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
 	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
 	_distance(float) : "Maximum Distance" : 0 : "This is the distance that light is allowed to cast, in inches."
+//this is for ficool2's vbsp++, vvis++ and vrad++. No ides if they work.
+	_light_radius(float) : "Light Radius (Tools++)" : 0 : "Radius of the light for casting soft shadows (0 is hard shadows). Soft shadows take significantly longer to compile."
+
 ]
 
 @PointClass base(Angles) iconsprite("editor/light_env.vmt") = light_environment : 
@@ -2943,6 +2946,9 @@
 	_distance(float) : "Maximum distance" : 0 : "This is the distance that light is allowed to cast, in inches."
 	pitch(angle_negative_pitch) : "Pitch" : -90
 	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
+//this is for ficool2's vbsp++, vvis++ and vrad++. No ides if they work.
+	_light_radius(float) : "Light Radius (Tools++)" : 0 : "Radius of the light for casting soft shadows (0 is hard shadows). Soft shadows take significantly longer to compile."
+
 ]
 
 @PointClass base(Parentname, Targetname, Angles) iconsprite("editor/light.vmt") sphere(distance) lightcone() size(-4 -4 -4, 4 4 4) = light_dynamic : 
@@ -3044,8 +3050,8 @@
 		0 : "No"
 		1 : "Yes"
 	]
-	minfalloff(float) readonly : "OBSOLETE - Lookup Falloff Start"	: "0.0"						: "Must be  0, else This CC will not work! - This is the distance to the start of the falloff region (-1 = everywhere)."
-	maxfalloff(float) readonly : "OBSOLETE - Lookup Falloff End"	: "-1" 						: "Must be -1, else This CC will not work! - This is the distance to the end of the falloff region (-1 = everywhere)."
+	minfalloff(float): "Lookup Falloff Start"	: "0.0"	: "Inner radius around CC entity where color is modulated. Do not edit if used together with fog_volume!"
+	maxfalloff(float): "Lookup Falloff End"		: "-1" 	: "Outer radius around CC entity where color is not yet modulated. Do not edit if used together with fog_volume!"
 
 	// Inputs
 	input SetFadeInDuration(float) 	: "Sets the 'fadeInDuration' variable, used to fade cc lookup usage when entity is enabled."
@@ -5317,6 +5323,8 @@
 		0: "No"
 		1: "Yes"
 	]
+
+
 ]
 
 @PointClass base(prop_detail_base) studioprop() = prop_detail : 
@@ -5329,6 +5337,12 @@
 @PointClass base(prop_static_base) color(255 255 0) sphere(fademindist) sphere(fademaxdist) studioprop() = prop_static :
 	"A prop that doesn't move and doesn't animate."
 [
+//this is for ficool2's vbsp++, vvis++ and vrad++. No ides if they work.
+	disableambientocclusion(choices) : "Disable Ambient Occlusion with vertex lighting (Tools++)" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
 ]
 
 //Color change only
@@ -5338,13 +5352,26 @@
 	"If the model used by the prop is configured to be used as a prop_physics (i.e. it should be physically simulated) then it CANNOT be "+
 	"used as a prop_dynamic. Upon level load it will display a warning in the console and remove itself. Use a prop_physics instead."
 [
+//this is for ficool2's vbsp++, vvis++ and vrad++. No ides if they work.
+	vrad_model_cast_shadows(choices) : "VRAD Shadows (Tools++)" : 0 : "Set this if this brush casts VRAD static shadows. This disables dynamic shadows as well." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
 ]
 //Color change only
-@PointClass base(prop_dynamic_base) studioprop() color(198 255 0)= prop_dynamic_override :
+@PointClass base(prop_dynamic_base) studioprop() sphere(fademindist) sphere(fademaxdist)  color(198 255 0)= prop_dynamic_override :
 	"A prop that can be placed in hierarchy and can play animations. It can also be configured to break when it takes enough damage./n"+
 	"prop_dynamic_override is a prototyping entity only. It will allow the use of models designed to be used as prop_physics."
 [
 	health(integer) : "Health" : 0 : "Number of points of damage to take before breaking. 0 means don't break."	
+
+//this is for ficool2's vbsp++, vvis++ and vrad++. No ides if they work.
+	vrad_model_cast_shadows(choices) : "VRAD Shadows (Tools++)" : 0 : "Set this if this brush casts VRAD static shadows. This disables dynamic shadows as well." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
 ]
 
 //adds parentname and body.
@@ -5491,7 +5518,7 @@
 ]
 
 //Color change only
-@PointClass base(prop_dynamic_base) studioprop() color(8 255 90)= prop_dynamic_ornament :
+@PointClass base(prop_dynamic_base) sphere(fademindist) sphere(fademaxdist) studioprop() color(8 255 90)= prop_dynamic_ornament :
 	"A way to attach one studio model to another as an ornament. It will render in the way that player/NPC weapons render."
 [
 	solid(choices) : "Collisions" : 0 =
@@ -5570,6 +5597,9 @@
 	"func_detail is great for high-frequency brush geometry that's visual detail only. It is also ideal for reducing map VIS time."
 [
 	Tip(string) : "Measurement tips"	: : "Player Height Standing	= 72 units		Player Height Crouching	= 56 units		Player Width:		= 33 units		Player Jump Height		= 56 units		Max Obstacle Height	= 18 units		Eye Height Standing	= 62 units		Eye Height Crouching	= 44 units		CI Max Climb Height		= 180 units"
+//this is for ficool2's vbsp++, vvis++ and vrad++. No ides if they work.
+	vbsp_nobevel(boolean) : "No Bevel (Tools++)" : "0" : "If set, bevel faces aren't emitted on angled geometry. This reduces brushsides at the cost of less accurate collision on corners."
+
 ]
 
 @SolidClass color(180 180 0) = func_viscluster : 
@@ -7330,7 +7360,7 @@
 ]
 
 
-@SolidClass base( Targetname, EnableDisable ) = fog_volume : "An entity to control the fog in the map."
+@SolidClass base( Targetname, EnableDisable ) = fog_volume : "An entity to control the fog in the map. 'trigger_tonemap' also exists, whis is similar to this, but for env_tonemap changes."
 [
 	FogName(target_destination) : "Fog Name" : : "The name of the fog entity associated with this volume."
 	PostProcessName(target_destination) : "Postprocess Name" : : "The name of the postprocess entity associated with this volume."
@@ -8991,7 +9021,52 @@
 	input SetMaxPieces(integer): "Adjust the maximum number of specified weapons in the map." // added
 ]
 
+// From HL2. Exists in L4D2 as well though. I needed it for a test. so, here ya go.
+@PointClass base(Targetname,Angles) = phys_keepupright : "A controller that tries to keep an entity facing a particular direction."
+[
+	spawnflags(flags) =
+	[
+		1: "Start inactive" : 0
+	]
 
+	attach1(target_destination) : "Target Entity" : "" : "The entity to align to the desired angles."
+	angularlimit(float) : "Angular Limit" : "15" : "The maximum angular velocity that this controller can compensate for, in degrees per second."
 
+	// Inputs
+	input TurnOn(void) : "Enable the controller."
+	input TurnOff(void) : "Disable the controller." 
+]
 
+// ----------------------------------------------------------------------------------------
+// FGD for the ++ compiler suite (vbsp++, vvis++, vrad++.)
+// No idea if they work in l4d2. But i merged its fgd with this.
+//-------------------------------------------------------------------------
+@PointClass base(Light) = LightSpot :
+	"An invisible and directional spotlight."
+[
+	target(target_destination) : "Entity to point at" : : "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
+	_inner_cone(integer) : "Inner (bright) angle" : 30
+	_cone(integer) : "Outer (fading) angle" : 45
+	_exponent(integer) : "Focus" : 1
+	_distance(integer) : "Maximum distance" : 0 : "This is the distance that light is allowed to cast, in inches."
+	pitch(angle_negative_pitch) : "Pitch" : -90
+	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
+]
 
+@SolidClass color(0 180 0) = func_detail_illusionary : 
+	"Similar to func_detail, but non-solid."
+[
+	vbsp_nobevel(boolean) : "No Bevel" : "0" : "If set, bevel faces aren't emitted on angled geometry. This reduces brushsides at the cost of less accurate collision on corners."
+]
+
+@SolidClass = func_nobevel :
+	"Defines a region to not bevel collision, to reduce brushsides count. Only should be used in areas where players can't touch the brush"
+[
+]
+
+@PointClass base(Targetname, Angles, LightSpot) lightprop("models/editor/spot.mdl") lightcone() sphere(_fifty_percent_distance) sphere(_zero_percent_distance) = light_projected :
+	"An invisible and directional spotlight that projects a texture, similar to env_projectedtexture but lightmapped"
+[
+	texturename(string)	: "Texture Name" : "effects/flashlight001" : "Texture to project"
+]
+//-------------------------------------------------------------------------
