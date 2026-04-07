@@ -1,6 +1,5 @@
 
 # L4D2-FGD-Edits
-Note: **The VPK for hammer seems to crash VBSP++. turn the vpk into a multi chunk for now, till i release an update soon!** 
 
 This set of FGD edits makes map creation for Left 4 Dead 2 a lot smoother.<br>
 In L4D2's Hammer editor, some entities are missing key values, while others aren't there at all. On top of that, there's often no clear documentation explaining what these key values do.<br>
