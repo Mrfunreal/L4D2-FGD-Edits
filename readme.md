@@ -18,7 +18,7 @@ it's fully compatible with Hammer++, with possible exception of the relay sprite
   Swapping from any entity with a model to an entity that now got a helper model -when it previously did not have one- can cause crashes.
 
 ### Install
-1. Download the latest release into ```Steam\steamapps\common\Left 4 Dead 2\bin```
+1. Download the latest release's "Source Code" into ```Steam\steamapps\common\Left 4 Dead 2\bin```
 2. Create a folder named L4D2-FGD-Edits, unpack the contents of the zip into that folder.<br>
    (Hammer_vpk, Detailtype_helper, Left4dead2_ADDON.fgc, Visgroups.fgd)
 4. You should end up with the directory ```Steam\steamapps\common\Left 4 Dead 2\bin\L4D2-FGD-Edits```<br>
