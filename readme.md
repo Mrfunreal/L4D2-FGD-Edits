@@ -18,16 +18,17 @@ it's fully compatible with Hammer++, with possible exception of the relay sprite
   Swapping from any entity with a model to an entity that now got a helper model -when it previously did not have one- can cause crashes.
 
 ### Install
-1. Click on "Code - Download ZIP"
+1. Download the latest release into ```Steam\steamapps\common\Left 4 Dead 2\bin```
 
-2. Download the entire "L4D2-FGD-Edits" repo folder into ```Steam\steamapps\common\Left 4 Dead 2\bin```
+2. Create a folder named L4D2-FGD-Edits, unpack the contents of the zip into that folder.<br>
+   (Hammer_vpk, Detailtype_helper, Left4dead2_ADDON.fgc, Visgroups.fgd)
 
-3. You should end up with the directory ```Steam\steamapps\common\Left 4 Dead 2\bin\L4D2-FGD-Edits-main```<br>
-If you got a version from before May.26th.2023, you will need to delete the entire `L4D2-FGD-Edits-main` and replace it with the new one.
+4. You should end up with the directory ```Steam\steamapps\common\Left 4 Dead 2\bin\L4D2-FGD-Edits```<br>
 
-4. In hammer click on **Tools - Options**
+5. In hammer click on **Tools - Options**
 
-5. In the "Game Configuration" tab, look for the "Game Data Files" box use **ONLY** the left4dead2_ADDON.fgd.
+6. In the "Game Configuration" tab, look for the "Game Data Files" box use **ONLY** the left4dead2_ADDON.fgd.<br>
+Even if Tools++ is installed. Its FGD edits are incorporated here.
 
  <img src="pictures/hammer_config.png" width=234/>
  
@@ -46,7 +47,7 @@ Game	hl2
 
 8. Add the folowing above **Game Update**
 
-```Game	bin\L4D2-FGD-Edits-main\hammer_vpk```
+```Game	bin\L4D2-FGD-Edits\hammer_vpk```
 
 ## See Also:
 * [Easy Navmesh Edit CFG files](https://www.github.com/Mrfunreal/L4D2_Navmesh_CFG "L4D2_Navmesh_CFG")
