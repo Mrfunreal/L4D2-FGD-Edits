@@ -19,22 +19,16 @@ it's fully compatible with Hammer++, with possible exception of the relay sprite
 
 ### Install
 1. Download the latest release into ```Steam\steamapps\common\Left 4 Dead 2\bin```
-
 2. Create a folder named L4D2-FGD-Edits, unpack the contents of the zip into that folder.<br>
    (Hammer_vpk, Detailtype_helper, Left4dead2_ADDON.fgc, Visgroups.fgd)
-
 4. You should end up with the directory ```Steam\steamapps\common\Left 4 Dead 2\bin\L4D2-FGD-Edits```<br>
-
 5. In hammer click on **Tools - Options**
-
 6. In the "Game Configuration" tab, look for the "Game Data Files" box use **ONLY** the left4dead2_ADDON.fgd.<br>
 Even if Tools++ is installed. Its FGD edits are incorporated here.
 
  <img src="pictures/hammer_config.png" width=234/>
  
 6. Open  ```Steam\steamapps\common\Left 4 Dead 2\left4dead2\Gameinfo.txt```
-
-
 7. Scroll down to the first few **game** lines.
 ```
 Game	update
@@ -44,7 +38,6 @@ Game	left4dead2_dlc1
 Game	|gameinfo_path|.
 Game	hl2
 ```
-
 8. Add the folowing above **Game Update**
 
 ```Game	bin\L4D2-FGD-Edits\hammer_vpk```
