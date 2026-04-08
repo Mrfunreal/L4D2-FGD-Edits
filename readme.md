@@ -12,10 +12,10 @@ But there’s no dropdown list for the music or skybox names, so you have to dig
 My FGD fixes all these quirks, making Hammer easier to use.<br>
 I've also added new tool textures for different brush entities like func_detail_blocker and the various trigger types.<br>
 it's fully compatible with Hammer++, with possible exception of the relay sprite type.<br>
+All the FGD additions by the [Tools++ Suite](https://ficool2.github.io/HammerPlusPlus-Website/tools.html) has been added to this as well.
 
 ⚠️ **$${\color{red}Warning:}$$**<br> 
-- You must change the default entity from info_survivor_position to info_player_start, or another entitiy without a model!<br>
-  Swapping from any entity with a model to an entity that now got a helper model -when it previously did not have one- can cause crashes.
+- Change the default entity from info_survivor_position to info_player_start to prevent crashes.
 
 ### Install
 1. Download the latest release's "Source Code" into ```Steam\steamapps\common\Left 4 Dead 2\bin```
