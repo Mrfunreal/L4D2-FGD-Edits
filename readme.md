@@ -20,7 +20,7 @@ All the FGD additions by the [Tools++ Suite](https://ficool2.github.io/HammerPlu
 ### Install
 1. Download the latest release's "Source Code" into ```Steam\steamapps\common\Left 4 Dead 2\bin```
 2. Create a folder named L4D2-FGD-Edits, unpack the contents of the zip into that folder.<br>
-   (Hammer_vpk, Detailtype_helper, Left4dead2_ADDON.fgc, Visgroups.fgd)
+   (Hammer_vpk, Detailtype_helper, Left4dead2_ADDON.fgd, Visgroups.fgd)
 4. You should end up with the directory ```Steam\steamapps\common\Left 4 Dead 2\bin\L4D2-FGD-Edits```<br>
 5. In hammer click on **Tools - Options**
 6. In the "Game Configuration" tab, look for the "Game Data Files" box use **ONLY** the left4dead2_ADDON.fgd.<br>
