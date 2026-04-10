@@ -85,9 +85,9 @@ Game	hl2
 <img src="pictures/sprites.png"/>
 <img src="pictures/relays.png"/>
 <p>Worldspawn settings.</p>
-<img src="pictures/witch_behaviour.jpg"/>
-<img src="pictures/skybox_picker.jpg"/>
-<img src="pictures/music_picker.jpg"/>
+<img src="pictures/witch_behaviour.jpg"/><br>
+<img src="pictures/skybox_picker.jpg"/><br>
+<img src="pictures/music_picker.jpg"/><br>
 <img src="pictures/detail_picker.jpg"/>
 <p>Damage Types</p>
 <img src="pictures/damagetypes.jpg"/>
