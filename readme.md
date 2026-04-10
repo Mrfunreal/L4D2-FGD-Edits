@@ -10,9 +10,10 @@ Some examples include:<br>
 - More autovisgroups<br>
 - Frustums for all camera entities<br>
 
+See documentation below for more info. Not everything is documented, because i forgot many small edits i made. But you'll notice.<br>
+File Issues for suggestions, or visit the [Dead 4 Mods discord](https://discord.gg/4qtmzBP) or my [private discord](http://discord.gg/5eDA7CE).
 
-
-
+ 
 ⚠️ **$${\color{red}Warning:}$$**<br> 
 You must change the default entity from info_survivor_position to info_player_start, or another entitiy without a model!<br>
 Swapping from any entity with a model to an entity that now got a helper model -when it previously did not have one- can cause crashes.
@@ -42,10 +43,7 @@ Game	hl2
 
 ```Game	bin\L4D2-FGD-Edits\hammer_vpk```
 
-## See Also:
-* [Easy Navmesh Edit CFG files](https://www.github.com/Mrfunreal/L4D2_Navmesh_CFG "L4D2_Navmesh_CFG")
-* [Autocompiler batch script](https://github.com/Mrfunreal/Various_Scripts/blob/main/Source%201/Hammer_Autocompile.bat)
-  
+
 
 # Images
 <details>
@@ -242,5 +240,10 @@ Game	hl2
 - Env_Detail_Controller
 - Path_Track
 - Info_Elevator_Floor
+
+## See Also:
+* [Easy Navmesh Edit CFG files](https://www.github.com/Mrfunreal/L4D2_Navmesh_CFG "L4D2_Navmesh_CFG")
+* [Autocompiler batch script](https://github.com/Mrfunreal/Various_Scripts/blob/main/Source%201/Hammer_Autocompile.bat)
+ 
 
 
