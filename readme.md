@@ -52,7 +52,7 @@ Game	hl2
 <p>Generic helper models for randomized weapon spawns.</p>
 <img src="pictures/generic_helpers.png"/>
 <p>Better Axis helper</p>
-<img src="pictures/axishelper.gif"/>
+<img src="pictures/AxisHelper.gif"/>
 <p>Colorable helpers</p>
 <img src="pictures/Colorable_helpers.png"/>
 <p>Custom helper for Vrad++ light_projected</p>
