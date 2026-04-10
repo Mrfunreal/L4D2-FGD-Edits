@@ -10,7 +10,8 @@ Some examples include:<br>
 - More autovisgroups<br>
 - Frustums for all camera entities<br>
 
-See documentation below for more info. Not everything is documented, because i forgot many small edits i made. But you'll notice.<br>
+See documentation below for more info. Not everything is documented, because i forgot many small edits i made.<br>
+But as soon as you begin to make maps, you'll realize that some things have changed for the better.<br>
 File Issues for suggestions, or visit the [Dead 4 Mods discord](https://discord.gg/4qtmzBP) or my [private discord](http://discord.gg/5eDA7CE).
 
  
