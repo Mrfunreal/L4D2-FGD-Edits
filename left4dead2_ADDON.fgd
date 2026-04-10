@@ -30,14 +30,21 @@
 
 @BaseClass = Modelscale
 [ 
-			 Modelscale(string) : "Model Scale (Dev Tool)" : "1" : "This changes model scale FOR HAMMER ONLY! Useful for when you need to rescale props and you want to find out by how much."
-	input SetModelScale(string) : "Takes two values separated by a space. The first is the target model scale. The second value is the number of seconds the change in scale will be spread over."
+			 Modelscale(string) : "Model Scale (Dev Tool)" : "1" : "This changes the render size of the model in HAMMER ONLY. For when you want to rescale a model and need to know by how much."
+//	disabled the modelscale input. L4D2 doesn't work well with scaling props. You could edit vbsp to kind-of allow it thought.
+//	since this has no real use at all, i just delete it cause its useless in most applications.
+//	input SetModelScale(string) : "Takes two values separated by a space. The first is the target model scale. The second value is the number of seconds the change in scale will be spread over."
 
 ]
 @BaseClass = HelperName
 [ 
 	HelperName(string) report : "Helper Name" : "" : "Some entities, like Light entities will immediately act different when they're given a 'Targetname'. So this is a hammer internal helper name that has no use, cannot be used for I/O either. It's only useful for when using 'Entity Report' to find all entities with the same Helper Name."
 ]
+@BaseClass = ColorCoding
+[ 
+	rendercolor(color255)	: "Color Coding (Hammer++)" : "255 255 255" : "Lets you visually group thingy by color. Examples: All soundscapes of the same sound could be the same color, Or all high detail cubemaps could be tinted green..."
+]
+
 @BaseClass = Classname
 [ 
 	Classname(string) : "Classname" : "" : "Classname given to the entity."
@@ -155,12 +162,22 @@
 [ 
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	
-	vscripts(scriptlist) : "Entity Scripts" : "" : "Name(s) of script files that are executed after all entities have spawned."
+	vscripts(scriptlist) : "Script(s) to Autorun" : "" : "Name(s) of script files that are executed after all entities have spawned."
 	thinkfunction(string) : "Script think function" : "" : "Name of a function in this entity's script scope which will be called automatically."
 
 	// Inputs
 	input RunScriptFile(script) : "Execute a game script file from disk"
 	input RunScriptCode(string) : "Execute a string of script source code"
+
+	// Inputs
+	input Kill(void)			: "Removes this entity and all the entities using this as a parent"
+	input KillHierarchy(void)	: "Removes this entity and all its children from the world."
+	input AddOutput(string)		: "Adds an entity I/O connection to this entity. Format: <output name> <targetname>:<inputname>:<parameter>:<delay>:<max times to fire (-1 == infinite)>. Very dangerous, use with care."
+	input FireUser1(void)		: "Causes this entity's OnUser1 output to be fired."
+	input FireUser2(void)		: "Causes this entity's OnUser2 output to be fired."
+	input FireUser3(void)		: "Causes this entity's OnUser3 output to be fired."
+	input FireUser4(void)		: "Causes this entity's OnUser4 output to be fired."
+
 	//PLAYER ONLY
 	input IgnoreFallDamageWithoutReset(integer) : "PLAYER ONLY - Disable fall damage for N seconds"
 	input SetCommentaryStatueMode(string) 		: "PLAYER ONLY - ?"
@@ -171,15 +188,6 @@
 	input SetGlowEnabled(integer) 				: "PLAYER ONLY - Sets if this player is allowed to glow through walls if not visible."
 	input RemoveWeaponUpgrades(integer) 		: "PLAYER ONLY - Removes laser sights from guns."
 	input CancelCurrentScene(integer) 			: "PLAYER ONLY - Makes the player's character quit talking immediately."
-
-	// Inputs
-	input Kill(void) : "Removes this entity from the world."
-	input KillHierarchy(void) : "Removes this entity and all its children from the world."
-	input AddOutput(string) : "Adds an entity I/O connection to this entity. Format: <output name> <targetname>:<inputname>:<parameter>:<delay>:<max times to fire (-1 == infinite)>. Very dangerous, use with care."
-	input FireUser1(void) : "Causes this entity's OnUser1 output to be fired."
-	input FireUser2(void) : "Causes this entity's OnUser2 output to be fired."
-	input FireUser3(void) : "Causes this entity's OnUser3 output to be fired."
-	input FireUser4(void) : "Causes this entity's OnUser4 output to be fired."
 
 	// Outputs	
 	output OnUser1(void) : "Fired in response to FireUser1 input."
@@ -872,7 +880,7 @@
 [
 	targetname(target_source) : "Name" : "worldspawn" : "The name that other entities refer to this entity by."
 	
-	vscripts(scriptlist) : "Entity Scripts" : "" : "Name(s) of script files that are executed after all entities have spawned."
+	vscripts(scriptlist) : "Script(s) to Autorun" : "" : "Name(s) of script files that are executed after all entities have spawned."
 	thinkfunction(string) : "Script think function" : "" : "Name of a function in this entity's script scope which will be called automatically."
 
 	// Inputs
@@ -960,7 +968,7 @@
 ]
 
 
-@PointClass base(Targetname) iconsprite("editor/ambient_generic.vmt") sphere() = ambient_generic : "Universal ambient sound. Use it to play and control a single sound."
+@PointClass base(ColorCoding, Targetname) iconsprite("editor/ambient_generic.vmt") sphere() = ambient_generic : "Universal ambient sound. Use it to play and control a single sound."
 [
 	message(sound) : "Sound Name" : "" : "Name of the GameSound entry for the sound to play. Also supports direct .wav filenames."
 	health(integer) : "Volume" : 10 : "Sound volume, expressed as a range from 0 to 10, where 10 is the loudest."
@@ -1026,7 +1034,7 @@
 	input FadeOut(integer) : "Fades the sound to silence over a specified number of seconds, with a range from 0 to 100 seconds."
 ]
 
-@PointClass base(Targetname) iconsprite("editor/new/ambient_music.vmt") sphere() = ambient_music : "Play L4D specfic music."
+@PointClass base(ColorCoding, Targetname) iconsprite("editor/new/ambient_music.vmt") sphere() = ambient_music : "Play L4D specfic music."
 [
 	message(sound) : "Sound Name" : "" : "Name of the GameSound entry  to play. "
 
@@ -1360,7 +1368,7 @@
 	TonemapName(target_destination) : "Tonemap Name" : : "The name of the tonemap controller entity associated with this trigger."
 ]
 
-@PointClass base(Targetname) iconsprite("editor/env_tonemap_controller.vmt") = env_tonemap_controller : 
+@PointClass base(ColorCoding, Targetname) iconsprite("editor/env_tonemap_controller.vmt") = env_tonemap_controller : 
 	"An entity that controls the HDR tonemapping for the player. Think of it as a method of controlling the exposure of the player's eyes."
 [
 	// Inputs
@@ -1490,7 +1498,7 @@
 		0 : "No"
 		1 : "Yes"
 	]	
-	vrad_brush_cast_shadows(choices) : "Shadows" : 0 : "Set this if this brush casts lightmap shadows." =
+	vrad_brush_cast_shadows(choices) : "Shadows" : 0 : "Set this if this brush casts lightmap shadows that are baked into the map." =
 	[
 		0 : "No"
 		1 : "Yes"
@@ -1523,7 +1531,7 @@
 [
 ]
 
-@PointClass base(Parentname, Targetname, Angles ) studio("models/editor/axis_helper_thick.mdl") = vgui_slideshow_display : "Slideshow Display"
+@PointClass base(Parentname, Targetname, Angles ) studio("models/editor/axis_helper_thick_new.mdl") = vgui_slideshow_display : "Slideshow Display"
 [
 	displaytext(string) : "Display Text" : ""
 
@@ -2001,7 +2009,7 @@
 ]
 
 //POSTPROCESS SPRITES
-@PointClass base(Targetname) iconsprite("Editor/new/postprocess_controller.vmt") color(255 255 255) = postprocess_controller : 
+@PointClass base(ColorCoding, Targetname) iconsprite("Editor/new/postprocess_controller.vmt") color(255 255 255) = postprocess_controller : 
 	"An entity that controls the postprocess settings in the map."
 [
 	// Inputs
@@ -2184,7 +2192,7 @@
 	input ViewPunch(void) : "Performs the view punch."
 ]
 
-@PointClass color(255 0 0) base(obsolete,gibshooterbase) iconsprite("editor/obsolete.vmt") = gibshooter : 
+@PointClass color(255 0 0) base(obsolete, gibshooterbase) iconsprite("editor/obsolete.vmt") = gibshooter : 
 	"An entity that shoots out gibs. Style of body part depends on language type."
 [
 	obsolete(string) readonly : "Use env_shooter" : : " "
@@ -2260,7 +2268,7 @@
 	rotortimevariance(float) : "Time variance" : "0.3" : "The random amount to vary the time it has to be under the rotor before it shoots a gib."
 ]
 
-@PointClass base(Parentname, Targetname) sphere() iconsprite("editor/env_soundscape.vmt") = env_soundscape_proxy : 
+@PointClass base(ColorCoding, Parentname, Targetname) sphere() iconsprite("editor/env_soundscape.vmt") = env_soundscape_proxy : 
 	"An entity that acts like a soundscape but gets all of its sound parameters from another env_soundscape entity."
 [
 	MainSoundscapeName(target_destination) : "Soundscape Entity" : "" : "The soundscape to get all sound parameters from."
@@ -2268,7 +2276,7 @@
 	radius(integer) : "Radius" : 128					// NEEDHELP: The datadesc doesn't include this entry. Probably not used.
 ]
 
-@PointClass base(Parentname, Targetname, EnableDisable) sphere() iconsprite("editor/env_soundscape.vmt") line(255 255 255, targetname, position0) line(255 255 255, targetname, position1) line(255 255 255, targetname, position2) line(255 255 255, targetname, position3) line(255 255 255, targetname, position4) line(255 255 255, targetname, position5) line(255 255 255, targetname, position6) line(255 255 255, targetname, position7) = env_soundscape : 
+@PointClass base(ColorCoding, Parentname, Targetname, EnableDisable) sphere() iconsprite("editor/env_soundscape.vmt") line(255 255 255, targetname, position0) line(255 255 255, targetname, position1) line(255 255 255, targetname, position2) line(255 255 255, targetname, position3) line(255 255 255, targetname, position4) line(255 255 255, targetname, position5) line(255 255 255, targetname, position6) line(255 255 255, targetname, position7) = env_soundscape : 
 	"An entity to control sound in an area. The active soundscape at any time is the last one that had line-of-sight to the player, and was within the radius."
 [
 	radius(integer) : "Radius" : 128 : "If set to -1, then the player can hear the soundscape as long as he can see it (regardless of distance to it)."
@@ -2298,7 +2306,7 @@
 	output OnPlay(void) : "Fired when this soundscape becomes the active one."
 ]
 
-@PointClass base(env_soundscape) sphere() iconsprite("editor/env_soundscape.vmt") = env_soundscape_triggerable : 
+@PointClass base(ColorCoding, env_soundscape) sphere() iconsprite("editor/env_soundscape.vmt") = env_soundscape_triggerable : 
 	"An entity that works like env_soundscape except that it works in conjunction with trigger_soundscape to determine when a player hears it."
 [
 ]
@@ -2337,7 +2345,8 @@
 	input SparkOnce(void) : "Spark once."
 ]
 
-//Env_Sprite using world glow as default with a helper model to easier select them in hammer when the sprite is large
+//Env_Sprite using world glow as default with a helper model to easier select them in hammer when the sprite is large.
+// removed helper model as it obstructed visibility on the sprite and also causes crashes sometimes.
 //@PointClass base(Parentname, Targetname, RenderFields)  studio("models/editor/sprite_ball.mdl") sprite() color(20 140 20) = env_sprite : 
 @PointClass base(Parentname, Targetname, RenderFields)  size(-1 -1 -1, 1 1 1) sprite() color(20 140 20) = env_sprite : 
 	"An entity that controls the drawing of a sprite in the world." 
@@ -2539,7 +2548,7 @@
 
 
 //Makes the helperprop white to make color display properly.
-@PointClass base(Parentname, Targetname, Angles, RenderFields) color(255 255 255) studio("models/editor/cone_helper_white.mdl") = point_spotlight : 
+@PointClass base(Parentname, Targetname, Angles, RenderFields) color(255 255 255) studio("models/editor/cone_helper_white_new.mdl") = point_spotlight : 
 	"An entity to draw a spotlight. Will draw a beam when the player views it side on, and a halo when it's facing towards the player. "+
 	"Unless the 'No Dynamic Light' spawnflag is checked, it will also create a dynamic light wherever the end of the spotlight rests."
 [
@@ -2677,7 +2686,7 @@
 // Info Entities
 //-------------------------------------------------------------------------
 
-@PointClass base(Targetname) decal() studio("models/editor/axis_helper_thick.mdl") = infodecal : 
+@PointClass base(Targetname) decal() studio("models/editor/axis_helper_thick_new.mdl") = infodecal : 
 	"An entity that places a decal on the world. If the decal has no target name, it will immediately apply itself when the level is loaded. "+
 	"If it has a name specified, it won't apply until it receives the 'Activate' input."
 [
@@ -2696,7 +2705,7 @@
 
 // A decal to be applied to a prop or the world using specified origin and orientation and radius, uses an orientation angle and a radius to determine
 //  ray to cast for projection
-@PointClass base(Angles,Targetname) decal() studio("models/editor/axis_helper_thick.mdl") = info_projecteddecal : 
+@PointClass base(Angles,Targetname) decal() studio("models/editor/axis_helper_thick_new.mdl") = info_projecteddecal : 
 	"An entity that projects a decal onto the world (or props). If the decal has no target name, it will immediately apply itself when "+
 	"the level is loaded. If it has a name specified, it won't apply until it receives the 'Activate' input."
 [
@@ -2765,12 +2774,12 @@
 ]
 
 
-@PointClass base(Parentname, Targetname, Angles) studio("models/editor/cone_helper.mdl") = info_particle_target : 
+@PointClass base(Parentname, Targetname, Angles) studio("models/editor/cone_helper_new.mdl") = info_particle_target : 
 	"An entity that is a target for particle system control points"
 [
 ]
 
-@PointClass base(Parentname, Targetname, Angles) studio("models/editor/cone_helper.mdl") line(255 255 255, targetname, cpoint1) line(255 255 255, targetname, cpoint2) line(255 255 255, targetname, cpoint3) line(255 255 255, targetname, cpoint4) line(255 255 255, targetname, cpoint5) line(255 255 255, targetname, cpoint6) line(255 255 255, targetname, cpoint7) line(255 255 255, targetname, cpoint8) line(255 255 255, targetname, cpoint9) line(255 255 255, targetname, cpoint10) line(255 255 255, targetname, cpoint11) line(255 255 255, targetname, cpoint12) line(255 255 255, targetname, cpoint13) line(255 255 255, targetname, cpoint14) line(255 255 255, targetname, cpoint15) line(255 255 255, targetname, cpoint16) line(255 255 255, targetname, cpoint17) line(255 255 255, targetname, cpoint18) line(255 255 255, targetname, cpoint19) line(255 255 255, targetname, cpoint20) line(255 255 255, targetname, cpoint21) line(255 255 255, targetname, cpoint22) line(255 255 255, targetname, cpoint23) line(255 255 255, targetname, cpoint24) line(255 255 255, targetname, cpoint25) line(255 255 255, targetname, cpoint26) line(255 255 255, targetname, cpoint27) line(255 255 255, targetname, cpoint28) line(255 255 255, targetname, cpoint29) line(255 255 255, targetname, cpoint30) line(255 255 255, targetname, cpoint31) line(255 255 255, targetname, cpoint32) line(255 255 255, targetname, cpoint33) line(255 255 255, targetname, cpoint34) line(255 255 255, targetname, cpoint35) line(255 255 255, targetname, cpoint36) line(255 255 255, targetname, cpoint37) line(255 255 255, targetname, cpoint38) line(255 255 255, targetname, cpoint39) line(255 255 255, targetname, cpoint40) line(255 255 255, targetname, cpoint41) line(255 255 255, targetname, cpoint42) line(255 255 255, targetname, cpoint43) line(255 255 255, targetname, cpoint44) line(255 255 255, targetname, cpoint45) line(255 255 255, targetname, cpoint46) line(255 255 255, targetname, cpoint47) line(255 255 255, targetname, cpoint48) line(255 255 255, targetname, cpoint49) line(255 255 255, targetname, cpoint50) line(255 255 255, targetname, cpoint51) line(255 255 255, targetname, cpoint52) line(255 255 255, targetname, cpoint53) line(255 255 255, targetname, cpoint54) line(255 255 255, targetname, cpoint55) line(255 255 255, targetname, cpoint56) line(255 255 255, targetname, cpoint57) line(255 255 255, targetname, cpoint58) line(255 255 255, targetname, cpoint59) line(255 255 255, targetname, cpoint60) line(255 255 255, targetname, cpoint61) line(255 255 255, targetname, cpoint62) line(255 255 255, targetname, cpoint63) = info_particle_system : 
+@PointClass base(Parentname, Targetname, Angles) studio("models/editor/cone_helper_new.mdl") line(255 255 255, targetname, cpoint1) line(255 255 255, targetname, cpoint2) line(255 255 255, targetname, cpoint3) line(255 255 255, targetname, cpoint4) line(255 255 255, targetname, cpoint5) line(255 255 255, targetname, cpoint6) line(255 255 255, targetname, cpoint7) line(255 255 255, targetname, cpoint8) line(255 255 255, targetname, cpoint9) line(255 255 255, targetname, cpoint10) line(255 255 255, targetname, cpoint11) line(255 255 255, targetname, cpoint12) line(255 255 255, targetname, cpoint13) line(255 255 255, targetname, cpoint14) line(255 255 255, targetname, cpoint15) line(255 255 255, targetname, cpoint16) line(255 255 255, targetname, cpoint17) line(255 255 255, targetname, cpoint18) line(255 255 255, targetname, cpoint19) line(255 255 255, targetname, cpoint20) line(255 255 255, targetname, cpoint21) line(255 255 255, targetname, cpoint22) line(255 255 255, targetname, cpoint23) line(255 255 255, targetname, cpoint24) line(255 255 255, targetname, cpoint25) line(255 255 255, targetname, cpoint26) line(255 255 255, targetname, cpoint27) line(255 255 255, targetname, cpoint28) line(255 255 255, targetname, cpoint29) line(255 255 255, targetname, cpoint30) line(255 255 255, targetname, cpoint31) line(255 255 255, targetname, cpoint32) line(255 255 255, targetname, cpoint33) line(255 255 255, targetname, cpoint34) line(255 255 255, targetname, cpoint35) line(255 255 255, targetname, cpoint36) line(255 255 255, targetname, cpoint37) line(255 255 255, targetname, cpoint38) line(255 255 255, targetname, cpoint39) line(255 255 255, targetname, cpoint40) line(255 255 255, targetname, cpoint41) line(255 255 255, targetname, cpoint42) line(255 255 255, targetname, cpoint43) line(255 255 255, targetname, cpoint44) line(255 255 255, targetname, cpoint45) line(255 255 255, targetname, cpoint46) line(255 255 255, targetname, cpoint47) line(255 255 255, targetname, cpoint48) line(255 255 255, targetname, cpoint49) line(255 255 255, targetname, cpoint50) line(255 255 255, targetname, cpoint51) line(255 255 255, targetname, cpoint52) line(255 255 255, targetname, cpoint53) line(255 255 255, targetname, cpoint54) line(255 255 255, targetname, cpoint55) line(255 255 255, targetname, cpoint56) line(255 255 255, targetname, cpoint57) line(255 255 255, targetname, cpoint58) line(255 255 255, targetname, cpoint59) line(255 255 255, targetname, cpoint60) line(255 255 255, targetname, cpoint61) line(255 255 255, targetname, cpoint62) line(255 255 255, targetname, cpoint63) = info_particle_system : 
 	"An entity that spawns a particle system built using the particle editor."
 [
 	effect_name(particlesystem) : "Particle System Name"
@@ -2934,11 +2943,10 @@
 	SunSpreadAngle(float) 	: "SpreadAngle" 		: 3 				: "The angular extent of the light for casting soft shadows. Higher numbers are more diffuse. 5 is a good starting value."
 ]
 
-//light_spot with colored helper model
-@PointClass base(HelperName, Targetname, Angles, Light) lightprop("models/editor/spot_white.mdl") lightcone() sphere(_fifty_percent_distance) sphere(_zero_percent_distance) = light_spot :
+@PointClass base(HelperName, Targetname, Angles, Light) lightprop("models/editor/spot_color.mdl") lightcone() sphere(_fifty_percent_distance) sphere(_zero_percent_distance) = light_spot :
 	"An invisible and directional spotlight."
 [
-	rendercolor(color255) : "Helper Model Color" : "0 246 180" : "This Colors just the helper model, to show you what color the light would have. Unfortunately it is not possible to use the values of the _light field. You'll have to manually copy the _light color numbers in here."
+//	rendercolor(color255) : "Helper Model Color" : "0 246 180" : "This Colors just the helper model, to show you what color the light would have. Unfortunately it is not possible to use the values of the _light field. You'll have to manually copy the _light color numbers in here."
 	target(target_destination) : "Entity to point at" : : "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
 	_inner_cone(integer) : "Inner (bright) angle" : 30
 	_cone(integer) : "Outer (fading) angle" : 45
@@ -2951,10 +2959,10 @@
 
 ]
 
-@PointClass base(Parentname, Targetname, Angles) iconsprite("editor/light.vmt") sphere(distance) lightcone() size(-4 -4 -4, 4 4 4) = light_dynamic : 
+@PointClass base(obsolete, Parentname, Targetname, Angles) iconsprite("editor/light.vmt") sphere(distance) lightcone() size(-4 -4 -4, 4 4 4) = light_dynamic : 
 	"An invisible lightsource that changes in some way over time." 
 [
-	obsolete(string) readonly : "Does not function at all." : : " "
+	obsolete(string) readonly : "!!! DOES NOT WORK AT ALL !!!" : : " "
 	target(target_destination) : "Entity to point at" : : "The name of an entity in the map that the dynamic light will point at."
 	_light(color255) : "Light color" : "255 255 255 200"
 	brightness(integer) : "Light brightness" : 0
@@ -3082,7 +3090,7 @@
 // Movement and Keyframing Entities
 //-------------------------------------------------------------------------
 
-@BaseClass = KeyFrame
+@BaseClass = KeyFrame 
 [
 	NextKey(target_destination) : "Next KeyFrame" : : "Name of the next keyframe along this keyframe path."
 
@@ -3139,7 +3147,7 @@
 @SolidClass color(255 0 0) base(obsolete, Parentname, Targetname, Origin) = func_water_analog :
 	"A water brush entity that moves linearly along a given distance, in a given direction"
 [
-	obsolete(string) readonly : "this does not work properly" : : " "
+	obsolete(string) readonly : "!!! DOES NOT WORK PROPERLY !!!" : : " "
 	movedir(angle) : "Move Direction (Pitch Yaw Roll)" : "0 0 0" : "The direction the water will move, when told to 'Open'."
 	startposition(float) : "Start Position" : 0 : "Position of the water brush when spawned. The range is a value between 0.0 and 1.0, where 0 is the starting position and 1 is the starting position + (move direction * move distance)."	
 	speed(integer) : "Speed" : 100 : "The speed that the water brush moves, in inches per second."
@@ -3218,7 +3226,7 @@
 //-------------------------------------------------------------------------
 // Ropes and Cables
 //-------------------------------------------------------------------------
-@BaseClass base(SystemLevelChoice) = RopeKeyFrame
+@BaseClass base(SystemLevelChoice)= RopeKeyFrame
 [
 	spawnflags(Flags) = 
 	[
@@ -3278,12 +3286,7 @@
 	input Break(void) : "Break the rope, if it's marked to do so."
 ]
 
-@KeyFrameClass base(Parentname, Targetname, KeyFrame, RopeKeyFrame) studio("models/editor/axis_helper_thick.mdl") keyframe() = keyframe_rope : 
-	"A node entity that marks a point in a rope. The first node in the rope should be a move_rope, followed by 1 or more keyframe_ropes."
-[
-]
-
-@MoveClass base(Parentname, Targetname, KeyFrame, RopeKeyFrame) studio("models/editor/axis_helper.mdl") animator() = move_rope : 
+@MoveClass base(Parentname, Targetname, KeyFrame, RopeKeyFrame) studio("models/editor/axis_helper_new.mdl") animator()  line(0 255 0, targetname, NextKey)= move_rope : 
 	"The first node in set of nodes that are used to place ropes in the world. It should connect to 1 or more keyframe_rope entities."
 [
 	PositionInterpolator(choices) : "Position Interpolator" : 2 : "Curve Type. Currently only type 2 (Rope) is fully supported." =
@@ -3293,6 +3296,12 @@
 		2 : "Rope"
 	]
 ]
+
+@KeyFrameClass base(Parentname, Targetname, KeyFrame, RopeKeyFrame) studio("models/editor/axis_helper_thick_new.mdl") keyframe()  line(0 255 0, targetname, NextKey)= keyframe_rope : 
+	"A node entity that marks a point in a rope. The first node in the rope should be a move_rope, followed by 1 or more keyframe_ropes."
+[
+]
+
 
 
 //-------------------------------------------------------------------------
@@ -3807,7 +3816,7 @@
 //-------------------------------------------------------------------------
 
 //bigger cubemap and origin to know where it is.
-@PointClass color(0 255 255) sidelist(sides) sphere() base(HelperName) iconsprite("editor/env_cubemap.vmt") = env_cubemap : 
+@PointClass color(0 255 255) sidelist(sides) sphere() base(ColorCoding, HelperName) iconsprite("editor/env_cubemap.vmt") = env_cubemap : 
 	"An entity that creates a sample point for the Cubic Environment Map."
 [
 	radius(string) 			: "Helper radius" 					: "128"	: "Use the radius as a helper to show the influence of a cubemap. This radius will help placing cubemaps in hallways and around doors, to make sure that the radius drawn doesn't clip through the wall on either side. Otherwise the cubemaps of hallways may show up outside of the hallways."
@@ -3944,13 +3953,12 @@
 //-------------------------------------------------------------------------
 
 //Removing useless globalstates from logic_auto
-@PointClass iconsprite("editor/logic_auto.vmt") = logic_auto : 
+@PointClass base(ColorCoding, HelperName) iconsprite("editor/logic_auto.vmt") = logic_auto : 
 	"Fires outputs when a map spawns. " +
 	"If 'Remove on fire' flag is set the logic_auto is deleted after firing. " +
 	"It can be set to check a global state before firing. This allows you to only fire events based on "+
 	"what took place in a previous map."
 [
-	targetname(target_source) : "Helper Name" : : "Useful when using 'entity report' to find entities grouped by name. Has absolutely no use outside of hammer."
 	spawnflags(Flags) =
 	[
 		1 : "Remove on fire" : 1
@@ -3972,14 +3980,6 @@
 	output OnMultiNewMap(void) : "Fired only in multiplayer, when a new map is loaded."
 	output OnMultiNewRound(void) : "Fired only in multiplayer, when a new round is started. Only fired in multiplayer games that use round-based gameplay."
 //	output OnDemoMapSpawn(void) : "Fired when the map is loaded in Demo Mode."
-]
-
-@PointClass base(Parentname, Targetname, Angles) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera.mdl") = point_viewcontrol : 
-	"A camera entity that controls the player's view. While it's active, the player will see out of the camera." 
-[
-	obsolete(string) readonly : "Obsolete" : : "Use point_viewcontrol_survivor for individual survivors or point_viewcontrol_multiplayer for all survivors at once"
-	rendercolor(color255) : "Helper Color (R G B)" : "0 243 229" 
-	z_far(string) 		: 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
 ]
 
 @PointClass base(Targetname) = point_posecontroller : 
@@ -4020,7 +4020,7 @@
 	input RandomizeFMod(float) : "Randomize the frequency modulation by an extremeness of 0.0 to 1.0."
 ]
 
-@PointClass base(Targetname) iconsprite("editor/logic_compare.vmt") = logic_compare :
+@PointClass base(ColorCoding, Targetname) iconsprite("editor/logic_compare.vmt") = logic_compare :
 	"Compares an input value to another value. " +
 	"If the input value is less than the compare value, the OnLessThan output is fired with the input value. " +
 	"If the input value is equal to the compare value, the OnEqualTo output is fired with the input value. " +	
@@ -4043,7 +4043,7 @@
 	output OnGreaterThan(float) : "Fired when the input value is greater than the compare value. Sends the input value as data."
 ]
 
-@PointClass base(Targetname) iconsprite("editor/logic_branch.vmt") = logic_branch :
+@PointClass base(ColorCoding, Targetname) iconsprite("editor/logic_branch.vmt") = logic_branch :
 	"Tests a boolean value and fires an output based on whether the value is true or false. " +
 	"Use this entity to branch between two potential sets of events."
 [
@@ -4063,7 +4063,7 @@
 ]
 
 
-@PointClass base(Targetname) = logic_branch_listener :
+@PointClass base(ColorCoding, Targetname) = logic_branch_listener :
 	"Contains a list of logic_branch entities and fires outputs when the state of any of the logic_branches changes.\n\n"+
 	"This entity is used to fire an event when a set of conditions are all satisfied."
 [
@@ -4092,7 +4092,7 @@
 ]
 
 
-@PointClass base(Targetname) iconsprite("editor/logic_case.vmt") = logic_case :
+@PointClass base(ColorCoding, Targetname) iconsprite("editor/logic_case.vmt") = logic_case :
 	"Compares an input to up to 16 preset values. If the input value is the same as " +
 	"any of the preset values, an output corresponding to that value is fired.\n\n" +
 	"For example: if Case01 is set to 2 and Case02 is set to 5, and the input value is 5, " +
@@ -4144,7 +4144,7 @@
 ]
 
 // NEEDHELP: Unused in HL2, not clear what it's useful for.
-@PointClass base(Targetname) iconsprite("editor/logic_multicompare.vmt") = logic_multicompare :
+@PointClass base(ColorCoding, Targetname) iconsprite("editor/logic_multicompare.vmt") = logic_multicompare :
 	"Compares a set of inputs to each other. If they are all the same, fires an OnEqual output. " +
 	"If any are different, fires the OnNotEqual output."
 [
@@ -4190,7 +4190,7 @@
 //		"editor/new/logic_relay12.vmt" 	: "Yellow"
 //		"editor/new/logic_relay13.vmt" 	: "Orange"
 //		]
-//		rendermode(integer) : "Ignore this" : 4 : "Hammer++ needs this to circumvent weird behaviour. So that you can adtually edit the sprite if you wanted to"
+//		rendermode(integer) readonly: "Ignore this" : 4 : "Hammer++ needs this to circumvent weird behaviour. So that you can adtually edit the sprite if you wanted to"
 //		spawnflags(flags) =
 //		[
 //			1: "Only trigger once" : 0
@@ -4208,45 +4208,45 @@
 //	]
 
 // Relay with more colored sprites to ceep "Circuts" apart. (DEFAULT HAMMER)
-@PointClass base(Targetname, EnableDisable) iconsprite() = logic_relay :
-	"A message forwarder. Fires an OnTrigger output when triggered, and " +
-	"can be disabled to prevent forwarding outputs.\n\n" +
-	"Useful as an intermediary between one entity and another for turning " +
-	"on or off an I/O connection, or as a container for holding a set of " +
-	"outputs that can be triggered from multiple places."
-[
-	model(choices) : "Helper Sprite" : "editor/logic_relay.vmt" : "Visual aid to keep 'Circuts' apart.\n Example:\n Versus only relays could be pink.\n Coop relays blue.\n All relays related to giane mechanism yellow, ect..."=
+	@PointClass base(Targetname, EnableDisable) iconsprite() = logic_relay :
+		"A message forwarder. Fires an OnTrigger output when triggered, and " +
+		"can be disabled to prevent forwarding outputs.\n\n" +
+		"Useful as an intermediary between one entity and another for turning " +
+		"on or off an I/O connection, or as a container for holding a set of " +
+		"outputs that can be triggered from multiple places."
 	[
-	"editor/logic_relay.vmt" : "Default"
-	"editor/new/logic_relay1.vmt" : "Red"
-	"editor/new/logic_relay4.vmt" : "Pink"
-	"editor/new/logic_relay5.vmt" : "Violet"
-	"editor/new/logic_relay6.vmt" : "Purple"
-	"editor/new/logic_relay7.vmt" : "Dark Blue"
-	"editor/new/logic_relay8.vmt" : "Turquoise"
-	"editor/new/logic_relay10.vmt" : "Green"
-	"editor/new/logic_relay11.vmt" : "Lime"
-	"editor/new/logic_relay12.vmt" : "Yellow"
-	"editor/new/logic_relay13.vmt" : "Orange"
+		model(choices) : "Helper Sprite" : "editor/logic_relay.vmt" : "Visual aid to keep 'Circuts' apart.\n Example:\n Versus only relays could be pink.\n Coop relays blue.\n All relays related to giane mechanism yellow, ect..."=
+		[
+		"editor/logic_relay.vmt" : "Default"
+		"editor/new/logic_relay1.vmt" : "Red"
+		"editor/new/logic_relay4.vmt" : "Pink"
+		"editor/new/logic_relay5.vmt" : "Violet"
+		"editor/new/logic_relay6.vmt" : "Purple"
+		"editor/new/logic_relay7.vmt" : "Dark Blue"
+		"editor/new/logic_relay8.vmt" : "Turquoise"
+		"editor/new/logic_relay10.vmt" : "Green"
+		"editor/new/logic_relay11.vmt" : "Lime"
+		"editor/new/logic_relay12.vmt" : "Yellow"
+		"editor/new/logic_relay13.vmt" : "Orange"
+		]
+		spawnflags(flags) =
+		[
+			1: "Only trigger once" : 0
+			2: "Allow fast retrigger" : 0
+		]
+		// Inputs
+		input Trigger(void) : "Trigger the relay, causing its OnTrigger output to fire if it is enabled."
+		input Toggle(void) : "Toggle the relay between enabled and disabled."
+		input CancelPending(void) : "Cancel any events fired by this relay that are currently pending in the I/O event queue."
+			// Outputs
+		output OnSpawn(void) : "Fired when the relay is spawned. If the relay is set to only trigger once, it will "+
+			"delete itself after firing this output."
+		output OnTrigger(void) : "Fired when the relay is triggered. If the relay is set to only trigger once, it will "+
+			"delete itself after firing this output."
 	]
-	spawnflags(flags) =
-	[
-		1: "Only trigger once" : 0
-		2: "Allow fast retrigger" : 0
-	]
-	// Inputs
-	input Trigger(void) : "Trigger the relay, causing its OnTrigger output to fire if it is enabled."
-	input Toggle(void) : "Toggle the relay between enabled and disabled."
-	input CancelPending(void) : "Cancel any events fired by this relay that are currently pending in the I/O event queue."
-		// Outputs
-	output OnSpawn(void) : "Fired when the relay is spawned. If the relay is set to only trigger once, it will "+
-		"delete itself after firing this output."
-	output OnTrigger(void) : "Fired when the relay is triggered. If the relay is set to only trigger once, it will "+
-		"delete itself after firing this output."
-]
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-@PointClass base(Targetname, EnableDisable) iconsprite("editor/logic_timer.vmt") = logic_timer :
+@PointClass base(ColorCoding, Targetname, EnableDisable) iconsprite("editor/logic_timer.vmt") = logic_timer :
 	"An entity that fires a timer event at regular, or random, intervals. It can also be set to oscillate between" + 
 	"a high and low end, in which case it will fire alternating high/low outputs each time it fires."
 [
@@ -4416,7 +4416,7 @@
 	output OutColor(color255) : "Fired when the InValue input is received, with the remapped RGB color as the parameter."
 ]
 
-@PointClass base(Targetname, EnableDisable) iconsprite("editor/math_counter.vmt") = math_counter :
+@PointClass base(ColorCoding, Targetname, EnableDisable) iconsprite("editor/math_counter.vmt") = math_counter :
 	"Holds a numeric value and performs arithmetic operations upon it. If either the minimum or maximum " +
 	"legal value is nonzero, OutValue will be clamped to the legal range, and the OnHitMin/OnHitMax " +
 	"outputs will be fired at the appropriate times. If both min and max are set to zero, no clamping is " +
@@ -4475,7 +4475,7 @@
 ]
 
 
-@PointClass base(Targetname) iconsprite("editor/point_template.vmt") = point_template : 
+@PointClass base(ColorCoding, Targetname) iconsprite("editor/point_template.vmt") = point_template : 
 	"Turns an entity, or set of entities, into a single template that can be instanced anywhere, and multiple times. "+
 	"If there are interdependencies (entity I/O, hierarchy, or other name references) between the entities "+
 	"in the template, the entities in the template will have their names changed and the interdependencies will "+
@@ -4516,7 +4516,7 @@
 ]
 
 //env_entity_maker sprite
-@PointClass base(Parentname, Targetname, Angles) iconsprite("editor/new/env_entity_maker.vmt")= env_entity_maker : 
+@PointClass base(ColorCoding, Parentname, Targetname, Angles) iconsprite("editor/new/env_entity_maker.vmt")= env_entity_maker : 
 	"Spawns the specified entity template at its origin. If set to auto-spawn, it will spawn the template whenever there's room and the player "+
 	"is looking elsewhere." 
 [
@@ -5000,7 +5000,8 @@
 	reversalsoundLarge(sound) : "Reversal sound (large)" : "" : "Play this sound when making a hard reverse over the large threshold"
 ]
 
-@PointClass base(TwoObjectPhysics) iconsprite("editor/phys_ballsocket.vmt") = phys_ballsocket : 
+//@PointClass base(TwoObjectPhysics) iconsprite("editor/phys_ballsocket.vmt") = phys_ballsocket : 
+@PointClass base(TwoObjectPhysics) studio("models/editor/axis_ball_small.mdl") = phys_ballsocket : 
 	"A constraint that keeps the position of two objects fixed, relative to the constraint's origin. It does not affect rotation."
 [
 	spawnflags(flags) =
@@ -5008,12 +5009,12 @@
 	]
 ]
 
-@PointClass base(TwoObjectPhysics) studio("models/editor/axis_helper.mdl") = phys_constraint : 
+@PointClass base(TwoObjectPhysics) studio("models/editor/axis_helper_new.mdl") = phys_constraint : 
 	"A constraint that keeps the relative position and orientation of two objects fixed."
 [
 ]
 
-@PointClass base(TwoObjectPhysics) studio("models/editor/axis_helper.mdl") = phys_pulleyconstraint : 
+@PointClass base(TwoObjectPhysics) studio("models/editor/axis_helper_new.mdl") = phys_pulleyconstraint : 
 	"A constraint that is essentially two length constraints and two points. Imagine it as a virtual rope connected to two objects, each suspended from a pulley above them."+
 	"The constraint keeps the sum of the distances between the pulley points and their suspended objects constant."
 [
@@ -5027,7 +5028,7 @@
 	]
 ]
 
-@PointClass halfgridsnap base(TwoObjectPhysics) studio("models/editor/axis_helper.mdl") = phys_slideconstraint : 
+@PointClass halfgridsnap base(TwoObjectPhysics) studio("models/editor/axis_helper_new.mdl") = phys_slideconstraint : 
 	"A constraint that constrains an entity along a line segment."
 [
 	spawnflags(flags) =
@@ -5059,7 +5060,7 @@
 	reversalsoundLarge(sound) : "Reversal sound (large)" : "" : "Play this sound when making a hard reverse over the large threshold"
 ]
 
-@PointClass base(TwoObjectPhysics) studio("models/editor/axis_helper.mdl") = phys_lengthconstraint : 
+@PointClass base(TwoObjectPhysics) studio("models/editor/axis_helper_new.mdl") = phys_lengthconstraint : 
 	"A constraint that preserves the distance between two entities. If the 'Keep Rigid' flag is set, think of it as a rod. If not, think off it as a virtual rope."
 [
 	addlength(float) : "Additional Length" : "0" : "Add (or subtract) this amount to the rest length of the rope."
@@ -5072,7 +5073,7 @@
 	]
 ]
 
-@PointClass base(TwoObjectPhysics) studio("models/editor/axis_helper.mdl") = phys_ragdollconstraint : 
+@PointClass base(TwoObjectPhysics) studio("models/editor/axis_helper_new.mdl") = phys_ragdollconstraint : 
 	"A constraint that fixes the position of two entities, relative to this constraint's origin. Also allows for limits on the rotation around each axis, in the space of this constraint."
 [
 	spawnflags(flags) =
@@ -5467,7 +5468,7 @@
 	"If the model used by the prop is configured to be used as a prop_dynamic (i.e. it should not be physically simulated) then it CANNOT be "+
 	"used as a prop_physics. Upon level load it will display a warning in the console and remove itself. Use a prop_dynamic instead."
 [
-	vscripts(scriptlist) : "Entity Scripts" : "" : "Name(s) of script files that are executed after all entities have spawned."
+	vscripts(scriptlist) : "Script(s) to Autorun" : "" : "Name(s) of script files that are executed after all entities have spawned."
 	thinkfunction(string) : "Script think function" : "" : "Name of a function in this entity's script scope which will be called automatically."
 	model(studio) : "Model" : "" : "entities to carry:\n models/props_equipment/oxygentank01.mdl \n models/props_junk/propanecanister001a.mdl \n models/props_junk/explosive_box001.mdl \n " 
 	// Inputs
@@ -6237,21 +6238,6 @@
 	input StartFloatLerp(string) : "Force a material with the MaterialModifyAnimated proxy to lerp a material var between two floating point values. Format is: <Start Value> <End Value> <Transition Time> <Loop>\n<Loop> should be 1 or 0."
 ] 
 
-//-------------------------------------------------------------------------
-// Devshot camera
-//	- Used by the -makedevshots system, which automatically takes screenshots
-//	 at the position of every devshot camera in the level.
-//-------------------------------------------------------------------------
-
-@PointClass base(Angles) studioprop("models/editor/camera.mdl") = point_devshot_camera : 
-	"An entity used by the -makedevshots system, which automatically takes screenshots at the position of every devshot camera in the level."
-[
-	cameraname(string) : "Camera Name" : "" : "Used as the name of the directory to store screenshots from this camera. Must be unique within the level."
-	FOV(integer) : "Camera FOV" : 75 : "FOV of this camera."
-]
-
-
-
 
 @PointClass base(Parentname, Targetname) size(-8 -8 -8, 8 8 8 ) = env_spritetrail : 
 	"A magical trail you can parent to anything you heart desires."
@@ -6274,13 +6260,13 @@
 
 // lightprop("models/editor/spot.mdl") <---- use this once the orientation is unfucked
 @PointClass color(255 0 0) base(obsolete, Parentname, Targetname, Angles) iconsprite("editor/obsolete.vmt")= env_projectedtexture : 
-	"Projected texture entity. DO NOT USE"
+	"Projected texture entity. DO NOT USE. use 'light_projected' instead."
 [
 	spawnflags(flags) =
 	[
 		1 : "Enabled"				: 1
 	]
-	obsolete(string) readonly : "Doesn't work." : : "This entity is reused as the player flashlight. You can only have on on a map. which is your flashlight"
+	obsolete(string) readonly : "Doesn't work." : : "This entity is reused as the player flashlight. You can only have one on a map. which is your flashlight. Use 'light_projected' with vrad++ and hammer++ instead."
 	target(target_destination)	: "target" : : "target"	
 	lightfov(float)				: "FOV" : "90.0" : "FOV"
 	nearz(float)				: "NearZ" : "4.0" : "Near Z for projected texture"
@@ -6345,7 +6331,7 @@
 ]
 
 //Func instance description
-@PointClass base(Angles) size( -1 -1 0, 1 1 1 ) studio("models/editor/axis_helper_thick.mdl") instance() = func_instance : 
+@PointClass base(Angles) size( -1 -1 0, 1 1 1 ) studio("models/editor/axis_helper_thick_new.mdl") instance() = func_instance : 
 	"An entity for placing an instance of a map file. You may translate and rotate this entity. " +
 	"You can use the replace keys to do parameter changes on the instance contents. In a $ at the " +
 	"beginning of a variable name. Then just use the $variable name inside of the instance contents on any "+
@@ -6521,11 +6507,11 @@
 	input EndHint(void) : "Stop showing the hint if it hasn't already timed out."
 ]
 
-@PointClass base(Parentname, Targetname) iconsprite("editor/new/info_target_instructor_hint.vmt")= info_target_instructor_hint : "A generic target that gets replicated to the client for hud hint targeting"
+@PointClass base(ColorCoding, Parentname, Targetname) iconsprite("editor/new/info_target_instructor_hint.vmt")= info_target_instructor_hint : "A generic target that gets replicated to the client for hud hint targeting"
 [
 ]
 
-@PointClass base(Targetname) iconsprite("editor/logic_script.vmt") = logic_script : "An entity that acts as a container for scripts"
+@PointClass base(ColorCoding, Targetname) iconsprite("editor/logic_script.vmt") = logic_script : "An entity that acts as a container for scripts"
 [
 	Group00(target_destination) : "EntityGroup[0]"
 	Group01(target_destination) : "EntityGroup[1]"
@@ -6543,7 +6529,6 @@
 	Group13(target_destination) : "EntityGroup[13]"
 	Group14(target_destination) : "EntityGroup[14]"
 	Group15(target_destination) : "EntityGroup[15]"
-	rendercolor(color255) : "Sprite Color" : "255 255 255" : "Sometimes you just need a little color to differentiate the scripts. This only works in Hammer++"
 ]
 
 @PointClass base(Targetname,Angles) = func_timescale :
@@ -6647,9 +6632,57 @@
 //-------------------------------------------------------------------------
 //Camera's
 //-------------------------------------------------------------------------
+@PointClass base(obsolete, Parentname, Targetname, Angles) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_obsolete.mdl") = point_viewcontrol : 
+	"A camera entity that controls the player's view. While it's active, the player will see out of the camera." 
+[
+	obsolete(string) readonly	:	"L4D2 uses different cameras" : : "point_viewcontrol_multiplayer for all. point_viewcontrol_survivor for survivors"
+	rendercolor(color255)		:	"FOV Frustum Color"	: "0 243 229"	: "Change this color if you want custom color coding" 
+	z_far(string)				:	"FOV Frustum Far"	: "20"			: "Increase the size of this to get a better idea of what the camera sees"
+	z_near(string)				:	"FOV Frustum Near"	: "10"			: "Increase the size of this to get a better idea of what the camera sees"
+
+	fov(float) : "Field of view" : "90" : "Player FOV (if Set FOV spawnflag is set)"
+	fov_rate(float) : "Seconds to reach FOV target" : "1.0" : "Amount of time it should take to reach the specified FOV"
+
+	target(target_destination) : "Entity to Look At" : : "Name of the entity that the camera should point at and track while active."
+	targetattachment(string) : "Target Attachment Name" : : "If set, the camera will focus on the specified attachment on the 'Entity to Look At'."
+	wait(integer) : "Hold Time" : 10 : "The amount of time the camera should control the player's view for, after which it deactivates itself. If the camera should stay active until told to deactive, set the 'Infinite Hold Time' spawnflag."
+	moveto(target_destination) : "Path Corner" : : "The first path corner in a track that the camera should move along once it's activated. If not specified, the camera won't move."
+	interpolatepositiontoplayer(choices) : "Interpolate Position To Player" : 0 : "Gradually interpolate player's position to here on start. (Episodic only)" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	spawnflags(flags) =
+	[
+		1: "Start At Player" : 1
+		2: "Follow Player" : 1
+		4: "Freeze Player" : 0
+		8: "Infinite Hold Time" : 0
+		16:"Snap to goal angles" : 0
+		32:"Make Player non-solid" : 0
+		64:"Interruptable by Player" : 0
+		128:"Set FOV" : 0
+	]
+	speed(string) : "Initial Speed" : "0" : "The starting speed that the camera moves at, if it's on a path track."
+	acceleration(string) : "Acceleration units/sec^2" : "500" : "The speed at which the camera accelerates to path corner's desired speeds."
+	deceleration(string) : "Stop Deceleration units/sec^2" : "500" : "The speed at which the camera decelerates to path corner's desired speeds."
+
+	// Inputs
+	input Enable(string) : "Enable the point_viewcontrol, and start controlling the player's view. Pass a survivor name to control that survivor's view.(ie '!zoey')"
+	input Disable(void) : "Disable the point_viewcontrol, and stop controlling the player's view."
+
+	// Outputs
+	output OnEndFollow(void) : "Fired when the point_viewcontrol deactivates, due to the Disable input being received, the Entity to Look At being destroyed, or the Hold Time expiring."
+
+
+]
+
 @PointClass base(Parentname, Targetname, Angles) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_multi.mdl") = point_viewcontrol_multiplayer : 
 	"A camera entity that controls all players' views. While it's active, the players will see out of the camera." 
 [
+	rendercolor(color255)		:	"FOV Frustum Color"	: "248 139 35"	: "Change this color if you want custom color coding" 
+	z_far(string)				:	"FOV Frustum Far"	: "20"			: "Increase the size of this to get a better idea of what the camera sees"
+	z_near(string)				:	"FOV Frustum Near"	: "10"			: "Increase the size of this to get a better idea of what the camera sees"
 	fov(float) : "Field of view" : "90" : "Player FOV"
 	fov_rate(float) : "Seconds to reach FOV target" : "1.0" : "Amount of time it should take to reach the specified FOV"
 	target_entity(target_destination): "Target Entity" : "" : "Entity to move to. (End of move will match origin and angles)."
@@ -6665,12 +6698,13 @@
 	input Enable(void) : "Enable the point_viewcontrol_multiplayer, and start controlling the players' view."
 	input Disable(void) : "Disable the point_viewcontrol_multiplayer, and stop controlling the players' view."
 	input StartMovement(void) : "Start the movement to the target entity."
-	rendercolor(color255) : "Helper Color (R G B)" : "248 139 35" 
-	z_far(string) readonly : 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
 ]
 @PointClass base(Parentname, Targetname, Angles) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_survivor.mdl") = point_viewcontrol_survivor : 
 	"A camera entity that controls the player's view. Travels from camera position to a first-person view on input." 
 [
+	rendercolor(color255)		:	"FOV Frustum Color"	: "235 33 235"	: "Change this color if you want custom color coding" 
+	z_far(string)				:	"FOV Frustum Far"	: "20"			: "Increase the size of this to get a better idea of what the camera sees"
+	z_near(string)				:	"FOV Frustum Near"	: "10"			: "Increase the size of this to get a better idea of what the camera sees"
 	fov(float) : "Field of view" : "90" : "Player FOV (if Set FOV spawnflag is set)"
 	fov_rate(float) : "Seconds to reach FOV target" : "1.0" : "Amount of time it should take to reach the specified FOV"
 
@@ -6684,22 +6718,43 @@
 	input Enable(string) : "Enable the point_viewcontrol_survivor, and start controlling the player's view. Pass a survivor name to control that survivor's view.(ie '!zoey')"
 	input Disable(void) : "Disable the point_viewcontrol_survivor, and stop controlling the player's view."
 	input StartMovement(void) : "Start the movement to first-person view."
-	rendercolor(color255) : "Helper Color (R G B)" : "235 33 235" 
-	z_far(string) readonly : 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
 ]
 @PointClass base(Parentname, Targetname, Angles) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_deathfall.mdl") = point_deathfall_camera : 
 	"A camera entity that players falling to their deaths look through." 
 [
-	fov(float) : "Field of view" : "90" : "Player FOV"
-	fov_rate(float) : "Seconds to reach FOV target" : "1.0" : "Amount of time it should take to reach the specified FOV"
-	rendercolor(color255) : "Helper Color (R G B)" : "85 92 141" 
-	z_far(string) readonly : 	"Helper - far" 			: "20"	: "Ignore this. The 'Frustum' used to show where this sprite points need these lines"
+	rendercolor(color255)		:	"FOV Frustum Color"	: "85 92 141"	: "Change this color if you want custom color coding" 
+	z_far(string)				:	"FOV Frustum Far"	: "20"			: "Increase the size of this to get a better idea of what the camera sees"
+	z_near(string)				:	"FOV Frustum Near"	: "10"			: "Increase the size of this to get a better idea of what the camera sees"
+	fov(float)					:	"Field of view"		: "90"			: "Player FOV"
+	fov_rate(float)				:	"Seconds to reach FOV target" : "1.0" : "Amount of time it should take to reach the specified FOV"
 ]
+
+
+
+//-------------------------------------------------------------------------
+// Devshot camera
+//	- Used by the -makedevshots system, which automatically takes screenshots
+//	 at the position of every devshot camera in the level.
+//-------------------------------------------------------------------------
+
+@PointClass base(Angles) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_devshot.mdl") = point_devshot_camera : 
+	"An entity used by the -makedevshots system, which automatically takes screenshots at the position of every devshot camera in the level."
+[
+	cameraname(string) : "Camera Name" : "" : "Used as the name of the directory to store screenshots from this camera. Must be unique within the level."
+	FOV(integer) : "Camera FOV" : 75 : "FOV of this camera."
+	note(string) readonly: "note" : "No idea if these below even work." : "I copied these from the other cameras, but i don't know if they truly work."
+	rendercolor(color255)		:	"FOV Frustum Color"	: "0 255 0"	: "Change this color if you want custom color coding" 
+	z_far(string)				:	"FOV Frustum Far"	: "20"			: "Increase the size of this to get a better idea of what the camera sees"
+	z_near(string)				:	"FOV Frustum Near"	: "10"			: "Increase the size of this to get a better idea of what the camera sees"
+	fov_rate(float)				:	"Seconds to reach FOV target" : "1.0" : "Amount of time it should take to reach the specified FOV"
+]
+
+
 
 //-------------------------------------------------------------------------
 // Logic Entities
 //-------------------------------------------------------------------------
-@PointClass color(0 0 255) base(Targetname) iconsprite("editor/choreo_scene.vmt") = logic_choreographed_scene :
+@PointClass color(0 0 255) base(ColorCoding, Targetname) iconsprite("editor/choreo_scene.vmt") = logic_choreographed_scene :
 	"Manages a choreographed scene of one or more actors."
 
 [
@@ -6764,7 +6819,7 @@
 	]
 ]
 
-@PointClass color(0 0 255) base(Targetname) iconsprite("editor/choreo_manager.vmt") = logic_scene_list_manager :
+@PointClass color(0 0 255) base(ColorCoding, Targetname) iconsprite("editor/choreo_manager.vmt") = logic_scene_list_manager :
 	"Manages a list of logic_choreographed_scene entities. Store choreo scenes in them in order that they will be played by other inputs. Whenever a scene plays, the manager will remove all scenes before that one in the list. The name of another logic_scene_list_manager can be entered in a slot instead of an invididual scene, which will cause all scenes in that manager to be removed when a later scene in this list is played."
 [
 	scene0(target_destination) : "Scene 1" : "" : "The name of a logic_choreographed_scene, or logic_scene_list_manager."
@@ -6922,7 +6977,7 @@
 ]
 
 //new sprite here
-@PointClass wirebox(mins, maxs) base(Targetname,NavAttributeRegion) color(0 255 130) color(255 0 255) iconsprite("editor/new/point_nav_attribute_region.vmt")= point_nav_attribute_region : "A point entity that holds attributes to be applied to regions of nav areas during generation."
+@PointClass wirebox(mins, maxs) base(ColorCoding, Targetname,NavAttributeRegion) color(0 255 130) color(255 0 255) iconsprite("editor/new/point_nav_attribute_region.vmt")= point_nav_attribute_region : "A point entity that holds attributes to be applied to regions of nav areas during generation."
 [
 	mins(vector) : "Mins" : "-32 -32 -8"
 	maxs(vector) : "Maxs" : "32 32 8"
@@ -6951,7 +7006,7 @@
 	output OnReachedBottom(string) : "Fired when the brush reaches the bottom."
 ]
 
-@PointClass base(Parentname, Targetname, Angles) iconsprite("editor/new/info_elevator_floor.vmt") = info_elevator_floor : 
+@PointClass base(ColorCoding, Parentname, Targetname, Angles) iconsprite("editor/new/info_elevator_floor.vmt") = info_elevator_floor : 
 	"Elevator floor height target."
 [
 	// Outputs
@@ -7471,7 +7526,7 @@
 ]
 
 //Player Start with Helper Model and better model picker and stuffs
-@PointClass base(Parentname, Targetname, Angles) color(255 100 100) studio() = info_survivor_position : "A point where survivors are placed on map spawn, or when escaping the finale"
+@PointClass base(ColorCoding, Parentname, Targetname, Angles) color(255 100 100) studio() = info_survivor_position : "A point where survivors are placed on map spawn, or when escaping the finale"
 [
 //	SurvivorName(string) : "Survivor Name" : "" : "Force this survivor to use this position (Zoey, Louis, etc.)"
 	SurvivorIntroSequence(string) : "Survivor Intro Sequence" : "" : "Sequence to play when the intro starts \n Tip: Use the 'Model' tab above to look at sequences right in hammer!"
@@ -7636,7 +7691,7 @@
 	output EscapeVehicleLeaving(void) : "Fired when the escape vehicle starts to leave."
 ]
 
-@PointClass color(255 0 0) base(obsolete,Targetname, Angles) iconsprite("editor/obsolete.vmt")= trigger_standoff :
+@PointClass color(255 0 0) base(obsolete, Targetname, Angles) iconsprite("editor/obsolete.vmt")= trigger_standoff :
 	"use 'trigger_finale'"
 [
 	obsolete(string) readonly : "use trigger_finale" : : " "
@@ -7776,7 +7831,7 @@
 [
 	skin(integer) 		: "Skin        (Worldmodel)" : 0 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
 	weaponskin(integer) : "Weapon Skin (Viewmodel)" : -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
-	vscripts(scriptlist) : "Entity Scripts" : "" : "Name(s) of script files that are executed after all entities have spawned."
+	vscripts(scriptlist) : "Script(s) to Autorun" : "" : "Name(s) of script files that are executed after all entities have spawned."
 	thinkfunction(string) : "Script think function" : "" : "Name of a function in this entity's script scope which will be called automatically."
 
 	solid(choices) : "Collisions" : 6 =
@@ -8257,7 +8312,7 @@
 ]
 
 // Beam spotlight ---------------------
-@PointClass base(Parentname, Targetname, Angles, RenderFields) studio("models/editor/cone_helper_white.mdl") = beam_spotlight : 
+@PointClass base(Parentname, Targetname, Angles, RenderFields) studio("models/editor/cone_helper_white_new.mdl") = beam_spotlight : 
 	"An entity to draw a spotlight. Will draw a beam when the player views it side on, and a halo when it's facing towards the player. "+
 	"Unless the 'No Dynamic Light' spawnflag is checked, it will also create a dynamic light wherever the end of the spotlight rests." +
 	"This spotlight is entirely client side, it is not sync'd across clients."
@@ -8300,7 +8355,7 @@
 ]
 
 //info_goal_infected_chase sprite
-@PointClass base(Parentname, Targetname) iconsprite("editor/new/info_goal_infected_chase.vmt") = info_goal_infected_chase :
+@PointClass base(ColorCoding, Parentname, Targetname) iconsprite("editor/new/info_goal_infected_chase.vmt") = info_goal_infected_chase :
 	"An entity that attracts infected like the pipe bomb to give them something "+
 	"to do during outros. Put this in hierarchy with the escape vehicle or with "+
 	"a func_tracktrain to make all the infected in the map chase it!"
@@ -8574,7 +8629,7 @@
 ]
 
 
-@PointClass base(Parentname, Targetname, Angles, EnableDisable) studio("models/editor/cone_helper.mdl") = env_weaponfire : 
+@PointClass base(Parentname, Targetname, Angles, EnableDisable) studio("models/editor/cone_helper_new.mdl") = env_weaponfire : 
 	"Weapon fire"
 [
 	TargetArc(float) : "Target Arc" : "40" : "The arc that the entity will seach for targets (in degrees)"
@@ -8604,7 +8659,7 @@
 
 ]
 
-@PointClass base(Targetname, Angles) studio("models/editor/cone_helper.mdl") = env_rock_launcher : 
+@PointClass base(Targetname, Angles) studio("models/editor/cone_helper_new.mdl") = env_rock_launcher : 
 	"Rock launcher"
 [
 	RockTargetName(target_destination) : "Target Name" : : "The name of the entity to throw the rock at."
@@ -8689,6 +8744,13 @@
 // ENTIRELY NEW SHIT
 //-------------------------------------------------------------------------
 //New origin entity. This is JUST there so you can see the coordinates of where this entity is placed.
+@PointClass color(0 255 0) studio("models/editor/scale_helper.mdl") = hlp_player_scale_measure : 
+	"This is just a helper for measurements. The arrows align with the actual scales."
+[
+	string1(string) readonly : "This is a measure helper."			: " "
+	string2(string) readonly : "has all the measurements you need"	: " "
+]
+
 @PointClass base(Origin, Angles) color(0 255 0) sphere(VectorRadius) studio("models/editor/axis_ball.mdl") = hlp_origin_vector : 
 	"Help in getting the origin and Vector radius for Vscripts."
 [
@@ -9041,32 +9103,46 @@
 // FGD for the ++ compiler suite (vbsp++, vvis++, vrad++.)
 // No idea if they work in l4d2. But i merged its fgd with this.
 //-------------------------------------------------------------------------
-@PointClass base(Light) = LightSpot :
-	"An invisible and directional spotlight."
+// I'm adding all of this to "light_projected", as that is the only entity making use of this, and this base on its own exist in hammer now but does nothing on its own.
+//	@PointClass base(Light) = LightSpot :
+//		"An invisible and directional spotlight. This is the base for 'light_projected'. Use that instead, as this won't work on its own."
+//	[
+//		target(target_destination) : "Entity to point at" : : "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
+//		_inner_cone(integer) : "Inner (bright) angle" : 30
+//		_cone(integer) : "Outer (fading) angle" : 45
+//		_exponent(integer) : "Focus" : 1
+//		_distance(integer) : "Maximum distance" : 0 : "This is the distance that light is allowed to cast, in inches."
+//		pitch(angle_negative_pitch) : "Pitch" : -90
+//		spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
+//	]
+
+@SolidClass color(0 180 0) = func_detail_illusionary : 
+	"(tools++) Similar to func_detail, but non-solid."
 [
-	target(target_destination) : "Entity to point at" : : "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
-	_inner_cone(integer) : "Inner (bright) angle" : 30
-	_cone(integer) : "Outer (fading) angle" : 45
-	_exponent(integer) : "Focus" : 1
-	_distance(integer) : "Maximum distance" : 0 : "This is the distance that light is allowed to cast, in inches."
-	pitch(angle_negative_pitch) : "Pitch" : -90
-	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
+	vbsp_nobevel(boolean) : "No Bevel" : "0" : "If set, bevel faces aren't emitted on angled geometry. This reduces brushsides at the cost of less accurate collision on corners."
 ]
-// basically a func_brush with less functionality
-	@SolidClass color(0 180 0) = func_detail_illusionary : 
-		"Similar to func_detail, but non-solid."
-	[
-		vbsp_nobevel(boolean) : "No Bevel" : "0" : "If set, bevel faces aren't emitted on angled geometry. This reduces brushsides at the cost of less accurate collision on corners."
-	]
 
 @SolidClass = func_nobevel :
 	"Defines a region to not bevel collision, to reduce brushsides count. Only should be used in areas where players can't touch the brush"
 [
 ]
 
-@PointClass base(Targetname, Angles, LightSpot) lightprop("models/editor/spot.mdl") lightcone() sphere(_fifty_percent_distance) sphere(_zero_percent_distance) = light_projected :
-	"An invisible and directional spotlight that projects a texture, similar to env_projectedtexture but lightmapped"
+// I had addempted to add a camera frustum to show the rectangular bounds of the image. But the frustum orientation and scale was both wrong. So, we just use lightcone...
+//@PointClass base(Targetname, Angles, Light) lightprop("models/editor/spot.mdl")  frustum(_cone,_cone,_distance,_light,-270 ) sphere(_fifty_percent_distance) sphere(_zero_percent_distance) = light_projected :
+@PointClass base(Targetname, Angles, Light) lightprop("models/editor/light_projected.mdl") lightcone() sphere(_fifty_percent_distance) sphere(_zero_percent_distance) = light_projected :
+	"(tools++) An invisible and directional spotlight that projects a texture, similar to env_projectedtexture but it's baked into the lightmaps. May need tiny lightmap scale for it to work."
 [
-	texturename(string)	: "Texture Name" : "effects/flashlight001" : "Texture to project"
+	texturename(material)				:	"Texture Name"				:	"effects/flashlight001" : "Texture to project. Scale is defined by the outer angle value of whatever it hits. Projected texture fills the cone's full bounds on impact, not just the circular area. Basically, imagine there's a square with the circle in it. THAT is the image scale."
+
+	target(target_destination)		:	"Entity to point at"	:							: "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
+	_inner_cone(integer)			:	"Inner (bright) angle"	:	30
+	_cone(integer)					:	"Outer (fading) angle"	:	45
+	_exponent(integer)				:	"Focus"					:	1
+	_distance(integer)				:	"Maximum distance"		:	0						: "This is the distance that light is allowed to cast, in inches."
+	pitch(angle_negative_pitch)		:	"Pitch"					:	-87						: "if this is straight up or down, the image doesn't rotate the way you want. You need to be at least 3 degrees off, for it to appear properly rotated."
+
+	spawnflags(Flags) =				[ 1 : "Initially dark" : 0 ]
 ]
+//-------------------------------------------------------------------------
+// Tools++ end
 //-------------------------------------------------------------------------

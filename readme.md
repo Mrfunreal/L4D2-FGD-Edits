@@ -1,21 +1,21 @@
+This project modifies the entire FGD of L4D2 to improve the mapping experience.<br>
+It also adds tool textures to differentiate all brush entities you want to use.<br>
+Includes Hammer++ and Tools++ additions, which have also been modified for even better QOL.<br>
 
-# L4D2-FGD-Edits
+Some examples include:<br>
+- Worldspawn entity that lets you pick Skybox, music string, and daytime from a dropdown.<br>
+- Func_areaportal window with added distance pickers.<br>
+- New and modified helper models/sprites<br>
+- Further explanations of obtuse keyvalues.<br>
+- More autovisgroups<br>
+- Frustums for all camera entities<br>
 
-This set of FGD edits makes map creation for Left 4 Dead 2 a lot smoother.<br>
-In L4D2's Hammer editor, some entities are missing key values, while others aren't there at all. On top of that, there's often no clear documentation explaining what these key values do.<br>
-This project fixes that. I've added, documented, and tweaked all the important key values I could find, while also improving the editor with various quality-of-life changes.<br>
-This is an ongoing project. I'll update this every now and then, so you should watch this repo to get update notifications.
 
-For example, in Worldspawn, you can define things like the music track, skybox name, and how the Witch behaves (whether she's sitting or walking).<br>
-But there’s no dropdown list for the music or skybox names, so you have to dig around and copy-paste the correct names. Plus, there's a "Time Of Day" setting that makes the witch wander when set to "Afternoon" because that is entirely intuitive, right?<br>
 
-My FGD fixes all these quirks, making Hammer easier to use.<br>
-I've also added new tool textures for different brush entities like func_detail_blocker and the various trigger types.<br>
-it's fully compatible with Hammer++, with possible exception of the relay sprite type.<br>
 
 ⚠️ **$${\color{red}Warning:}$$**<br> 
-- You must change the default entity from info_survivor_position to info_player_start, or another entitiy without a model!<br>
-  Swapping from any entity with a model to an entity that now got a helper model -when it previously did not have one- can cause crashes.
+You must change the default entity from info_survivor_position to info_player_start, or another entitiy without a model!<br>
+Swapping from any entity with a model to an entity that now got a helper model -when it previously did not have one- can cause crashes.
 
 ### Install
 1. Download the latest release's "Source Code" into ```Steam\steamapps\common\Left 4 Dead 2\bin```
@@ -46,7 +46,57 @@ Game	hl2
 * [Easy Navmesh Edit CFG files](https://www.github.com/Mrfunreal/L4D2_Navmesh_CFG "L4D2_Navmesh_CFG")
 * [Autocompiler batch script](https://github.com/Mrfunreal/Various_Scripts/blob/main/Source%201/Hammer_Autocompile.bat)
   
-# Full documentation of the FGD Edits:
+
+# Images
+<details>
+<p>Generic helper models for randomized weapon spawns.</p>
+<img src="pictures/generic_helpers.png"/>
+<p>Better Axis helper</p>
+<img src="pictures/axishelper.gif"/>
+<p>Colorable helpers</p>
+<img src="pictures/Colorable_helpers.png"/>
+<p>Custom helper for Vrad++ light_projected</p>
+<img src="pictures/light_projected_edit.png"/>
+<p>hlp_origin_vector to get values for vscripts</p>
+<img src="pictures/origin_vector_helper.png"/>
+<p>Cubemap Helpers.</p>
+<img src="pictures/cubemap_helper.jpg"/>
+<p>Info_survivor_position with helper models. </p>
+<img src="pictures/info_survivor_position.png"/>
+<p>more tool textures</p>
+<img src="pictures/tooltextures.png"/>
+<p>Color codiing *some* entities</p>
+<img src="pictures/colorcoding.png"/>
+<p>hlp_player_scale_measure to easily model narrow spots</p>
+<img src="pictures/playerscale_measure.png"/>
+<p>connecting lines for ropes in Hammer++</p>
+<img src="pictures/ropelines.png"/>
+<p>Areaportal Distance Picker.</p>
+<img src="pictures/areaportalwindow.gif"/>
+<p>Already deployed upgrades.</p>
+<img src="pictures/already_deployed_upgrades.png"/>
+<p>More Visgroups.</p>
+<img src="pictures/visgroups.png"/>
+<p>Better Melee spawn.</p>
+<img src="pictures/melee_spawn.png"/>
+<p>Obsolete's unused or not programmed entities.</p>
+<img src="pictures/Obsoleter.png"/>
+<p>New icon sprites.</p>
+<img src="pictures/sprites.png"/>
+<img src="pictures/relays.png"/>
+<p>Worldspawn settings.</p>
+<img src="pictures/witch_behaviour.jpg"/>
+<img src="pictures/skybox_picker.jpg"/>
+<img src="pictures/music_picker.jpg"/>
+<img src="pictures/detail_picker.jpg"/>
+<p>Damage Types</p>
+<img src="pictures/damagetypes.jpg"/>
+<p>Blend Textures displaying what detail they use.<br>Doesn't work in Hammer++!</p>
+<img src="pictures/blendtextures.jpg"/>
+</details>
+
+# Documentation of the FGD Edits:
+*Theres many small edits that are not documented, because i honestly forgot to document them.*
 ## New Base Entities
 - Classname        	- Just to easily add this function to entities
 - LagCompensate    	- Just to easily add this function to entities
@@ -193,104 +243,4 @@ Game	hl2
 - Path_Track
 - Info_Elevator_Floor
 
-## Marks Obsolete Entities As Such
-- Func_Useableladder
-- Func_Ladderendpoint
-- Info_Ladder_Dismount
-- Info_Node
-- Info_Node_Hint
-- Info_Node_Air
-- Info_Node_Air_Hint
-- Info_Hint
-- Info_Node_Link
-- Info_Node_Link_Controller
-- Info_Radial_Link_Controller
-- Info_Node_Climb
-- Prop_Minigun
-- Game_Weapon_Manager
-- Game_End
-- Game_Player_Equip
-- Game_Player_Team
-- Game_Score
-- Info_Overlay_Transition
-- Info_Npc_Spawn_Destination
-- Npc_Template_Maker
-- Env_Rotorwash_Emitter
-- Gibshooter
-- Game_Weapon_Manager
-- Game_Score
-- Point_Tesla
-- Info_No_Dynamic_Shadow
-- Info_Overlay_Transition
-- Info_Intermission
-- Info_Null
-- Func_Water_Analog
-- Logic_Autosave
-- Logic_Active_Autosave
-- Point_Angularvelocitysensor
-- Point_Velocitysensor
-- Func_Illusionary
-- Func_Wall_Toggle
-- Func_Wall
-- Trigger_Autosave
-- Trigger_Changelevel
-- Ai_Speechfilter
-- Info_Camera_Link
-- Npc_Furniture
-- Logic_Playerproxy
-- Env_Projectedtexture
-- Func_Reflective_Glass
-- Npc_Puppet
-- Env_Funnel
-- Trigger_Standoff
-- Info_Ambient_Mob_Start
-- Info_Ambient_Mob_End
-- Info_Ambient_Mob
-- Test_Traceline
-- Keyframe_Track
-- Move_Keyframed
-- Move_Track
-- Point_Message
-- Env_Zoom
-- Env_Screeneffect
-- Light_Dynamic
-- Point_Viewcontrol
 
-
-### Images
-Here are images of *some* abilities that have been added or changed.
-<p>Areaportal Distance Picker.</p>
-<img src="pictures/areaportalwindow.gif"/>
-<p>Already deployed upgrades.</p>
-<img src="pictures/already_deployed_upgrades.png"/>
-<p>More Visgroups.</p>
-<img src="pictures/visgroups.png"/>
-<p>Better Melee spawn.</p>
-<img src="pictures/melee_spawn.png"/>
-<img src="pictures/melee_spawn2.png"/>
-<p>Info_survivor_position with helper models. </p>
-<img src="pictures/info_survivor_position.png"/>
-<p>Obsolete's unused or not programmed entities.</p>
-<img src="pictures/Obsoleter.png"/>
-<p>More specific tool textures.</p>
-<img src="pictures/tooltextures.png"/>
-<p>Blend Textures displaying what detail they use.</p>
-Doesn't work in Hammer++!
-<img src="pictures/blendtextures.jpg"/>
-<p>Optional Generic helper models for randomized weapon spawns.</p>
-<p>More helper models, each camera entity got a different color. Orange Freeman there is info_teleport_destination.</p>
-<img src="pictures/helper_models.png"/>
-<p>Light_spot entities can be colored.</p>
-<img src="pictures/light_helper_color.png"/>
-<p>New icon sprites.</p>
-<img src="pictures/sprites.png"/>
-<img src="pictures/relays.png"/>
-<p>Worldspawn settings.</p>
-<img src="pictures/witch_behaviour.jpg"/>
-<img src="pictures/skybox_picker.jpg"/>
-<img src="pictures/music_picker.jpg"/>
-<img src="pictures/detail_picker.jpg"/>
-<p>Damage Types.</p>
-<img src="pictures/damagetypes.jpg"/>
-<p>Cubemap Helpers.</p>
-<img src="pictures/cubemap_helper.jpg"/>
