@@ -13,8 +13,7 @@ Some examples include:<br>
 See documentation below for more info. Not everything is documented, because i forgot many small edits i made.<br>
 But as soon as you begin to make maps, you'll realize that some things have changed for the better.<br>
 File Issues for suggestions, or visit the [Dead 4 Mods discord](https://discord.gg/4qtmzBP) or my [private discord](http://discord.gg/5eDA7CE).<br>
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/A0A11XXM4Q)
- 
+<a href="https://ko-fi.com/A0A11XXM4Q">  <img src="https://raw.githubusercontent.com/Mrfunreal/Various/refs/heads/main/images/Ko-Fi_smaller.png" width="50%"></a><br>
 ⚠️ **$${\color{red}Warning:}$$**<br> 
 You must change the default entity from info_survivor_position to info_player_start, or another entitiy without a model!<br>
 Swapping from any entity with a model to an entity that now got a helper model -when it previously did not have one- can cause crashes.
