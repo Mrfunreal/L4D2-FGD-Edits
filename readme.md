@@ -141,7 +141,10 @@ Game	hl2
 	- Made "disablevertexlighting" to be off by default.
 - Prop_door_rotating
 	- Spawns with a model of a door 
-	- Made "Hinge Axis" obsolete, as it didn't do anything to begin with.
+   	- Enabled "Disable shadows" on by default. They use dynamic shadows that look out of place.
+	- Rearranged keyvalue order.
+	- Removed the health/axis keyvalues. They do nothing.
+	- Added ReadMe keyvalue about getting sound overwrites to work (They're broken in L4D2. There is a workaround using logic_auto to manually assign sounds.)
 - Prop_door_rotating_checkpoint 
 	- Same changes as prop_door_rotating
 	- The model window has a note listing all saferoom doors, to copypaste into model field.
@@ -187,6 +190,17 @@ Game	hl2
 	- Added warning about this brush using AABB/BBOX.
 - func_detail_blocker
 	- Added warning about this brush using AABB/BBOX.
+- Light entity
+	- removed "Entity to point at" from Light, as its omnidirectional and can't point at anything.
+	- removed "Maximum distance" from light_spot, as it does not work.
+	- changed "Hard Falloff" to choice picker, as its only No/Yes.
+ - func_breakable_surf
+	- Added missing keyvalues (that should not be edited) because hammer would highlight them as missing.
+	- expanded the info on what textures can be used at all.
+- mounted guns
+	- Re-added modelname to 50cal. It cannot be used. (model can't be changed, but game throws error if this is missing).
+	- Added "Disableshadows" to mounted guns.
+	- Added lighting origin.
 
 ## Other edits
 - Tool textures specifically for every kind of tool brush entity. like trigger_once, trigger_hurt, info_changelevel...
