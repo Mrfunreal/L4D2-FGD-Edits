@@ -67,7 +67,7 @@
 ]
 @BaseClass = obsolete 
 [ 
-	obsolete(string) readonly : "This Is Obsolete" : : "This entity is obsolete in L4D2 and does nothing."
+	obsolete(string) readonly : "This Is Obsolete" : : "This entity is obsolete in L4D2 and does nothing or is broken."
 ]
 @BaseClass = BaseDamageTypeNew
 [ 
@@ -112,6 +112,31 @@
 		2147483648	:	"DISMEMBER  - !!! BROKEN !!!"					// DMG_DISMEMBER				.	applies all previously encoutnered special effects (burn, sparks, stagger)
 	]
 ]
+
+@BaseClass = DisableReceiveShadowsBase
+[
+	disablereceiveshadows(choices) : "Disable Receiving Shadows" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+]
+
+@BaseClass = FadeDistBase 
+[
+	fademindist(float) : "Start Fade Dist" 			: -1	:	"Distance at which the entity starts to fade (<0 = subtract from fademaxdist)."
+	fademaxdist(float) : "End Fade Dist"			: 0		:	"Distance at which the entity is invisible (0 = don't fade out)."
+
+	fadescale(float) : "Fade Scale"					: 1		:	"If you specify a fade in the worldspawn, or if the engine is running under low end/medium end/XBox360," +
+																" then the engine will forcibly fade out props even if fademindist/fademaxdist isn't specified." +
+																" This scale factor gives you some control over the fade. Using 0 here turns off the forcible fades." +
+																" Numbers smaller than 1 cause the prop to fade out at further distances, and greater than 1 cause it to fade out at closer distances."
+]
+
+@BaseClass = lightingorigin_base
+[ 
+	lightingorigin(target_destination) : "Lighting Origin" : "" : "Select an entity 'info_target' to sample lights from, instead the prop's own lighting origin. Light direction is based off this target entity as well."
+]
 //-------------------------------------------------------------------------
 // Old Base Classes
 //-------------------------------------------------------------------------
@@ -121,6 +146,7 @@
 	angles(angle) : "Pitch Yaw Roll (Y Z X)" : "0 0 0" : "This entity's orientation in the world. Pitch is rotation around the Y axis, " +
 		"yaw is the rotation around the Z axis, roll is the rotation around the X axis."
 ]
+
 
 @BaseClass = Origin
 [ 
@@ -180,7 +206,7 @@
 
 	//PLAYER ONLY
 	input IgnoreFallDamageWithoutReset(integer) : "PLAYER ONLY - Disable fall damage for N seconds"
-	input SetCommentaryStatueMode(string) 		: "PLAYER ONLY - ?"
+	input SetCommentaryStatueMode(string) 		: "PLAYER ONLY - Makes a player a 'Statue'. They won't move or act, and undoing this will set their health to 1."
 	input DisableLedgeHang(integer) 			: "PLAYER ONLY - Disable ledge hanging until turned back on."
 	input EnableLedgeHang(integer) 				: "PLAYER ONLY - Enable ledge hanging."
 	input TeleportToSurvivorPosition(integer) 	: "PLAYER ONLY - Teleport a player to an info_survivor_position entity, then freezes them. To unfreeze them, use the ReleaseSurvivorPositions input from info_director or the player's ReleaseFromSurvivorPosition input."
@@ -323,7 +349,9 @@
 	] 
 ]
 
-@BaseClass base(RenderFxChoices, SystemLevelChoice) = RenderFields 
+
+
+@BaseClass base(RenderFxChoices, SystemLevelChoice, DisableReceiveShadowsBase, FadeDistBase) = RenderFields 
 [
 	rendermode(choices) : "Render Mode" : 0 : "Used to set a non-standard rendering mode on this entity. See also 'FX Amount' and 'FX Color'." =
 	[
@@ -340,21 +368,9 @@
 	renderamt(integer) : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
 
-	disablereceiveshadows(choices) : "Disable Receiving Shadows" : 0 =
-	[
-		0 : "No"
-		1 : "Yes"
-	]
-
 	input Alpha(integer) : "Set the sprite's alpha (0 - 255)."
 	input Color(color255) : "Set the sprite's color (R G B)."
 
-	fademindist(float) : "Start Fade Dist" : -1 : "Distance at which the entity starts to fade (<0 = subtract from fademaxdist)."
-	fademaxdist(float) : "End Fade Dist" : 0 : "Distance at which the entity is invisible (0 = don't fade out)."
- 	fadescale(float) : "Fade Scale" : 1 : "If you specify a fade in the worldspawn, or if the engine is running under low end/medium end/XBox360," +
- 												 " then the engine will forcibly fade out props even if fademindist/fademaxdist isn't specified." +
-												 " This scale factor gives you some control over the fade. Using 0 here turns off the forcible fades." +
-												 " Numbers smaller than 1 cause the prop to fade out at further distances, and greater than 1 cause it to fade out at closer distances."
 ]
 
 @BaseClass = Inputfilter
@@ -373,36 +389,6 @@
 	globalname(string) : "Global Entity Name" : "" : "Name by which this entity is linked to another entity in a different map. When the player transitions to a new map, entities in the new map with globalnames matching entities in the previous map will have the previous map's state copied over their state."
 ]
 
-// Base class for env_global
-@BaseClass base(Targetname) = EnvGlobal : 
-	"An entity to control a global game state, with an optional associated counter, that persists across level transitions."
-[
-	initialstate(choices) : "Initial State" : 0 =
-	[
-		0 : "Off"
-		1 : "On"
-		2 : "Dead"
-	]
-	
-	counter(integer) : "Counter" : 0 : "An integer counter value associated with this global."
-
-	spawnflags(flags) =
-	[
-		1 : "Set Initial State" : 0
-	]
-
-	// Inputs
-	input TurnOn(void) : "Set state of global to ON."
-	input TurnOff(void) : "Set state of global to OFF."
-	input Toggle(void) : "Toggles state of global between ON and OFF."
-	input Remove(void) : "Set state of global to DEAD."
-	input SetCounter(integer) : "Sets the counter value of this global."
-	input AddToCounter(integer) : "Adds to the counter value of this global. Negative numbers subtract."
-	input GetCounter(void) : "Causes the Counter output to be fired, passing the current counter value for this global."
-
-	// Outputs
-	output Counter(integer) : "Fired in response to the GetCounter input, passing the current value of the counter."
-]
 
 @BaseClass = DamageFilter
 [ 
@@ -680,48 +666,6 @@
 
 @BaseClass color(0 255 0) = PlayerClass []
 
-@BaseClass color(180 10 180) = Light
-[
-	_light(color255) 			: "Brightness" 			: "255 255 255 200" : "RGB and Brightness value of light color"
-	_lightHDR(color255) 		: "Brightness HDR" 		: "-1 -1 -1 1"		: "RGB and Brightness value of Light color, when compiling for hdr. '-1 -1 -1 1' means it copies valies from 'Brightness'. L4D2 only has HDR!"
-	_lightscaleHDR(float)		: "Brightness HDR Scale"	: "0.5" 		: "Light Scale when compiling for HDR. L4D2 only has HDR!"
-	style(Choices) 				: "Appearance" 			: 0 =
-	[
-		0 : "Normal"
-		10: "Fluorescent flicker"
-		2 : "Slow, strong pulse"
-		11: "Slow pulse, noblack"
-		5 : "Gentle pulse"
-		1 : "Flicker A"
-		6 : "Flicker B"
-		3 : "Candle A"
-		7 : "Candle B"
-		8 : "Candle C"
-		4 : "Fast strobe"
-		9 : "Slow strobe"
-	]
-	pattern(string) : "Custom Appearance" : "" : "Set a custom pattern of light brightness for this light. Pattern format is a string of characters, where 'a' is total darkness, 'z' fully bright. i.e. 'aaggnnttzz' would be a steppy fade in from dark to light."
-	_constant_attn(string)	: "Constant" : "0"
-	_linear_attn(string)	: "Linear" : "0"
-	_quadratic_attn(string)	: "Quadratic" : "1"
-	_fifty_percent_distance(string) : "50 percent falloff distance" : "0": "Distance at which brightness should fall off to 50%. If set, overrides linear constant and quadratic paramaters."
-	_zero_percent_distance(string) : "0 percent falloff distance" : "0": "Distance at which brightness should fall off to negligible (1/256)%. Must set _fifty_percent_distance to use."
-	_hardfalloff(integer) : "hard falloff" : 0 : "If set, causes lights to fall to exactly zero beyond the zero percent distance. May cause unrealistic lightijng if not used carefully."
-	_castentityshadow(Choices) : "Cast entity shadows" : 1 =
-	[
-		0 : "No"
-		1 : "Yes"
-	]
-	_shadoworiginoffset(vector) : "Shadow cast offset" : "0 0 0" : "A world-space offset that gets applied to the light origin when casting entity shadows. Useful for dealing with funny-looking shadows from very low lights: Just offset up the z axis."
-	
-	// Inputs
-	input TurnOn(void) : "Turn the light on."
-	input TurnOff(void) : "The the light off."
-	input Toggle(void) : "Toggle the light's current state."
-	input SetPattern(string) : "Set a custom pattern of light brightness for this light. Pattern format is a string of characters, where 'a' is total darkness, 'z' fully bright. i.e. 'aaggnnttzz' would be a steppy fade in from dark to light."
-	input FadeToPattern(string) : "Fades from first value in old pattern, to first value in the new given pattern. Pattern format is a string of characters, where 'a' is total darkness, 'z' fully bright. i.e. 'aaggnnttzz' would be a steppy fade in from dark to light."
-]
-
 @BaseClass = Node 
 [
 	nodeid(integer) readonly : "Node ID"
@@ -833,7 +777,7 @@
 ]
 
 //Renamed flags
-@BaseClass base(Parentname, Global, Targetname, Origin, EnableDisable) = TriggerOnce
+@BaseClass base(Targetname, Global, Parentname, Origin, EnableDisable) = TriggerOnce
 [
 	spawnflags(flags) = 
 	[
@@ -859,7 +803,7 @@
 	output OnStartTouch(void) : "Fired when an entity starts touching this trigger. The touching entity must pass this trigger's filters to cause this output to fire."
 ]
 
-@BaseClass base(Parentname, Targetname, Origin, EnableDisable, TriggerOnce) = Trigger
+@BaseClass base(Targetname, Parentname, Origin, EnableDisable, TriggerOnce) = Trigger
 [
 	output OnStartTouchAll(void) : "Fired when an entity starts touching this trigger, and no other entities are touching it. Only entities that passed this trigger's filters are considered."
 	output OnEndTouch(void) : "Fired when an entity stops touching this trigger. Only entities that passed this trigger's filters will cause this output to fire."
@@ -901,13 +845,13 @@
 	maxpropscreenwidth(float) : "Start Fade Pixels" : -1 : "Number of pixels wide at which all props in the level start to fade (<0 = use fademaxdist). This number is ignored if the prop has a specific fade distance specified."
 	minpropscreenwidth(float) : "End Fade Pixels" : 0 : "Minimum number of pixels wide at which the prop is visible (0 = don't fade out). This number is ignored if the prop has a specific fade distance specified."
 	detailvbsp(string) : "Detail.vbsp file" : "detail.vbsp" : "Detail.vbsp file to use for emitting detail props (found in directory <root>/modname)"
-	detailmaterial(choices) : "Detail material file" : "detail/detailsprites" :	"Material for detail sprites to use for drawing detail props. L4D2 has three to pick from, but you may also enter your own vmt name.       " +
-																				"Check the 'Detailtype_Helper.txt' in your 'BIN/L4D2-FGD-Edits' folder to easily read which sprite material you should use.              "+ 
-																				"Not using the proper detail material will cause floating sprites."=
+	detailmaterial(choices) : "Detail material file" : "detail/ruraldetailsprites" :	"Material for detail sprites to use for drawing detail props. L4D2 has three to pick from, but you may also enter your own vmt name.       " +
+																						"Check the 'Detailtype_Helper.txt' in your 'BIN/L4D2-FGD-Edits' folder to easily read which sprite material you should use.              "+ 
+																						"Not using the proper detail material will cause floating sprites."=
 	[
-		"detail/detailsprites" 				: "detail/detailsprites"
-		"detail/detailsprites_overgrown" 	: "detail/detailsprites_overgrown"
 		"detail/ruraldetailsprites" 		: "detail/ruraldetailsprites"
+		"detail/detailsprites_overgrown" 	: "detail/detailsprites_overgrown"
+		"detail/detailsprites" 				: "detail/detailsprites"
 	]
 	timeofday(choices) : "CI + Witch behaviour (Time Of Day)" : 2 : "Common infected will aggro from a further distance if set to 'Dawn' through 'Dusk' and will sit or lie down if set to 'Midnight' or 'Evening'. Witches will wander if set to 'Afternoon'. This list only contains the actual useful choices."=
 	[
@@ -1003,35 +947,35 @@
 		26: "Planet X"
 		27: "Haunted"
 	]
-	volstart(integer) : "Start Volume" : 0							// NEEDHELP
-	fadeinsecs(integer) : "Fade in time in seconds (0-100)" : 0		// NEEDHELP
-	fadeoutsecs(integer) : "Fade out time in seconds (0-100)" : 0	// NEEDHELP
-	pitch(integer) : "Pitch" : 100 : "Sound pitch, expressed as a range from 1 to 255, where 100 is the sound's default pitch."
-	pitchstart(integer) : "Start Pitch" : 100						// NEEDHELP
-	spinup(integer) : "Spin up time (0-100)" : 0					// NEEDHELP
-	spindown(integer) : "Spin down time (0-100)" : 0				// NEEDHELP
-	lfotype(integer) : "LFO type 0)off 1)sqr 2)tri 3)rnd" : 0		// NEEDHELP
-	lforate(integer) : "LFO rate (0-1000)" : 0						// NEEDHELP
-	lfomodpitch(integer) : "LFO mod pitch (0-100)" : 0				// NEEDHELP
-	lfomodvol(integer) : "LFO mod vol (0-100)" : 0					// NEEDHELP
-	cspinup(integer) : "Incremental Spinup Count" : 0				// NEEDHELP
-	radius(string) : "Max Audible Distance" : "1250" : "Maximum distance at which this sound is audible."
-	spawnflags(flags) =
+	volstart(integer)		:	"Start Volume"						: 0
+	fadeinsecs(integer)		:	"Fade in time in seconds (0-100)"	: 0
+	fadeoutsecs(integer)	:	"Fade out time in seconds (0-100)"	: 0
+	pitch(integer)			:	"Pitch"								: 100		: "Sound pitch, expressed as a range from 1 to 255, where 100 is the sound's default pitch."
+	pitchstart(integer)		:	"Start Pitch"						: 100
+	spinup(integer)			:	"Spin up time (0-100)"				: 0
+	spindown(integer)		:	"Spin down time (0-100)"			: 0
+	lfotype(integer)		:	"LFO type 0)off 1)sqr 2)tri 3)rnd"	: 0
+	lforate(integer)		:	"LFO rate (0-1000)"					: 0
+	lfomodpitch(integer)	:	"LFO mod pitch (0-100)"				: 0
+	lfomodvol(integer)		:	"LFO mod vol (0-100)"				: 0
+	cspinup(integer)		:	"Incremental Spinup Count"			: 0
+	radius(string)			:	"Max Audible Distance"				: "1250"	: "Maximum distance at which this sound is audible."
+	spawnflags(flags)		=
 	[
 		1: "Play everywhere" : 0
 		16:"Start Silent": 1
 		32:"Is NOT Looped": 1
 	]
-	SourceEntityName(target_destination) : "SourceEntityName" : : "If an entity is specified, sound will come from this named entity instead of the location of ambient_generic."
+	SourceEntityName(target_destination) : "SourceEntityName" : : "If an entity is specified, sound will come from this named entity instead of the location of ambient_generic. Killing that entity will also kill this sound"
 
 	// Inputs
-	input Pitch(integer) : "Sets the sound pitch, expressed as a range from 1 to 255, where 100 is the sound's default pitch."
-	input PlaySound(void) : "Starts the sound."
-	input StopSound(void) : "Stops the sound if it is playing."
-	input ToggleSound(void) : "Toggles the sound between playing and stopping."
-	input Volume(integer) : "Sets the sound volume, expressed as a range from 0 to 10, where 10 is the loudest."
-	input FadeIn(integer) : "Fades the sound up to full volume over a specified number of seconds, with a range from 0 to 100 seconds."
-	input FadeOut(integer) : "Fades the sound to silence over a specified number of seconds, with a range from 0 to 100 seconds."
+	input Pitch(integer)	: "Sets the sound pitch, expressed as a range from 1 to 255, where 100 is the sound's default pitch."
+	input PlaySound(void)	: "Starts the sound."
+	input StopSound(void)	: "Stops the sound if it is playing."
+	input ToggleSound(void)	: "Toggles the sound between playing and stopping."
+	input Volume(integer)	: "Sets the sound volume, expressed as a range from 0 to 10, where 10 is the loudest."
+	input FadeIn(integer)	: "Fades the sound up to full volume over a specified number of seconds, with a range from 0 to 100 seconds."
+	input FadeOut(integer)	: "Fades the sound to silence over a specified number of seconds, with a range from 0 to 100 seconds."
 ]
 
 @PointClass base(ColorCoding, Targetname) iconsprite("editor/new/ambient_music.vmt") sphere() = ambient_music : "Play L4D specfic music."
@@ -1134,7 +1078,7 @@
 	]
 ]
 //  This has been disabled until it can be reimplemented, destroyed, or renamed - jdw
-//@PointClass base(Parentname, Targetname) size(-4 -4 -4, 4 4 4) = env_splash : 
+//@PointClass base(Targetname, Parentname) size(-4 -4 -4, 4 4 4) = env_splash : 
 //	"Can be used to create either a spash effect or a stream of falling or spurting liquid." +
 //	"Will create a splash decal on the collided surface the same color as the liquid"
 //[
@@ -1250,7 +1194,7 @@
 	input SetFarBlurRadius(float) : "Set the blur radius (in pixels) to use at the far blur distance. Set to 0 to disable far blur."
 ]
 
-@PointClass base(Parentname, Targetname, Angles) color(255 128 0) studioprop("models/editor/axis_helper_arrow_X.mdl") = env_lightglow : 
+@PointClass base(Targetname, Parentname, Angles) color(255 128 0) studioprop("models/editor/axis_helper_arrow_X.mdl") = env_lightglow : 
 	"An entity that puts an additive glow in the world, mostly used over light sources."
 [
 	rendercolor(color255) : "Color (R G B)" : "255 255 255"
@@ -1470,7 +1414,7 @@
 	filtername(filterclass) : "Filter Name" : : "Filter to use to see if activator collides with me. See filter_activator_name for more explanation. Allow means 'Allow to Block' for this entity."
 ]
 
-@SolidClass base(Parentname, Global, Targetname, Origin, RenderFields, Inputfilter, EnableDisable, Shadow) sphere(fademindist) sphere(fademaxdist) = func_brush : 
+@SolidClass base(Targetname, Global, Parentname, Origin, RenderFields, Inputfilter, EnableDisable, Shadow) sphere(fademindist) sphere(fademaxdist) = func_brush : 
 	"An brush built entity with various features." 
 [
 	spawnflags(flags) =
@@ -1479,7 +1423,7 @@
 	]
 
 	_minlight(string) : "Minimum Light Level" : : "The minimum level of ambient light that hits this brush."
-	Solidity(choices) : "Solidity" : 1 : "Used to control the solidity/collision of these brushes." =
+	Solidity(choices) : "Solidity" : 1 : "Toggle = Solid when enabled. 		Always = Solid even when disabled. 		Never = Never ever be solid." =
 	[
 		0 : "Toggle"
 		1 : "Never Solid"
@@ -1514,7 +1458,7 @@
 // A Vgui screen in 3D
 //-------------------------------------------------------------------------
 
-@BaseClass base(Parentname, Targetname, Angles) = vgui_screen_base
+@BaseClass base(Targetname, Parentname, Angles) = vgui_screen_base
 [
 	panelname(string) : "Panel Name"
 	overlaymaterial(string) : "Overlay Material" : "" : "Name of a material to overlay over the top of the VGUI screen. NOTE: This material must write Z for the VGUI screen to work."
@@ -1531,7 +1475,7 @@
 [
 ]
 
-@PointClass base(Parentname, Targetname, Angles ) studio("models/editor/axis_helper_thick_new.mdl") = vgui_slideshow_display : "Slideshow Display"
+@PointClass base(Targetname, Parentname, Angles ) studio("models/editor/axis_helper_thick_new.mdl") = vgui_slideshow_display : "Slideshow Display"
 [
 	displaytext(string) : "Display Text" : ""
 
@@ -1572,7 +1516,7 @@
 ]
 
 
-@PointClass base(Parentname, Targetname, Angles, RenderFxChoices, RenderFields, Studiomodel) studioprop() = func_orator : 
+@PointClass base(Targetname, Parentname, Angles, RenderFxChoices, RenderFields, Studiomodel) studioprop() = func_orator : 
 	"A very simple model entity that has animations and response rules."
 [
 	spawnflags(flags) =
@@ -1589,7 +1533,7 @@
 // Environmental effects
 //-------------------------------------------------------------------------
 
-@BaseClass base(Parentname, Targetname) = gibshooterbase
+@BaseClass base(Targetname, Parentname) = gibshooterbase
 [
 	angles(string) : "Gib Direction (Pitch Yaw Roll)" : "0 0 0" : "The direction the gibs will fly."
 	m_iGibs(integer) : "Number of Gibs" : 3 : "Total number of gibs to shoot each time it's activated."
@@ -1610,7 +1554,7 @@
 	input Shoot(void) : "Force the gibshooter to create and shoot a gib."
 ]
 
-@PointClass base(Parentname, Targetname, RenderFxChoices) size(-4 -4 -4, 4 4 4) line(255 255 255, targetname, LightningStart, targetname, LightningEnd) = env_beam : 
+@PointClass base(Targetname, Parentname, RenderFxChoices) size(-4 -4 -4, 4 4 4) line(255 255 255, targetname, LightningStart, targetname, LightningEnd) = env_beam : 
 	"An entity that creates a visible beam between two points. The points can be attached to entities to make the beam move around."
 [
 	renderamt(integer) : "Brightness (1 - 255)" : 100
@@ -1674,7 +1618,7 @@
 	output OnTouchedByEntity(void) : "Fired when an entity touches the beam. Only fired if the entity passes the 'Touch Type' choice."
 ]
 
-@PointClass base(Parentname, Targetname) size(-4 -4 -4, 4 4 4) = env_beverage : 
+@PointClass base(Targetname, Parentname) size(-4 -4 -4, 4 4 4) = env_beverage : 
 	"HL1 Legacy: Beverage Dispenser."
 [
 	health(integer) : "Capacity" : 10 : "Number of cans in the dispenser."
@@ -1692,7 +1636,7 @@
 	input Activate(void) : "Enable this dispenser."
 ]
 
-@SolidClass base(Parentname, Targetname, Angles) = env_embers : 
+@SolidClass base(Targetname, Parentname, Angles) = env_embers : 
 	"An entity used to create a volume in which to spawn fire embers." 
 [
 	particletype(choices) : "Ember type" : 0 =
@@ -1715,7 +1659,7 @@
 ]
 
 
-@PointClass base(Parentname, Targetname) size(-16 -16 -16, 16 16 16) color(255 0 0) = env_blood : 
+@PointClass base(Targetname, Parentname) size(-16 -16 -16, 16 16 16) color(255 0 0) = env_blood : 
 	"An entity used to spawn blood effects." 
 [
 	spraydir(angle) : "Spray Direction (Pitch Yaw Roll)" : "0 0 0" : "The general direction that the blood should spray and the direction to trace to apply the decal."
@@ -1741,7 +1685,7 @@
 	input EmitBlood(void) : "Triggers the blood effect."
 ]
 
-@SolidClass base(Parentname, Targetname) = env_bubbles : 
+@SolidClass base(Targetname, Parentname) = env_bubbles : 
 	"An entity used to create a volume in which to spawn bubbles." 
 [
 	density(integer) : "Bubble density" : 2
@@ -1761,7 +1705,7 @@
 	input SetCurrent(integer) : "Sets current speed in inches per second."
 ]
 
-@PointClass base(Parentname, Targetname) iconsprite("editor/env_explosion.vmt") = env_explosion : 
+@PointClass base(Targetname, Parentname) iconsprite("editor/env_explosion.vmt") = env_explosion : 
 	"An entity that creates an explosion at its origin." 
 [
 	iMagnitude(Integer) : "Magnitude" : 100 : "The amount of damage done by the explosion."
@@ -1801,7 +1745,7 @@
 ]
 
 //env_smoketrail with sphere for spawnradius
-@PointClass base(Parentname, Targetname) color(200 50 0)  sphere(spawnradius) size(-8 -8 -8, 8 8 8) = env_smoketrail : 
+@PointClass base(Targetname, Parentname) color(200 50 0)  sphere(spawnradius) size(-8 -8 -8, 8 8 8) = env_smoketrail : 
 	"An entity that creates a smoke trail." 
 [
 	opacity(float) : "Sprite Opacity" : "0.75" : "Opacity of the sprites (range from 0 - 1)."
@@ -1822,7 +1766,7 @@
 	smokesprite(sprite) : "Smoke Puff" : "sprites/whitepuff.spr"
 ]
 
-@PointClass base(Parentname, Targetname) sphere() sphere(inner_radius) iconsprite("editor/env_physexplosion.vmt") = env_physexplosion : 
+@PointClass base(Targetname, Parentname) sphere() sphere(inner_radius) iconsprite("editor/env_physexplosion.vmt") = env_physexplosion : 
 	"An entity that creates an explosion at its origin. If the no-damage spawnflag is set, the explosion won't be visible, but will apply force to any physics objects within its radius."
 [
 	magnitude(string) : "Magnitude" : "100" : "Amount of physics force applied by the explosion."
@@ -1847,7 +1791,7 @@
 	output OnPushedPlayer(void) : "Fires when the player is pushed by the explosion."
 ]
 
-@PointClass base(Parentname, Targetname) line(255 255 255, targetname, directionentityname) iconsprite("editor/env_physexplosion.vmt") = env_physimpact : 
+@PointClass base(Targetname, Parentname) line(255 255 255, targetname, directionentityname) iconsprite("editor/env_physexplosion.vmt") = env_physimpact : 
 	"An entity that will cause a physics impact on another entity."
 [
 	angles(string) : "Pitch Yaw Roll (Y Z X)" : "0 0 0" : "Direction to project the impact."
@@ -1871,7 +1815,7 @@
 
 
 //Adding classname, LagCompensate, to env_fire
-@PointClass base(Parentname, Targetname, EnableDisable, Classname, LagCompensate) iconsprite("editor/env_fire") color(0 180 0) = env_fire : 
+@PointClass base(Targetname, Parentname, EnableDisable, Classname, LagCompensate) iconsprite("editor/env_fire") color(0 180 0) = env_fire : 
 	"An entity that handles a single flame at its origin. The flame causes heat 'damage' to other env_fire entities around it, and will eventually ignite non-flaming env_fire entities nearby, causing the fire to spread."
 [
 	health(integer) : "Duration" : 30 : "Amount of time the fire will burn."
@@ -1907,7 +1851,7 @@
 	output OnExtinguished(void) : "Fires when the fire is fully extinguished."
 ]
 
-@PointClass base(Parentname, Targetname) iconsprite("editor/env_firesource") color(255 255 0) sphere(fireradius) = env_firesource : 
+@PointClass base(Targetname, Parentname) iconsprite("editor/env_firesource") color(255 255 0) sphere(fireradius) = env_firesource : 
 	"An entity that provides heat to all nearby env_fire entities. Cannot be extinguished."
 [
 	spawnflags(flags) =
@@ -1923,7 +1867,7 @@
 	input Disable(void) : "Disable fire source."
 ]
 
-@PointClass base(Parentname, Targetname) size(-4 -4 -4, 4 4 4) color(255 255 0) sphere(fireradius) = env_firesensor : 
+@PointClass base(Targetname, Parentname) size(-4 -4 -4, 4 4 4) color(255 255 0) sphere(fireradius) = env_firesensor : 
 	"An entity that detects changes in heat nearby."
 [
 	spawnflags(flags) =
@@ -2037,7 +1981,7 @@
 ]
 
 //env_steam with better understandable helper model
-@PointClass base(Parentname, Targetname, Angles) studioprop("models/editor/axis_helper_arrow_x.mdl") color(255 255 255) = env_steam : 
+@PointClass base(Targetname, Parentname, Angles) studioprop("models/editor/axis_helper_arrow_x.mdl") color(255 255 255) = env_steam : 
 	"An entity used to create a jet of steam."
 [
 	spawnflags(flags) =
@@ -2080,7 +2024,7 @@
 	input SpreadSpeed(integer) : "Sets the spread speed in units per second."
 ]
 
-@PointClass base(Parentname, Targetname, RenderFxChoices) size(-4 -4 -4, 4 4 4) line(255 255 255, targetname, LaserTarget) = env_laser : 
+@PointClass base(Targetname, Parentname, RenderFxChoices) size(-4 -4 -4, 4 4 4) line(255 255 255, targetname, LaserTarget) = env_laser : 
 	"An entity that creates a laser beam between itself and a given target."
 [
 	LaserTarget(target_destination) : "Target of Laser" : : "Name of entity, or entities, to strike at. The target is randomly chosen if there are multiple entities matching the given name."
@@ -2150,7 +2094,7 @@
 	input HideHudHint(void) : "Hides the hint message."
 ]
 
-@PointClass sphere() iconsprite("editor/env_shake.vmt") base(Parentname, Targetname) = env_shake : 
+@PointClass sphere() iconsprite("editor/env_shake.vmt") base(Targetname, Parentname) = env_shake : 
 	"An entity to control screen shake on players." 
 [
 	spawnflags(flags) =
@@ -2176,7 +2120,7 @@
 	input StopShake(void) : "Stop the shake."
 ]
 
-@PointClass sphere() size(-4 -4 -4, 4 4 4) base(Parentname, Targetname) = env_viewpunch :
+@PointClass sphere() size(-4 -4 -4, 4 4 4) base(Targetname, Parentname) = env_viewpunch :
 	"Causes a view punch on players." 
 [
 	spawnflags(flags) =
@@ -2311,7 +2255,7 @@
 [
 ]
 
-@PointClass base(Parentname, Targetname, Angles) iconsprite("editor/env_spark.vmt") = env_spark : 
+@PointClass base(Targetname, Parentname, Angles) iconsprite("editor/env_spark.vmt") = env_spark : 
 	"An entity used to create sparks at its origin." 
 [
 	MaxDelay(string) : "Max Delay" : "0" : "The longest delay between sparks (in seconds)."
@@ -2347,8 +2291,8 @@
 
 //Env_Sprite using world glow as default with a helper model to easier select them in hammer when the sprite is large.
 // removed helper model as it obstructed visibility on the sprite and also causes crashes sometimes.
-//@PointClass base(Parentname, Targetname, RenderFields)  studio("models/editor/sprite_ball.mdl") sprite() color(20 140 20) = env_sprite : 
-@PointClass base(Parentname, Targetname, RenderFields)  size(-1 -1 -1, 1 1 1) sprite() color(20 140 20) = env_sprite : 
+//@PointClass base(Targetname, Parentname, RenderFields)  studio("models/editor/sprite_ball.mdl") sprite() color(20 140 20) = env_sprite : 
+@PointClass base(Targetname, Parentname, RenderFields)  size(-1 -1 -1, 1 1 1) sprite() color(20 140 20) = env_sprite : 
 	"An entity that controls the drawing of a sprite in the world." 
 [
 	framerate(string) : "Framerate" : "10.0" : "Rate at which the sprite should animate, if at all."
@@ -2421,26 +2365,21 @@
 
 
 @PointClass base(Targetname, Angles) iconsprite("editor/env_wind.vmt") sphere(windradius) = env_wind : 
-	"An entity to control wind in the map. Partially functional."
+	"An entity to control wind in the map. Affects some particles, ropes, func_precipitation, func_dustmotes, func_dustcloud, trees with $treesway materials. Yaw value determines general wind direction, until a random gust of wind may change wind direction (and strenght)"
 [
 	//gustsound(sound) : "Gust Sound Filename" : "" : "Sound to be played to simulate the gusting wind."
-	minwind(integer) : "Min normal speed" : 20 : "Minimum speed of the wind while idling."
-	maxwind(integer) : "Max normal speed" : 50 : "Maximum speed of the wind while idling."
+	minwind(integer)		: "Min normal speed"				: 20	: "Minimum speed of the wind while idling."
+	maxwind(integer)		: "Max normal speed"				: 50	: "Maximum speed of the wind while idling."
+	windradius(float)		: "Radius"							: -1	: "The radius this entity applies wind effects to.  -1 for global effect, other value to allow multiple or limited wind entities."
+	mingust(integer)		: "Min gust speed"					: 100	: "Minimum speed of wind gusts."
+	maxgust(integer)		: "Max gust speed"					: 250	: "Maximum speed of wind gusts."
+	mingustdelay(integer)	: "Min gust delay"					: 10	: "Minimum time delay between random gusts."
+	maxgustdelay(integer)	: "Max gust delay"					: 20	: "Maximum time delay between random gusts. Don't set to 0, else game may lag and crash!"
+	gustduration(integer)	: "Gust Duration"					: 5		: "How long will the wind gust for."
+	gustdirchange(integer)	: "Max gust dir change (degrees)"	: 20	: "Maximum amount that the wind's direction changes due to a gust."
 	
-	windradius(float) : "Radius" : -1 : "The radius this entity applies wind effects to.  -1 for global effect, other value to allow multiple or limited wind entities."
-
-	mingust(integer) : "Min gust speed" : 100 : "Minimum speed of wind gusts."
-	maxgust(integer) : "Max gust speed" : 250 : "Maximum speed of wind gusts."
-
-	mingustdelay(integer) : "Min gust delay" : 10 : "Minimum time delay between random gusts."
-	maxgustdelay(integer) : "Max gust delay" : 20 : "Maximum time delay between random gusts."
-
-	gustduration(integer) : "Gust Duration" : 5 : "How long will the wind gust for."
-
-	gustdirchange(integer) : "Max gust dir change (degrees)" : 20 : "Maximum amount that the wind's direction changes due to a gust."
-	
-	output OnGustStart(void) : "Fired when a wind gust begins."
-	output OnGustEnd(void) : "Fired when a wind gust ends."
+	output OnGustStart(void)	: "Fired when a wind gust begins."
+	output OnGustEnd(void)		: "Fired when a wind gust ends."
 ]
 
 //Sky Camera helper model
@@ -2448,7 +2387,7 @@
 	"An entity used to control the 3D Skybox. Its origin is used to determine the 3D Skybox's position relative to the map. Place this entity, in the 3D Skybox, at the point where the origin of the map should be."
 [
 	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-	scale(integer) : "3D Skybox scale" : 16 : "Scale of the skybox. scale everything by .0625"
+	scale(integer) : "3D Skybox scale" : 16 : "Scale of the skybox. scale everything by .0625. Or by the result of 1 divided by whatever you chose as value here."
 	clip_3D_skybox_near_to_world_far(choices) : "Clip 3D sky near plane to world far plane" : 0 : "Should the skybox be 'clipped' when getting close to the map? Like a reverse Far-Z." =
 	[
 		0 : "No"
@@ -2505,7 +2444,7 @@
 //-------------------------------------------------------------------------
 
 
-@PointClass base(Targetname) iconsprite("editor/game_text.vmt") = game_text : 
+@PointClass base(obsolete, Targetname) iconsprite("editor/obsolete.vmt") = game_text : 
 	"An entity that displays text on player's screens." 
 [
 	spawnflags(flags) =
@@ -2548,7 +2487,7 @@
 
 
 //Makes the helperprop white to make color display properly.
-@PointClass base(Parentname, Targetname, Angles, RenderFields) color(255 255 255) studio("models/editor/cone_helper_white_new.mdl") = point_spotlight : 
+@PointClass base(Targetname, Parentname, Angles, RenderFields) color(255 255 255) studio("models/editor/cone_helper_white_new.mdl") = point_spotlight : 
 	"An entity to draw a spotlight. Will draw a beam when the player views it side on, and a halo when it's facing towards the player. "+
 	"Unless the 'No Dynamic Light' spawnflag is checked, it will also create a dynamic light wherever the end of the spotlight rests."
 [
@@ -2669,7 +2608,7 @@
 	output OnFoundEntity(void) : "Fired when FindEntity is input and an entity was found. Passes the found entity as !Caller."
 ]
 
-@SolidClass base(Parentname, Targetname) = game_zone_player : 
+@SolidClass base(Targetname, Parentname) = game_zone_player : 
 	"An entity used to count the number of players within a zone."
 [
 	// Inputs
@@ -2734,7 +2673,7 @@
 [
 	material(material) : "Material"
 	sides(sidelist) : "Brush faces"
-	RenderOrder(integer) : "Render Order" : 0 : "Higher values render after lower values. This value can be 0-3."
+	RenderOrder(integer) : "Render Order" : 0 : "Higher values render on top of lower values. This value can be 0-3."
 	StartU(float) : "U Start" : "0.0"
 	EndU(float) : "U End" : "1.0"
 	StartV(float) : "V Start" : "0.0"
@@ -2763,7 +2702,7 @@
 	obsolete(string) readonly : "Technically works, but any target will do." : : " "
 ]
 
-@PointClass base(Parentname, Targetname, Angles) iconsprite("editor/info_target.vmt") = info_target : 
+@PointClass base(Targetname, Parentname, Angles) iconsprite("editor/info_target.vmt") = info_target : 
 	"An entity that does nothing. Very useful as a positioning entity for other entities to refer to (i.e. the endpoint of an env_beam)"
 [
 	spawnflags( Flags ) =
@@ -2774,12 +2713,12 @@
 ]
 
 
-@PointClass base(Parentname, Targetname, Angles) studio("models/editor/cone_helper_new.mdl") = info_particle_target : 
+@PointClass base(Targetname, Parentname, Angles) studio("models/editor/cone_helper_new.mdl") = info_particle_target : 
 	"An entity that is a target for particle system control points"
 [
 ]
 
-@PointClass base(Parentname, Targetname, Angles) studio("models/editor/cone_helper_new.mdl") line(255 255 255, targetname, cpoint1) line(255 255 255, targetname, cpoint2) line(255 255 255, targetname, cpoint3) line(255 255 255, targetname, cpoint4) line(255 255 255, targetname, cpoint5) line(255 255 255, targetname, cpoint6) line(255 255 255, targetname, cpoint7) line(255 255 255, targetname, cpoint8) line(255 255 255, targetname, cpoint9) line(255 255 255, targetname, cpoint10) line(255 255 255, targetname, cpoint11) line(255 255 255, targetname, cpoint12) line(255 255 255, targetname, cpoint13) line(255 255 255, targetname, cpoint14) line(255 255 255, targetname, cpoint15) line(255 255 255, targetname, cpoint16) line(255 255 255, targetname, cpoint17) line(255 255 255, targetname, cpoint18) line(255 255 255, targetname, cpoint19) line(255 255 255, targetname, cpoint20) line(255 255 255, targetname, cpoint21) line(255 255 255, targetname, cpoint22) line(255 255 255, targetname, cpoint23) line(255 255 255, targetname, cpoint24) line(255 255 255, targetname, cpoint25) line(255 255 255, targetname, cpoint26) line(255 255 255, targetname, cpoint27) line(255 255 255, targetname, cpoint28) line(255 255 255, targetname, cpoint29) line(255 255 255, targetname, cpoint30) line(255 255 255, targetname, cpoint31) line(255 255 255, targetname, cpoint32) line(255 255 255, targetname, cpoint33) line(255 255 255, targetname, cpoint34) line(255 255 255, targetname, cpoint35) line(255 255 255, targetname, cpoint36) line(255 255 255, targetname, cpoint37) line(255 255 255, targetname, cpoint38) line(255 255 255, targetname, cpoint39) line(255 255 255, targetname, cpoint40) line(255 255 255, targetname, cpoint41) line(255 255 255, targetname, cpoint42) line(255 255 255, targetname, cpoint43) line(255 255 255, targetname, cpoint44) line(255 255 255, targetname, cpoint45) line(255 255 255, targetname, cpoint46) line(255 255 255, targetname, cpoint47) line(255 255 255, targetname, cpoint48) line(255 255 255, targetname, cpoint49) line(255 255 255, targetname, cpoint50) line(255 255 255, targetname, cpoint51) line(255 255 255, targetname, cpoint52) line(255 255 255, targetname, cpoint53) line(255 255 255, targetname, cpoint54) line(255 255 255, targetname, cpoint55) line(255 255 255, targetname, cpoint56) line(255 255 255, targetname, cpoint57) line(255 255 255, targetname, cpoint58) line(255 255 255, targetname, cpoint59) line(255 255 255, targetname, cpoint60) line(255 255 255, targetname, cpoint61) line(255 255 255, targetname, cpoint62) line(255 255 255, targetname, cpoint63) = info_particle_system : 
+@PointClass base(Targetname, Parentname, Angles) studio("models/editor/cone_helper_new.mdl") line(255 255 255, targetname, cpoint1) line(255 255 255, targetname, cpoint2) line(255 255 255, targetname, cpoint3) line(255 255 255, targetname, cpoint4) line(255 255 255, targetname, cpoint5) line(255 255 255, targetname, cpoint6) line(255 255 255, targetname, cpoint7) line(255 255 255, targetname, cpoint8) line(255 255 255, targetname, cpoint9) line(255 255 255, targetname, cpoint10) line(255 255 255, targetname, cpoint11) line(255 255 255, targetname, cpoint12) line(255 255 255, targetname, cpoint13) line(255 255 255, targetname, cpoint14) line(255 255 255, targetname, cpoint15) line(255 255 255, targetname, cpoint16) line(255 255 255, targetname, cpoint17) line(255 255 255, targetname, cpoint18) line(255 255 255, targetname, cpoint19) line(255 255 255, targetname, cpoint20) line(255 255 255, targetname, cpoint21) line(255 255 255, targetname, cpoint22) line(255 255 255, targetname, cpoint23) line(255 255 255, targetname, cpoint24) line(255 255 255, targetname, cpoint25) line(255 255 255, targetname, cpoint26) line(255 255 255, targetname, cpoint27) line(255 255 255, targetname, cpoint28) line(255 255 255, targetname, cpoint29) line(255 255 255, targetname, cpoint30) line(255 255 255, targetname, cpoint31) line(255 255 255, targetname, cpoint32) line(255 255 255, targetname, cpoint33) line(255 255 255, targetname, cpoint34) line(255 255 255, targetname, cpoint35) line(255 255 255, targetname, cpoint36) line(255 255 255, targetname, cpoint37) line(255 255 255, targetname, cpoint38) line(255 255 255, targetname, cpoint39) line(255 255 255, targetname, cpoint40) line(255 255 255, targetname, cpoint41) line(255 255 255, targetname, cpoint42) line(255 255 255, targetname, cpoint43) line(255 255 255, targetname, cpoint44) line(255 255 255, targetname, cpoint45) line(255 255 255, targetname, cpoint46) line(255 255 255, targetname, cpoint47) line(255 255 255, targetname, cpoint48) line(255 255 255, targetname, cpoint49) line(255 255 255, targetname, cpoint50) line(255 255 255, targetname, cpoint51) line(255 255 255, targetname, cpoint52) line(255 255 255, targetname, cpoint53) line(255 255 255, targetname, cpoint54) line(255 255 255, targetname, cpoint55) line(255 255 255, targetname, cpoint56) line(255 255 255, targetname, cpoint57) line(255 255 255, targetname, cpoint58) line(255 255 255, targetname, cpoint59) line(255 255 255, targetname, cpoint60) line(255 255 255, targetname, cpoint61) line(255 255 255, targetname, cpoint62) line(255 255 255, targetname, cpoint63) = info_particle_system : 
 	"An entity that spawns a particle system built using the particle editor."
 [
 	effect_name(particlesystem) : "Particle System Name"
@@ -2873,7 +2812,7 @@
 ]
 
 
-@PointClass base(Parentname, Targetname, Angles, EnableDisable) iconsprite("editor/info_target.vmt") sphere(radius) = phys_ragdollmagnet : 
+@PointClass base(Targetname, Parentname, Angles, EnableDisable) iconsprite("editor/info_target.vmt") sphere(radius) = phys_ragdollmagnet : 
 	"An entity that acts like a magnet for ragdolls. Useful for crafting exaggerated ragdoll behavior (i.e. guys falling over rails on death). If the "+
 	"Bar Magnet spawnflag is set, the magnet works like it was a cylindrical magnet i.e. it attracts ragdolls to the nearest point on a line."
 [
@@ -2893,10 +2832,11 @@
 	"An entity that can be used to change the lighting origin of a prop_static. Set the prop_static's Lighting Origin to point at this entity to "+
 	"make the prop_static light as if it was at the info_lighting's origin. Good for prop_static entities that are embedded in world geometry (like rocks/windows/etc)."
 [
+	notestaticonly(string) readonly : "Only for prop_static" : "info_target for dynamic props."
 ]
 
 //Different model, to distinguish from info_player_Start
-@PointClass base(Parentname, Targetname, Angles, PlayerClass) studio("models/editor/info_teleport_destination.mdl") = info_teleport_destination : 
+@PointClass base(Targetname, Parentname, Angles, PlayerClass) studio("models/editor/info_teleport_destination.mdl") = info_teleport_destination : 
 	"An entity that does nothing itself, but can be used to specify the destination for a trigger_teleport entity. An info_target can be used instead."
 [
 ]
@@ -2904,17 +2844,6 @@
 //-------------------------------------------------------------------------
 // Lights
 //-------------------------------------------------------------------------
-@PointClass light() iconsprite("editor/light.vmt") base(HelperName, Targetname, Light) sphere(_fifty_percent_distance) sphere(_zero_percent_distance) = light :
-	"An invisible omnidirectional lightsource."
-[
-	target(target_destination) : "Entity To Point At" : : "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
-	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
-	_distance(float) : "Maximum Distance" : 0 : "This is the distance that light is allowed to cast, in inches."
-//this is for ficool2's vbsp++, vvis++ and vrad++. No ides if they work.
-	_light_radius(float) : "Light Radius (Tools++)" : 0 : "Radius of the light for casting soft shadows (0 is hard shadows). Soft shadows take significantly longer to compile."
-
-]
-
 @PointClass base(Angles) iconsprite("editor/light_env.vmt") = light_environment : 
 	"Sets the color and angle of the light from the sun and sky."
 [
@@ -2943,35 +2872,18 @@
 	SunSpreadAngle(float) 	: "SpreadAngle" 		: 3 				: "The angular extent of the light for casting soft shadows. Higher numbers are more diffuse. 5 is a good starting value."
 ]
 
-@PointClass base(HelperName, Targetname, Angles, Light) lightprop("models/editor/spot_color.mdl") lightcone() sphere(_fifty_percent_distance) sphere(_zero_percent_distance) = light_spot :
-	"An invisible and directional spotlight."
-[
-//	rendercolor(color255) : "Helper Model Color" : "0 246 180" : "This Colors just the helper model, to show you what color the light would have. Unfortunately it is not possible to use the values of the _light field. You'll have to manually copy the _light color numbers in here."
-	target(target_destination) : "Entity to point at" : : "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
-	_inner_cone(integer) : "Inner (bright) angle" : 30
-	_cone(integer) : "Outer (fading) angle" : 45
-	_exponent(integer) : "Focus" : 1
-	_distance(float) : "Maximum distance" : 0 : "This is the distance that light is allowed to cast, in inches."
-	pitch(angle_negative_pitch) : "Pitch" : -90
-	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
-//this is for ficool2's vbsp++, vvis++ and vrad++. No ides if they work.
-	_light_radius(float) : "Light Radius (Tools++)" : 0 : "Radius of the light for casting soft shadows (0 is hard shadows). Soft shadows take significantly longer to compile."
-
-]
-
-@PointClass base(obsolete, Parentname, Targetname, Angles) iconsprite("editor/light.vmt") sphere(distance) lightcone() size(-4 -4 -4, 4 4 4) = light_dynamic : 
+@PointClass base(obsolete) iconsprite("editor/obsolete.vmt") = light_dynamic : 
 	"An invisible lightsource that changes in some way over time." 
 [
-	obsolete(string) readonly : "!!! DOES NOT WORK AT ALL !!!" : : " "
-	target(target_destination) : "Entity to point at" : : "The name of an entity in the map that the dynamic light will point at."
-	_light(color255) : "Light color" : "255 255 255 200"
-	brightness(integer) : "Light brightness" : 0
-	_inner_cone(integer) : "Inner (bright) angle" : 30
-	_cone(integer) : "Outer (fading) angle" : 45
-	pitch(integer) : "Pitch" : -90
-	distance(float) : "Maximum distance" : 120 : "This is the distance that light is allowed to cast, in inches."
-	spotlight_radius(float) : "Spotlight end radius" : 80 : "This is the radius of the light, in inches, at the object that it is hitting."
-    style(Choices) : "Appearance" : 0 =
+	obsolete(string) readonly : "Do not use this entity." : : "This entity is broken beyond use. It is glitchy and must not be used."
+]
+
+@BaseClass color(180 10 180) = Light
+[
+	_light(color255) 			: "Brightness" 			: "255 255 255 200" : "RGB and Brightness value of light color"
+	_lightHDR(color255) 		: "Brightness HDR" 		: "-1 -1 -1 1"		: "RGB and Brightness value of Light color, when compiling for hdr. '-1 -1 -1 1' means it copies valies from 'Brightness'. L4D2 only has HDR!"
+	_lightscaleHDR(float)		: "Brightness HDR Scale"	: "0.5" 		: "Light Scale when compiling for HDR. L4D2 only has HDR!"
+	style(Choices) 				: "Appearance" 			: 0 =
 	[
 		0 : "Normal"
 		10: "Fluorescent flicker"
@@ -2986,27 +2898,62 @@
 		4 : "Fast strobe"
 		9 : "Slow strobe"
 	]
-	spawnflags(Flags) = 
-	[ 
-		1 : "Do not light world (better perf)" : 0 
-		2 : "Do not light models" : 0
-		4 : "Add Displacement Alpha" : 0
-		8 : "Subtract Displacement Alpha" : 0
+	pattern(string)					: "Custom Appearance"					: ""	: "Set a custom pattern of light brightness for this light. Pattern format is a string of characters, where 'a' is total darkness, 'z' fully bright. i.e. 'aaggnnttzz' would be a steppy fade in from dark to light."
+	_constant_attn(string)			: "Attenuation - Constant"				: "0"	: "Changes lights power.			More info here: https://developer.valvesoftware.com/wiki/Constant-Linear-Quadratic_Falloff "
+	_linear_attn(string)			: "Attenuation - Linear"				: "0"	: "Changes lights power.			More info here: https://developer.valvesoftware.com/wiki/Constant-Linear-Quadratic_Falloff "
+	_quadratic_attn(string)			: "Attenuation - Quadratic"				: "1"	: "Changes lights power.			More info here: https://developer.valvesoftware.com/wiki/Constant-Linear-Quadratic_Falloff "
+	_fifty_percent_distance(string)	: "50% falloff distance"				: "0"	: "Brightness falls to 50% at this distance. Overrides Linear, Constant + Quadratic values."
+	_zero_percent_distance(string)	: "0% falloff distance (Max Distance)"	: "0"	: "Brightness falls to 0% at this distance.		Must set '50% falloff distance' to work."
+	_hardfalloff(Choices)			: "Hard falloff after 0%"				: 0 	: "If set, causes light to immadiately fade out the exact lightmap-grid square after the '0% falloff distance' value. May cause weird lighting or glitches."  =
+	[
+		0 : "No"
+		1 : "Yes"
 	]
 
+	_castentityshadow(Choices)		: "Cast entity shadows"			: 1 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	_shadoworiginoffset(vector) : "Shadow cast offset" : "0 0 0" : "A world-space offset that gets applied to the light origin when casting entity shadows. Useful for dealing with funny-looking shadows from very low lights: Just offset up the z axis."
+	
 	// Inputs
-	input Color(color255) : "Set the light's render color (R G B)."
-	input brightness(integer) : "Set the light brightness."
-	input distance(float) : "Set the maximum light distance."
-	input _inner_cone(integer) : "Set the inner (bright) angle."
-	input _cone(integer) : "Set the outer (fading) angle."
-	input spotlight_radius(float) : "Set the radius of the spotlight at the end point."
-	input style(integer) : "Change the lightstyle (see Appearance field for possible values)."
-
-	input TurnOn(void) : "Turn the light off."
-	input TurnOff(void) : "Turn the light on."
-	input Toggle(void) : "Toggle the light on/off."
+	input TurnOn(void) : "Turn the light on."
+	input TurnOff(void) : "The the light off."
+	input Toggle(void) : "Toggle the light's current state."
+	input SetPattern(string) : "Set a custom pattern of light brightness for this light. Pattern format is a string of characters, where 'a' is total darkness, 'z' fully bright. i.e. 'aaggnnttzz' would be a steppy fade in from dark to light."
+	input FadeToPattern(string) : "Fades from first value in old pattern, to first value in the new given pattern. Pattern format is a string of characters, where 'a' is total darkness, 'z' fully bright. i.e. 'aaggnnttzz' would be a steppy fade in from dark to light."
 ]
+
+@PointClass light() iconsprite("editor/light.vmt") base(HelperName, Targetname, Light) sphere(_fifty_percent_distance) sphere(_zero_percent_distance) = light :
+	"An invisible omnidirectional lightsource."
+[
+	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
+	_distance(float) : "Maximum Distance" : 0 : "This is the distance that light is allowed to cast, in inches."
+
+//this is for ficool2's vbsp++, vvis++ and vrad++. No idea if they work.
+	_light_radius(float) : "Light Radius (Tools++)" : 0 : "Radius of the light for casting soft shadows (0 is hard shadows). Soft shadows take significantly longer to compile."
+
+]
+
+@PointClass base(HelperName, Targetname, Angles, Light) lightprop("models/editor/spot_color.mdl") lightcone() sphere(_fifty_percent_distance) sphere(_zero_percent_distance) = light_spot :
+	"An invisible and directional spotlight."
+[
+//	rendercolor(color255) : "Helper Model Color" : "0 246 180" : "This Colors just the helper model, to show you what color the light would have. Unfortunately it is not possible to use the values of the _light field. You'll have to manually copy the _light color numbers in here."
+	target(target_destination) : "Entity to point at" : : "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
+	_inner_cone(integer) : "Inner (bright) angle" : 30
+	_cone(integer) : "Outer (fading) angle" : 45
+	_exponent(integer) : "Focus" : 1
+	pitch(angle_negative_pitch) : "Pitch" : -90
+	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
+//this is for ficool2's vbsp++, vvis++ and vrad++. No idea if they work.
+	_light_radius(float) : "Light Radius (Tools++)" : 0 : "Radius of the light for casting soft shadows (0 is hard shadows). Soft shadows take significantly longer to compile."
+
+//broken since Source2013.
+//	_distance(float) : "Maximum distance" : 0 : "This is the distance that light is allowed to cast, in inches."
+]
+
+
 
 
 //-------------------------------------------------------------------------
@@ -3115,7 +3062,7 @@
 	]
 ]
 
-@SolidClass base(Parentname, Targetname, Origin, RenderFields) = func_movelinear :
+@SolidClass base(Targetname, Parentname, Origin, RenderFields) = func_movelinear :
 	"A brush entity that moves linearly along a given distance, in a given direction."
 [
 	movedir(angle) : "Move Direction (Pitch Yaw Roll)" : "0 0 0" : "The direction the brushes will move, when told to."
@@ -3164,7 +3111,7 @@
 	output OnFullyClosed(void) : "Fired when the water brush reaches the starting position."
 ]
 
-@SolidClass base(Parentname, Targetname, Angles, Origin,  RenderFields, Shadow) = func_rotating : 
+@SolidClass base(Targetname, Parentname, Angles, Origin,  RenderFields, Shadow) = func_rotating : 
 	"A rotating brush entity."
 [
 	maxspeed(integer) : "Max Rotation Speed" : 100 : "The maximum rotation speed of the brushes, in degrees per second."
@@ -3206,7 +3153,7 @@
 	input Reverse(void) : "Reverse the direction of rotation of the rotator."
 ]
 
-@SolidClass base(Parentname, Targetname, Angles, Origin, RenderFields, BasePlat, Shadow) = func_platrot : 
+@SolidClass base(Targetname, Parentname, Angles, Origin, RenderFields, BasePlat, Shadow) = func_platrot : 
 	"A brush entity that moves vertically, and can rotate while doing so." 
 [
 	spawnflags(Flags) =
@@ -3286,7 +3233,7 @@
 	input Break(void) : "Break the rope, if it's marked to do so."
 ]
 
-@MoveClass base(Parentname, Targetname, KeyFrame, RopeKeyFrame) studio("models/editor/axis_helper_new.mdl") animator()  line(0 255 0, targetname, NextKey)= move_rope : 
+@MoveClass base(Targetname, Parentname, KeyFrame, RopeKeyFrame) studio("models/editor/axis_helper_new.mdl") animator()  line(0 255 0, targetname, NextKey)= move_rope : 
 	"The first node in set of nodes that are used to place ropes in the world. It should connect to 1 or more keyframe_rope entities."
 [
 	PositionInterpolator(choices) : "Position Interpolator" : 2 : "Curve Type. Currently only type 2 (Rope) is fully supported." =
@@ -3297,7 +3244,7 @@
 	]
 ]
 
-@KeyFrameClass base(Parentname, Targetname, KeyFrame, RopeKeyFrame) studio("models/editor/axis_helper_thick_new.mdl") keyframe()  line(0 255 0, targetname, NextKey)= keyframe_rope : 
+@KeyFrameClass base(Targetname, Parentname, KeyFrame, RopeKeyFrame) studio("models/editor/axis_helper_thick_new.mdl") keyframe()  line(0 255 0, targetname, NextKey)= keyframe_rope : 
 	"A node entity that marks a point in a rope. The first node in the rope should be a move_rope, followed by 1 or more keyframe_ropes."
 [
 ]
@@ -3325,7 +3272,7 @@
 	output OnOut(void) : "Fired when the button reaches the out/released position."
 ]
 
-@SolidClass base(Parentname, Targetname, Origin, Button, RenderFields,DamageFilter) = func_button : 
+@SolidClass base(Targetname, Parentname, Origin, Button, RenderFields,DamageFilter) = func_button : 
 	"A brush entity that's designed to be used for a player-useable button. When used by the player, it moves to a pressed position."
 [
 	movedir(angle) : "Move Direction (Pitch Yaw Roll)" : "0 0 0" : "Specifies the direction of motion to move when the button is used."
@@ -3444,7 +3391,7 @@
 	_minlight(string) : "Minimum Light Level" : : "The minimum level of ambient light that hits this brush."
 ]
 
-@SolidClass base(Parentname, Global, Targetname, Origin, Angles, Button, EnableDisable) = func_rot_button : 
+@SolidClass base(Targetname, Global, Parentname, Origin, Angles, Button, EnableDisable) = func_rot_button : 
 	"A brush entity that's designed to be used for a rotating player-useable button. When used by the player, it rotates to a pressed position."
 [
 	master(string) readonly : "Master (Obsolete)" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this button cannot be used."
@@ -3477,7 +3424,7 @@
 	_minlight(string) : "Minimum Light Level" : : "The minimum level of ambient light that hits this brush."
 ]
 
-@SolidClass base(Parentname, Targetname, Origin, Angles, RenderFields) = momentary_rot_button : 
+@SolidClass base(Targetname, Parentname, Origin, Angles, RenderFields) = momentary_rot_button : 
 	"A brush entity that's designed to be used for rotating wheels, where the player can rotate them to arbitrary positions before stopping."
 [
 	speed(integer) : "Speed (deg/sec)" : 50 : "The amount, in degrees, that the wheel turns per second."
@@ -3546,7 +3493,7 @@
 // Doors
 //-------------------------------------------------------------------------
 
-@BaseClass base(Parentname, Global, Targetname, RenderFields, Shadow) = Door
+@BaseClass base(Targetname, Global, Parentname, RenderFields, Shadow) = Door
 [
 	master(string) readonly : "Master (Obsolete)" 				: 		: "Legacy support: The name of a master entity. If the master hasn't been activated, this button cannot be used."
 	health(integer) 		: "Health (shoot open)" : 0		// NEEDHELP: Looks like this was removed
@@ -3679,25 +3626,43 @@
 
 @BaseClass = BaseFadeProp
 [
-	fademindist(float) : "Start Fade Dist" : -1 : "Distance at which the prop starts to fade (<0 = subtract from fademaxdist)."
-	fademaxdist(float) : "End Fade Dist" : 0 : "Max fade distance at which the prop is visible (0 = don't fade out)"
-	fadescale(float) : "Fade Scale" : 1 : "If you specify a fade in the worldspawn, or if the engine is running under low end/medium end/XBox360, then the engine will forcibly fade out props even if fademindist/fademaxdist isn't specified." +
-												 " This scale factor gives you some control over the fade. Using 0 here turns off the forcible fades." +
-												 " Numbers smaller than 1 cause the prop to fade out at further distances, and greater than 1 cause it to fade out at closer distances."
+	fademindist(float)	: "Start Fade Dist"	: -1	: "Distance at which the prop starts to fade (<0 = subtract from fademaxdist)."
+	fademaxdist(float)	: "End Fade Dist"	: 0		: "Max fade distance at which the prop is visible (0 = don't fade out)"
+	fadescale(float)	: "Fade Scale"		: 1		: "If you specify a fade in the worldspawn, or if the engine is running under low end/medium end/XBox360, then the engine will forcibly fade out props even if fademindist/fademaxdist isn't specified." +
+													" This scale factor gives you some control over the fade. Using 0 here turns off the forcible fades." +
+													" Numbers smaller than 1 cause the prop to fade out at further distances, and greater than 1 cause it to fade out at closer distances."
 ]
 
-
-// Added Rendermode, changed color
-@PointClass base(Parentname, Global, Targetname, Angles, Studiomodel, BaseFadeProp, Glow) studioprop() color(255 255 255) = prop_door_rotating : 
-	"An entity used to place a door in the world."
+@BaseClass = PropDoorBaseSlaveName
 [
-	lightingorigin(target_destination)	: "Lighting Origin" : "" : "Select any entity to specify a location to sample lighting from, instead of using this entity's origin."
-	model(studio) : "World model" 		: "models/props_downtown/door_interior_112_01.mdl" : "Make sure custom door models have a Door_Options $keyvalue, else you'll get console errors!"
-	slavename(target_destination) 		: "Slave Name" : : "Name of door that should open and close when this one is being opened and closed. Note: Having the same 'Targetname' causes all doors of the same name to open and close at the same time."
-	health(integer) 					: "Health (0 = Unbreakable)" : 0			// NEEDHELP: Doesn't look like this is hooked up anymore?
-	returndelay(integer) 				: "Delay Before close (-1 stay open)" : -1 : "Amount of time, in seconds, after the door has opened before it closes. If the value is set to -1, the door never closes itself."
-	dmg(integer) 						: "Damage Inflicted When Blocked" : 0 : "Amount of damage done to entities that block the movement of this door, per frame."
-	forceclosed(choices) 				: "Force Closed" : 0 : "If set, this door will close no matter what. Useful for doors that have to close even if the player tries to block them with objects." =
+	slavename(target_destination) 		: "Slave Door Name"							:													: "Name of door that should open and close when this one is being opened and closed. Note: Having the same 'Targetname' causes all doors of the same name to open and close at the same time."
+]
+@BaseClass = PropDoorBase
+[
+	targetname(target_source)			: "Name"								:													: "The name that other entities refer to this entity by. Doors with the same Targetname will open/close together at once."
+	model(studio)						: "World model"							: "models/props_downtown/door_interior_112_01.mdl"	: "Make sure custom door models have a Door_Options $keyvalue, else you'll get console errors!"
+	rendercolor(color255) 			: "Color (R G B)" 		: "255 255 255"	: "Tint the whole model. You can color only parts of a model by using  '$blendtintbybasealpha 1' in the materials of a model. More info on the VDC."
+	renderamt(integer)				: "FX Amount (0 - 255)"	: 255			: "The FX amount is used by the selected Render Mode."
+	rendermode(choices)				: "Render Mode"			: 0				: "Used to set a non-standard rendering mode on this entity. See also 'FX Amount' and 'FX Color'." =
+	[
+		0: "Normal"
+		1: "Color"
+		2: "Texture"
+		3: "Glow"
+		4: "Solid"
+		5: "Additive"
+		7: "Additive Fractional Frame"
+		9: "World Space Glow"
+		10: "Dont Render"
+	]
+
+	dmg(integer) 						: "Damage Inflicted When Blocked"		: 0		: "Amount of damage done to entities that block the movement of this door, per frame."
+	distance(float)						: "Rotation degrees"					: 90	: "The amount, in degrees, that the door should rotate when opened."
+	speed(integer)						: "Speed"								: 200	: "The speed at which the door moves." // TERROR
+	returndelay(integer) 				: "Delay Before close (-1 stay open)"	: -1	: "Amount of time, in seconds, after the door has opened before it closes. If the value is set to -1, the door never closes itself."
+
+
+	forceclosed(choices) : "Force Closed" : 0 : "If set, this door will close no matter what. Useful for doors that have to close even if the player tries to block them with objects." =
 	[
 		0 : "No"
 		1 : "Yes"
@@ -3717,32 +3682,12 @@
 	]
 	ajarangles(angle) : "Spawn Position's Ajar Angles" : "0 0 0" : "If the door 'Spawn Position' is set to Ajar, these are the angles to spawn at, instead of being open or closed."
 
-	distance(float) : "Rotation Distance (deg)" : 90 : "The amount, in degrees, that the door should rotate when opened."
-	speed(integer) : "Speed" : 200 : "The speed at which the door moves." // TERROR
-
-	soundlockedoverride(sound) 		: "Locked Sound" 		: 				: "Sound when trying to open a locked door. Try doors/latchlocked2.wav"
-	soundunlockedoverride(sound) 	: "Lock Sound" 			: 				: "Sound when the door gets locked and unlocked. Try doors/latchunlocked1.wav"
-	soundmoveoverride(sound) 		: "Moving Sound" 		: 				: "Sound when the door starts to move."
-	soundopenoverride(sound) 		: "Fully Open Sound" 	: 				: "Sound when door reached its open position."
-	soundcloseoverride(sound) 		: "Fully Closed Sound" 	: 				: "Sound when door reached its closed position."
-	rendercolor(color255) 			: "Color (R G B)" 		: "255 255 255"	: "Tint the whole model. You can color only parts of a model by using  '$blendtintbybasealpha 1' in the materials of a model. More info on the VDC."
-	axis(axis) readonly : "Hinge Axis (BROKEN)" : : "This is broken and does NOTHING! Edit the door model if you want to change the axis."
-
-//NEW BEGIN
-	renderamt(integer) : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
-	rendermode(choices) : "Render Mode" : 0 : "Used to set a non-standard rendering mode on this entity. See also 'FX Amount' and 'FX Color'." =
+	lightingorigin(target_destination) : "Lighting Origin" : "" : "Select a 'info_target' to sample lights from, instead the prop's own lighting origin."
+	disableshadows(choices) : "Disable Shadows" : 1 : "Used to disable dynamic shadows on this entity." =
 	[
-		0: "Normal"
-		1: "Color"
-		2: "Texture"
-		3: "Glow"
-		4: "Solid"
-		5: "Additive"
-		7: "Additive Fractional Frame"
-		9: "World Space Glow"
-		10: "Dont Render"
+		0 : "No"
+		1 : "Yes"
 	]
-	//NEW END
 
 	spawnflags(flags) =
 	[
@@ -3750,19 +3695,12 @@
 		//512: "NPCs Can't" : 0
 		2048: "Starts locked" : 0
 		4096: "Door silent (No sound, and does not alert NPCs)" : 0
-		8192: "Use closes" : 1
+		8192: "Use closes the door again. Disable this to never let the player close the door." : 1
 		16384 : "Door silent to NPCS (Does not alert NPCs)" : 0
 		32768 : "Ignore player +USE" : 0
-		524288 : "Start Unbreakable" : 0	// TERROR
+		524288 : "Start Unbreakable. Consider that CI cannot break this door, so you need another way past this door!" : 0	// TERROR
 	]
-		hardware(choices) : "Hardware Type (Semi Obsolete)" : 1 : "In L4D2, this only changes the sounds used, which are different per door. You should just use the sound settings available, instead of this." =
-	[
-		0 : "<None>"
-		1 : "Lever"
-		2 : "Push bar"
-		3 : "Keypad"
-	]
-
+	
 	// Outputs
 	output OnClose(void) : "Fired when the door is told to close."
 	output OnOpen(void) : "Fired when the door is told to open."
@@ -3786,6 +3724,31 @@
 	input SetSpeed(float) : "Set the speed at which the door rotates. 100 is default."
 	input SetUnbreakable(void) : "The door can't be broken."
 	input SetBreakable(void) : "The door can be broken."
+
+
+]
+
+// Added Rendermode, changed color
+//@PointClass base(Parentname, Global, PropDoorBaseSlaveName, Targetname, Angles, Studiomodel, PropDoorBase, BaseFadeProp, Glow) studio("models/editor/DoorHelper.mdl") studioprop() color(255 255 255) = prop_door_rotating : 
+@PointClass base(Parentname, Global, PropDoorBaseSlaveName, Targetname, Angles, Studiomodel, PropDoorBase, BaseFadeProp, Glow) studioprop() color(255 255 255) = prop_door_rotating : 
+	"An entity used to place a door in the world."
+[
+	hardware(choices) : "Hardware Type" : 0 : "In L4D2, this changes the door sounds. Possible sounds to choose from are compiled into the individual door models. Some doors don't even have different sound options. You will need to decompile the doors to check." =
+	[
+		0 : "Default"
+		1 : "Sound Option 1"
+		2 : "Sound Option 2"
+		3 : "Sound Option 3"
+	]
+// these are all broken in L4D2 and do nothing. until a relay or something forces the addountput overwrite.
+	notesounds(string)	readonly	: "________ README ________ "	:	: "The sound settings below are broken in l4d2. but there's a workaround: Add a logic_auto that fires the outputs 'addoutput' to your door that forces the sounds. Example: OnMapSpawn - <door entity> - AddOutput - SoundMoveOverride Doors.Move14"
+	soundlockedoverride(sound) 		: "(Broken) Locked +Use Sound" 	:	: "SoundLockedOverride			Plays when +Use is pressed on this door when it is locked."
+	soundunlockedoverride(sound) 	: "(Broken) Un-/Locking Sound" 	:	: "SoundUnlockedOverride			Plays when the door is being locked or unlocked."
+	soundmoveoverride(sound) 		: "(Broken) Moving Sound" 		:	: "SoundMoveOverride			Plays when the door is moving in either direction."
+	soundopenoverride(sound) 		: "(Broken) Fully Opened Sound"	:	: "SoundOpenOverride			Plays when the door has reached it fully opened state."
+	soundcloseoverride(sound) 		: "(Broken) Fully Closed Sound"	:	: "SoundCloseOverride			Plays when the door has shut completely."
+
+
 ]
 
 // Added Rendermode (via base above), changed color
@@ -3795,7 +3758,7 @@
 	model(studio) : "World model" : "models/props_doors/checkpoint_door_-01.mdl" : "models/lighthouse/checkpoint_door_lighthouse01.mdl \n models/lighthouse/checkpoint_door_lighthouse02.mdl \n models/props_doors/checkpoint_door_-01.mdl \n models/props_doors/checkpoint_door_-02.mdl \n models/props_doors/checkpoint_door_01.mdl \n models/props_doors/checkpoint_door_02.mdl" 
 ]
 
-@PointClass base(Parentname, Global, Targetname, Angles, Studiomodel, BaseFadeProp) studioprop() = prop_wall_breakable : 
+@PointClass base(Targetname, Global, Parentname, Angles, Studiomodel, BaseFadeProp) studioprop() = prop_wall_breakable : 
 	"A section of wall that's breakable just like doors are."
 [
 	spawnflags(flags) =
@@ -3815,16 +3778,12 @@
 // Cube map sample
 //-------------------------------------------------------------------------
 
-//bigger cubemap and origin to know where it is.
 @PointClass color(0 255 255) sidelist(sides) sphere() base(ColorCoding, HelperName) iconsprite("editor/env_cubemap.vmt") = env_cubemap : 
 	"An entity that creates a sample point for the Cubic Environment Map."
 [
-	radius(string) 			: "Helper radius" 					: "128"	: "Use the radius as a helper to show the influence of a cubemap. This radius will help placing cubemaps in hallways and around doors, to make sure that the radius drawn doesn't clip through the wall on either side. Otherwise the cubemaps of hallways may show up outside of the hallways."
-// removing origin, because its only useful in a niche case
-// however, if placed in an instance, or removed via smart edit, the cubemap will be moved to the center of the map when the map is saved.
-//	origin(origin) readonly : "Helper Origin (DO NOT CHANGE)" 	: 		: "Compiled cubemap textures will have the origin as name. This field here shows the origin. DO NOT CHANGE THIS FIELD! changing this field will move the cubemap."
-	sides(sidelist) 		: "Brush faces"						: 		: "(Optional) Brush faces which will be forced to use this cubemap."
-	cubemapsize(choices) 	: "Cubemap Size" 					: 6 	: "Large resolutions require at least 4 times of screen resolution. which may need Dynamic Super Resolution (DSR) to build them." =
+	radius(string) 			: "Helper radius" 	: "128"	: "Use the radius as a helper to show the influence of a cubemap. This radius will help placing cubemaps in hallways and around doors, to make sure that the radius drawn doesn't clip through the wall on either side. Otherwise the cubemaps of hallways may show up outside of the hallways."
+	sides(sidelist) 		: "Brush faces"		: 		: "(Optional) Brush faces which will be forced to use this cubemap."
+	cubemapsize(choices) 	: "Cubemap Size" 	: 6 	: "Large resolutions require at least 4 times of screen resolution. May need Dynamic Super Resolution (DSR) to build them." =
 	[
 		0 	: "Default (32x32)"
 		1 	: "1x1"
@@ -3843,39 +3802,45 @@
 ]
 
 @BaseClass = BModelParticleSpawner
-[ 
+[
 	StartDisabled(choices) : "Start Disabled" : 0 =
 	[
 		0 : "No"
 		1 : "Yes"
 	]
-
-	Color(color255) : "Particle Color (R G B)" : "255 255 255"
-	SpawnRate(integer) : "Particle Per Second" : 40 : "Number of particles to spawn, per second."
-	SpeedMax(string) : "Maximum Particle Speed" : 13 : "Maximum speed that the particles can move after spawning."
-	LifetimeMin(string) : "Minimum Particle Lifetime" : 3 : "Minimum number of seconds until each particle dies. Particles live for a random duration between this and 'Maximum Particle Lifetime'."
-	LifetimeMax(string) : "Maximum Particle Lifetime" : 5 : "Maximum number of seconds until each particle dies. Particles live for a random duration between 'Minimum Particle Lifetime' and this."
-	DistMax(integer) : "Maximum Visible Distance" : 1024 : "Maximum distance at which particles are visible. They fade to translucent at this distance."
-
 	Frozen(choices) : "Frozen" : 0 : "When set, this entity spawns the number of particles in SpawnRate immediately, and then goes inactive." =
 	[
 		0 : "No"
 		1 : "Yes"
 	]
+	Color(color255)		: "Particle Color (R G B)"	: "255 255 255"
+	Alpha(integer)	: "Particle Alpha"		: 255 : "lets you make particles more translucent, to distract less."
+	DistMax(integer)	: "Visible Max Distance"	: 1024			: "Maximum distance at which particles are visible. They fade to translucent at this distance."
+	SpawnRate(integer)	: "Particle Per Second"		: 40			: "Number of particles to spawn, per second. Having too many will cause severe visual glitches."
+	SpeedMax(string)	: "Particle Max Speed"		: 13			: "Maximum speed that the particles can move after spawning."
+	LifetimeMin(string)	: "Particle Min Lifetime"	: 3				: "Minimum number of seconds until each particle dies. Particles live for a random duration between this and 'Maximum Particle Lifetime'."
+	LifetimeMax(string)	: "Particle Max Lifetime"	: 5				: "Maximum number of seconds until each particle dies. Particles live for a random duration between 'Minimum Particle Lifetime' and this."
 
 	// Inputs
 	input TurnOn(void) : "Turn on."
 	input TurnOff(void) : "Turn off."
 ]
 
-@SolidClass base(Targetname, BModelParticleSpawner) = func_dustmotes : 
-	"A brush entity that spawns sparkling dust motes within its volume."
-[
-	SizeMin(string) : "Minimum Particle Size" : 10
-	SizeMax(string) : "Maximum Particle Size" : 20
+	@SolidClass base(Targetname, BModelParticleSpawner) sphere(DistMax) = func_dustmotes : 
+		"A brush entity that spawns sparkling dust motes within its volume."
+	[
+		SizeMin(string)	: "Particle Min Size"	: 10
+		SizeMax(string)	: "Particle Max Size"	: 20
+	]
+	
+	@SolidClass base( Targetname, BModelParticleSpawner ) sphere(DistMax) = func_dustcloud : 
+		"A brush entity that spawns a translucent dust cloud within its volume."
+	[
+		Alpha(integer)	: "Particle Alpha"		: 30 : "lets you make particles more translucent, to distract less."
+		SizeMin(string)	: "Particle Min Size"	: 100
+		SizeMax(string)	: "Particle Max Size"	: 200
 
-	Alpha(integer) : "Alpha" : 255
-]
+	]
 
 @SolidClass base( Targetname ) = func_smokevolume : 
 	"A brush entity that spawns smoke particles within its volume."
@@ -3904,14 +3869,7 @@
 	input SetDensity(float) : "Set the particle density. It should be a range from 0 to 1."
 ]
 
-@SolidClass base( Targetname, BModelParticleSpawner ) = func_dustcloud : 
-	"A brush entity that spawns a translucent dust cloud within its volume."
-[
-	Alpha(integer) : "Alpha" : 30
 
-	SizeMin(string) : "Minimum Particle Size" : 100
-	SizeMax(string) : "Maximum Particle Size" : 200
-]
 
 @PointClass base( Parentname, Targetname, Angles ) size( -8 -8 -8, 8 8 8 ) = env_dustpuff : 
 	"An entity that can emit dust puffs."
@@ -3952,7 +3910,53 @@
 // Logic Entities
 //-------------------------------------------------------------------------
 
-//Removing useless globalstates from logic_auto
+@PointClass  size(-8 -8 -8, 8 8 8) = env_global : 
+	"An entity to control a game-specific global states."
+[
+
+	globalstate(choices) : "Global State to Set" : : "You can make up your own global states. These act like 'targetname' for values set across multiple maps. Think of it like a quick boolean convar you can set per-campaign." =
+	[
+		"Global_1"	:	"Global_1"
+		"Global_2"	:	"Global_2"
+		"Global_3"	:	"Global_3"
+		"Global_4"	:	"Global_4"
+		"Global_5"	:	"Global_5"
+		"Global_6"	:	"Global_6"
+		"Global_7"	:	"Global_7"
+		"Global_8"	:	"Global_8"
+		"Global_9"	:	"Global_9"
+		"Global_10"	:	"Global_10"
+	]
+
+	initialstate(choices) : "Initial State" : 0 =
+	[
+		0 : "Off"
+		1 : "On"
+		2 : "Dead"
+	]
+	
+	counter(integer) : "Counter" : 0 : "An integer counter value associated with this global."
+
+	spawnflags(flags) =
+	[
+		1 : "Set Initial State" : 0
+	]
+
+	// Inputs
+	input TurnOn(void) : "Set state of global to ON."
+	input TurnOff(void) : "Set state of global to OFF."
+	input Toggle(void) : "Toggles state of global between ON and OFF."
+	input Remove(void) : "Set state of global to DEAD."
+	input SetCounter(integer) : "Sets the counter value of this global."
+	input AddToCounter(integer) : "Adds to the counter value of this global. Negative numbers subtract."
+	input GetCounter(void) : "Causes the Counter output to be fired, passing the current counter value for this global."
+
+	// Outputs
+	output Counter(integer) : "Fired in response to the GetCounter input, passing the current value of the counter."
+
+
+]
+
 @PointClass base(ColorCoding, HelperName) iconsprite("editor/logic_auto.vmt") = logic_auto : 
 	"Fires outputs when a map spawns. " +
 	"If 'Remove on fire' flag is set the logic_auto is deleted after firing. " +
@@ -3967,6 +3971,16 @@
 	globalstate(choices) : "Global State to Read" : : "If set, this specifies a global state to check before firing. The OnMapSpawn output will only fire if the global state is set." =
 	[
 		"" : "--- None ---"
+		"Global_1"	:	"Global_1"
+		"Global_2"	:	"Global_2"
+		"Global_3"	:	"Global_3"
+		"Global_4"	:	"Global_4"
+		"Global_5"	:	"Global_5"
+		"Global_6"	:	"Global_6"
+		"Global_7"	:	"Global_7"
+		"Global_8"	:	"Global_8"
+		"Global_9"	:	"Global_9"
+		"Global_10"	:	"Global_10"
 		"is_console" : "Game is running on a console"
 		"is_pc" : "Game is running on a PC"
 	]
@@ -3974,11 +3988,11 @@
 	// Outputs
 	output OnMapSpawn(void) : "Fired when the map is loaded for any reason."
 	output OnNewGame(void) : "Fired when the map is loaded to start a new game."
-//	output OnLoadGame(void) : "Fired when the map is loaded from a saved game."
 	output OnMapTransition(void) : "Fired when the map is loaded due to a level transition."
-//	output OnBackgroundMap(void) : "Fired when the map is loaded as a background to the main menu."
 	output OnMultiNewMap(void) : "Fired only in multiplayer, when a new map is loaded."
 	output OnMultiNewRound(void) : "Fired only in multiplayer, when a new round is started. Only fired in multiplayer games that use round-based gameplay."
+//	output OnLoadGame(void) : "Fired when the map is loaded from a saved game."
+//	output OnBackgroundMap(void) : "Fired when the map is loaded as a background to the main menu."
 //	output OnDemoMapSpawn(void) : "Fired when the map is loaded in Demo Mode."
 ]
 
@@ -4328,7 +4342,7 @@
 ]
 
 
-@PointClass base(Parentname, Targetname, EnableDisable) iconsprite("editor/env_microphone.vmt") sphere(MaxRange) color(0 0 255) = env_microphone :
+@PointClass base(Targetname, Parentname, EnableDisable) iconsprite("editor/env_microphone.vmt") sphere(MaxRange) color(0 0 255) = env_microphone :
 	"An entity that acts as a microphone. It works in one of two modes. If it has a 'Speaker' set, it picks up all sounds within the specified sound range, " +
 	"and rebroadcasts them through the Speaker entity. In this Speaker mode, it ignores the Hears X spawnflags and does not fire the SoundLevel output. " +
 	"If it has no Speaker set, it measures the sound level at a point, and outputs the sound level as a value between 0 and 1. In Measuring mode, it only hears sounds that match the Hear X spawnflags."
@@ -4671,7 +4685,7 @@
 // Point Entities
 //-------------------------------------------------------------------------
 
-@PointClass base(Parentname, Targetname, EnableDisable) = point_anglesensor :
+@PointClass base(Targetname, Parentname, EnableDisable) = point_anglesensor :
 	"An entity that detects if another entity points in a given direction for a period of time."
 [
 	target(target_destination) : "Target Entity Name" : : "Name of the entity whose angles will be sensed."
@@ -4696,7 +4710,7 @@
 ]
 
 
-@PointClass base(Parentname, Targetname, Angles, EnableDisable) = point_proximity_sensor :
+@PointClass base(Targetname, Parentname, Angles, EnableDisable) = point_proximity_sensor :
 	"An entity that detects another entity's proximity to a target position."
 [
 	target(target_destination) : "Target Entity Name" : : "Name of the entity whose angles will be sensed."
@@ -4930,7 +4944,7 @@
 	output OnAwakened(void) : "Fired when this entity becomes awake (collision/force is applied)."
 ]
 
-@PointClass base(Parentname, Targetname) size(-4 -4 -4, 4 4 4) = info_constraint_anchor : 
+@PointClass base(Targetname, Parentname) size(-4 -4 -4, 4 4 4) = info_constraint_anchor : 
 	"An entity used to attach constraints to a local position on an entity. Usually constraints will attach to the center of mass of an object. "+
 	"Attach the desired constraint to this entity, and then parent this entity to the entity you want the constraint to apply to."
 [
@@ -5186,7 +5200,7 @@
 	input TurnOff(void) : "Turns motor off"
 ]
 
-@PointClass base(Parentname, Targetname, Angles, Studiomodel) studio() = phys_magnet : 
+@PointClass base(Targetname, Parentname, Angles, Studiomodel) studio() = phys_magnet : 
 	"An entity that acts like a magnet, attaching metallic physics objects to itself when they touch it."
 [
 	spawnflags(flags) =
@@ -5228,7 +5242,7 @@
 @BaseClass base(Modelscale, Angles, SystemLevelChoice) = prop_static_base
 [
 	targetname(target_source) : "Helper Name" : : "Useful when using 'entity report' to find entities grouped by name. Has absolutely no use outside of hammer."
-	model(studio) : "World Model"
+	model(studio) : "World Model" : : "Tip: Add '-allowdynamicpropsasstatic' to vbsp++ to compile dynamic props as static. THIS DOES NOT WORK ON MODELS WITH MULTIPLE BONES!"
 	skin(integer) : "Skin" : 0 : "Some models have multiple skingroups. Set this to a number other than 0 to use that skin instead of the default."
 	solid(choices) : "Collisions" : 6 =
 	[
@@ -5314,7 +5328,7 @@
 	output OnAnimationBegun(void) : "Fired whenever a new animation has begun playing."
 	output OnAnimationDone(void) : "Fired whenever an animation is complete."
 
-	lightingorigin(target_destination) : "Lighting Origin" : "" : "Select any entity to specify a location to sample lighting from, instead of using this entity's origin."
+	lightingorigin(target_destination) : "Lighting Origin" : "" : "Select a 'info_target' to sample lights from, instead the prop's own lighting origin."
 
 	renderamt(integer) : "Alpha" : 255 : "Alpha of the fade, where 0 = fully transparent and 255 = fully opaque." 
 	rendercolor(color255) : "Color (R G B)" : "255 255 255" : "Tint the whole model. You can color only parts of a model by using  '$blendtintbybasealpha 1' in the materials of a model. More info on the VDC."
@@ -5338,7 +5352,7 @@
 @PointClass base(prop_static_base) color(255 255 0) sphere(fademindist) sphere(fademaxdist) studioprop() = prop_static :
 	"A prop that doesn't move and doesn't animate."
 [
-//this is for ficool2's vbsp++, vvis++ and vrad++. No ides if they work.
+//this is for ficool2's vbsp++, vvis++ and vrad++. No idea if they work.
 	disableambientocclusion(choices) : "Disable Ambient Occlusion with vertex lighting (Tools++)" : 0 =
 	[
 		0 : "No"
@@ -5346,28 +5360,27 @@
 	]
 ]
 
-//Color change only
 @PointClass base(prop_dynamic_base,EnableDisable) sphere(fademindist) sphere(fademaxdist) studioprop() color(121 255 0)= prop_dynamic : 
 	"A prop that can be placed in hierarchy and can play animations. It can also be configured to break when it takes enough damage. "+
 	"Note that the health of the object will be overridden by the health inside the model, to ensure consistent health game-wide. "+
 	"If the model used by the prop is configured to be used as a prop_physics (i.e. it should be physically simulated) then it CANNOT be "+
 	"used as a prop_dynamic. Upon level load it will display a warning in the console and remove itself. Use a prop_physics instead."
 [
-//this is for ficool2's vbsp++, vvis++ and vrad++. No ides if they work.
-	vrad_model_cast_shadows(choices) : "VRAD Shadows (Tools++)" : 0 : "Set this if this brush casts VRAD static shadows. This disables dynamic shadows as well." =
+//this is for ficool2's vbsp++, vvis++ and vrad++. No idea if they work.
+	vrad_model_cast_shadows(choices) : "VRAD Shadows (Tools++)" : 0 : "Cast shadows like static props, based on collisionmodel. This disables dynamic shadows as well." =
 	[
 		0 : "No"
 		1 : "Yes"
 	]
 ]
-//Color change only
+
 @PointClass base(prop_dynamic_base) studioprop() sphere(fademindist) sphere(fademaxdist)  color(198 255 0)= prop_dynamic_override :
 	"A prop that can be placed in hierarchy and can play animations. It can also be configured to break when it takes enough damage./n"+
 	"prop_dynamic_override is a prototyping entity only. It will allow the use of models designed to be used as prop_physics."
 [
 	health(integer) : "Health" : 0 : "Number of points of damage to take before breaking. 0 means don't break."	
 
-//this is for ficool2's vbsp++, vvis++ and vrad++. No ides if they work.
+//this is for ficool2's vbsp++, vvis++ and vrad++. No idea if they work.
 	vrad_model_cast_shadows(choices) : "VRAD Shadows (Tools++)" : 0 : "Set this if this brush casts VRAD static shadows. This disables dynamic shadows as well." =
 	[
 		0 : "No"
@@ -5376,7 +5389,7 @@
 ]
 
 //adds parentname and body.
-@BaseClass base(Parentname, Global, Targetname, Angles, Studiomodel, Modelscale, BreakableProp, SystemLevelChoice, Glow) = BasePropPhysics
+@BaseClass base(Targetname, Global, Parentname, Angles, Studiomodel, Modelscale, BreakableProp, SystemLevelChoice, Glow) = BasePropPhysics
 [ 
 
 	
@@ -5556,7 +5569,7 @@
 
 @SolidClass quadbounds() base(BreakableBrush, RenderFields, Shadow) = func_breakable_surf : 
 	"A breakable surface, for partially breakable glass / tile / etc. All faces but the desired visible one must be marked as NODRAW and that" +
-	"face must be 4 sided. The material applied to the visible face must be set up to be breakable." 
+	"face must be 4 sided. The material applied to the visible face must contain $crackmaterial, and must have a fitting material file for that. (simillar to water with bottommaterial)" 
 [
 	spawnflags(Flags) = 
 	[
@@ -5570,12 +5583,22 @@
 		0 : "Glass"
 		1 : "Tile"
 	]
+	error(choices) : "Face Error" : 0 : "When non-zero the entity will be removed when spawned, and a error message will be thrown in the console." = 
+	[
+		0 : "0 -No Error"
+		1 : "1- Multiple Textured Faces"
+	]
+
+	lowerleft(vector3)	readonly : "Lower Left Corner"	:	""	: "Specifies the Lower Left Corner of this face. Do Not edit manually."	
+	lowerright(vector3)	readonly : "Lower Right Corner"	:	""	: "Specifies the Lower Right Corner of this face. Do Not edit manually."	
+	upperleft(vector3)	readonly : "Upper Left Corner"	:	""	: "Specifies the Upper Left Corner of this face. Do Not edit manually."	
+	upperright(vector3)	readonly : "Upper Right Corner"	:	""	: "Specifies the Upper Right Corner of this face. Do Not edit manually."	
 
 	// Inputs
 	input Shatter(vector) : "Shatter the window. Input a vector. First two coordinates are the X,Y center of the shattering (as values from from 0-1). The third coordinate is the radius of the shatter, in inches."
 ]
 
-@SolidClass base(Parentname, Targetname, RenderFields, Shadow) = func_conveyor : 
+@SolidClass base(Targetname, Parentname, RenderFields, Shadow) = func_conveyor : 
 	"Conveyor Belt"			// NEEDHELP
 [
 	movedir(angle) : "Move Direction (Pitch Yaw Roll)" : "0 0 0" : "The direction conveyor moves."
@@ -5598,7 +5621,7 @@
 	"func_detail is great for high-frequency brush geometry that's visual detail only. It is also ideal for reducing map VIS time."
 [
 	Tip(string) : "Measurement tips"	: : "Player Height Standing	= 72 units		Player Height Crouching	= 56 units		Player Width:		= 33 units		Player Jump Height		= 56 units		Max Obstacle Height	= 18 units		Eye Height Standing	= 62 units		Eye Height Crouching	= 44 units		CI Max Climb Height		= 180 units"
-//this is for ficool2's vbsp++, vvis++ and vrad++. No ides if they work.
+//this is for ficool2's vbsp++, vvis++ and vrad++. No idea if they work.
 	vbsp_nobevel(boolean) : "No Bevel (Tools++)" : "0" : "If set, bevel faces aren't emitted on angled geometry. This reduces brushsides at the cost of less accurate collision on corners."
 
 ]
@@ -5614,12 +5637,12 @@
 	obsolete(string) readonly : "Use Func_brush" : : " "
 ]
 
-@SolidClass base(Parentname, Targetname) = func_precipitation : 
+@SolidClass base(Targetname, Parentname) = func_precipitation : 
 	"A brush entity that creates rain and snow inside its volume."
 [
 	renderamt(integer) : "Density (0-100%)" : 100	
-	rendercolor(color255) : "Color (R G B)" : "100 100 100"
-	preciptype(choices) : "Precipitation Type" : 0 =	
+	rendercolor(color255) : "Color (R G B)" : "100 100 100" : "Additionally color some particles."
+	preciptype(choices) : "Precipitation Type" : 0 : "Accepts 'Alpha' input between -1 and 255. Lower values are less dense, higher are denser. Above 100 might spawn additional particles. 'Particle Rain Storm' for example will spawn flying leaves above alpha 100." =	
 	[
 		0 : "Rain"
 		1 : "Snow"
@@ -5630,15 +5653,16 @@
 		6 : "Particle Rain Storm"
 		7 : "Particle Bugs"
 		8 : "Particle Smoke"
-
 	]
 	minSpeed(float) : "Minimum speed (snowfall only)" : 25
 	maxSpeed(float) : "Maximum speed (snowfall only)" : 35
 	//particleinner(string) : "Near Particle Name" : : "Precipitation that is used near to the player"
 	//particleouter(string) : "Far Particle Name" : : "Precipitation that is used far from the player"
+	
+	input Alpha(integer) : "Changes the density of the rain, and may add additional particle effects like fog or leaves. It accepts inputs from -1 to 255."
 ]
 
-@SolidClass base(Parentname, Targetname) = func_precipitation_blocker : 
+@SolidClass base(Targetname, Parentname) = func_precipitation_blocker : 
 	"A brush entity that prevents rain and snow inside its volume."
 [
 ]
@@ -5668,7 +5692,7 @@
 //	WaveHeight(string) : "Wave Height" : "3.0"
 //]
 
-@SolidClass base(Parentname, Global, Targetname, RenderFields) = func_guntarget :
+@SolidClass base(Targetname, Global, Parentname, RenderFields) = func_guntarget :
 	"This is a moving target that moves along a path of path_tracks. It can be shot and killed."
 [
 	speed(integer) : "Speed (units per second)" : 100 : "The speed at which the target moves along its path."
@@ -5732,7 +5756,7 @@
 	volume(string) : "Sound Volume 0.0 - 1.0" : "0.85"
 ]
 
-@BaseClass base(Parentname, Global, Targetname, RenderFields, PlatSounds) = Trackchange
+@BaseClass base(Targetname, Global, Parentname, RenderFields, PlatSounds) = Trackchange
 [
 	height(integer) : "Travel Altitude" : 0 : "The vertical height above the track that the train moves. Negative values moves the train below."
 	spawnflags(flags) =
@@ -5751,7 +5775,7 @@
 	speed(integer) : "Move/Rotate Speed" : 0				// NEEDHELP
 ]
 
-@BaseClass base(Parentname, Global, Targetname, Origin, RenderFields, Shadow) = BaseTrain
+@BaseClass base(Targetname, Global, Parentname, Origin, RenderFields, Shadow) = BaseTrain
 [
 	spawnflags(flags) =
 	[
@@ -5883,7 +5907,7 @@
 	movementsound(sound) : "Vehicle Movement Sound" : "vehicles/tank_treads_loop1.wav"
 ]
 
-@PointClass base(Parentname, Targetname, Angles) cylinder(255 255 255, targetname, target, radius, targetname, targetname, radius) color(255 192 0) iconsprite("editor/new/path_track.vmt")= path_track : 
+@PointClass base(Targetname, Parentname, Angles) cylinder(255 255 255, targetname, target, radius, targetname, targetname, radius) color(255 192 0) iconsprite("editor/new/path_track.vmt")= path_track : 
 	"An entity used to build paths for other entities to follow. Each path_track is a node on the path, each holding the name of the next path_track in the path."
 [
 	spawnflags(Flags) =
@@ -6224,7 +6248,7 @@
 	output OnCreditsDone(void) : "Fired when the credits having finished rolling."
 ]
 
-@PointClass base(Parentname, Targetname) size(-8 -8 -8, 8 8 8 ) = material_modify_control : 
+@PointClass base(Targetname, Parentname) size(-8 -8 -8, 8 8 8 ) = material_modify_control : 
 	"An entity that can be used to directly control material vars. To use it, you need to read the .vmt of the material you "+
 	"intend to change. Parent this entity to a brush model entity who's material you want to control."
 [
@@ -6239,7 +6263,7 @@
 ] 
 
 
-@PointClass base(Parentname, Targetname) size(-8 -8 -8, 8 8 8 ) = env_spritetrail : 
+@PointClass base(Targetname, Parentname) size(-8 -8 -8, 8 8 8 ) = env_spritetrail : 
 	"A magical trail you can parent to anything you heart desires."
 [
 	lifetime(float) : "Lifetime" : "0.5"
@@ -6262,11 +6286,12 @@
 @PointClass color(255 0 0) base(obsolete, Parentname, Targetname, Angles) iconsprite("editor/obsolete.vmt")= env_projectedtexture : 
 	"Projected texture entity. DO NOT USE. use 'light_projected' instead."
 [
+	obsolete(string) readonly : "Doesn't work." : : "This entity is reused as the player flashlight. You can only have one on a map. which is your flashlight. Use 'light_projected' with vrad++ and hammer++ instead."
+
 	spawnflags(flags) =
 	[
 		1 : "Enabled"				: 1
 	]
-	obsolete(string) readonly : "Doesn't work." : : "This entity is reused as the player flashlight. You can only have one on a map. which is your flashlight. Use 'light_projected' with vrad++ and hammer++ instead."
 	target(target_destination)	: "target" : : "target"	
 	lightfov(float)				: "FOV" : "90.0" : "FOV"
 	nearz(float)				: "NearZ" : "4.0" : "Near Z for projected texture"
@@ -6331,7 +6356,7 @@
 ]
 
 //Func instance description
-@PointClass base(Angles) size( -1 -1 0, 1 1 1 ) studio("models/editor/axis_helper_thick_new.mdl") instance() = func_instance : 
+@PointClass base(Angles) studio("models/editor/axis_helper_thick_new.mdl") instance() = func_instance : 
 	"An entity for placing an instance of a map file. You may translate and rotate this entity. " +
 	"You can use the replace keys to do parameter changes on the instance contents. In a $ at the " +
 	"beginning of a variable name. Then just use the $variable name inside of the instance contents on any "+
@@ -6572,7 +6597,7 @@
 	
 ]
 
-@PointClass base(Parentname, Targetname, Angles) studioprop() = info_item_position :
+@PointClass base(Targetname, Parentname, Angles) studioprop() = info_item_position :
 	"An entity that represents a possible item location in a map. Scripts can"+ 
 	"search for these entities and use them to spawn objects for different game modes"
 [
@@ -6620,7 +6645,7 @@
 ]
 
 
-@PointClass base(Parentname, Targetname, Angles) studio() = env_airstrike_outdoors : "Airstrike effect for outdoors (exploding roof, ground)"
+@PointClass base(Targetname, Parentname, Angles) studio() = env_airstrike_outdoors : "Airstrike effect for outdoors (exploding roof, ground)"
 [
 	model(studio) : "Model" : "models/props_destruction/general_dest_roof_set.mdl" : "Model name"
 	modelgroup(target_destination) : "Animation group" : "" : "Targetname of one or multiple dynamic_props to choreograph along with our sequence." 
@@ -6677,7 +6702,7 @@
 
 ]
 
-@PointClass base(Parentname, Targetname, Angles) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_multi.mdl") = point_viewcontrol_multiplayer : 
+@PointClass base(Targetname, Parentname, Angles) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_multi.mdl") = point_viewcontrol_multiplayer : 
 	"A camera entity that controls all players' views. While it's active, the players will see out of the camera." 
 [
 	rendercolor(color255)		:	"FOV Frustum Color"	: "248 139 35"	: "Change this color if you want custom color coding" 
@@ -6699,7 +6724,7 @@
 	input Disable(void) : "Disable the point_viewcontrol_multiplayer, and stop controlling the players' view."
 	input StartMovement(void) : "Start the movement to the target entity."
 ]
-@PointClass base(Parentname, Targetname, Angles) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_survivor.mdl") = point_viewcontrol_survivor : 
+@PointClass base(Targetname, Parentname, Angles) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_survivor.mdl") = point_viewcontrol_survivor : 
 	"A camera entity that controls the player's view. Travels from camera position to a first-person view on input." 
 [
 	rendercolor(color255)		:	"FOV Frustum Color"	: "235 33 235"	: "Change this color if you want custom color coding" 
@@ -6719,7 +6744,7 @@
 	input Disable(void) : "Disable the point_viewcontrol_survivor, and stop controlling the player's view."
 	input StartMovement(void) : "Start the movement to first-person view."
 ]
-@PointClass base(Parentname, Targetname, Angles) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_deathfall.mdl") = point_deathfall_camera : 
+@PointClass base(Targetname, Parentname, Angles) frustum(fov,z_near,z_far,rendercolor,-1) studioprop("models/editor/camera_deathfall.mdl") = point_deathfall_camera : 
 	"A camera entity that players falling to their deaths look through." 
 [
 	rendercolor(color255)		:	"FOV Frustum Color"	: "85 92 141"	: "Change this color if you want custom color coding" 
@@ -6961,10 +6986,10 @@
 //		-2147483648	:	"COMPASS_WESTNORTH"		: 0
 
 	]
-	remove_attributes(integer) : "Remove Attributes" 				: 0 :	"Should remove attributes from nav areas instead of applying them?"					
-	mob_only(integer) 			: "Mob_Only"     				: 0 :	"Only allows mobs to pass during panic events. Won't spawn CI and SI. Won't compute flow through it."
-	tank_only(integer) 			: "Tank_Only"	   				: 0 :	"Only tanks are allowed to traverse this. Does not compute flow through it."
-	precise(integer) 			: "Precise"	     				: 0 :	"Disables 'obstacle avoidance' behavior, which is used by bots to keep a distance from world geometry /prop_static entities."+
+	remove_attributes(integer)	: "Remove Attributes" 				: 0 :	"Should remove attributes from nav areas instead of applying them?"					
+	mob_only(integer) 			: "Mob_Only"						: 0 :	"Only allows mobs to pass during panic events. Won't spawn CI and SI. Won't compute flow through it."
+	tank_only(integer) 			: "Tank_Only"						: 0 :	"Only tanks are allowed to traverse this. Does not compute flow through it."
+	precise(integer) 			: "Precise"							: 0 :	"Disables 'obstacle avoidance' behavior, which is used by bots to keep a distance from world geometry /prop_static entities."+
 																			"Place this attribute in narrow nav areas, so bots do not stay too close to the edge when obstacle avoidance kicks in."
 	crouch(integer) 			: "Disallow si spawning (crouch)" 	: 0 :	"Blocks all Specials from this nav area but Smokers, and also spawning of all Specials"
 	stairs(integer) 			: "Stairs"			 				: 0 :	"Bots won't jump upwards, but still jump over gaps. Also disallows Commons from climbing. Automatically handled if needed."
@@ -6983,7 +7008,7 @@
 	maxs(vector) : "Maxs" : "32 32 8"
 ]
 
-@SolidClass base(Parentname, Targetname, Origin, RenderFields) = func_elevator :
+@SolidClass base(Targetname, Parentname, Origin, RenderFields) = func_elevator :
 	"A brush entity that moves vertically."
 [
 	top(vecline) : "Top floor position"
@@ -7477,13 +7502,16 @@
 
 //removed studiomodel restriction, allowing use of custom models if required.
 //Also removes prop_dynamic base because it has alot of unrelated keyvalues. added required keyvalues instead.
-@PointClass color(0 255 0)base(Parentname, Global, Targetname, Angles, EnableDisable) studioprop("models/w_models/weapons/w_minigun.mdl") = prop_minigun_l4d1 : "A mounted gun players can +USE"
+@PointClass color(0 255 0)base(Targetname, Global, Parentname, Angles, EnableDisable, Shadow, lightingorigin_base) studioprop("") = prop_minigun_l4d1 : "A mounted gun players can +USE"
 [
-	model(studio) : "World model" : "models/w_models/weapons/w_minigun.mdl" : "Could be changed"
-	MaxYaw(float) : "Max yaw" : "90" : "Max yaw the gun can be turned."
-	MaxPitch(float) : "Max pitch" : "60" : "Max pitch the gun can be depressed."
-	MinPitch(float) : "Min pitch" : "-30" : "Min pitch the gun can be raised."
-	
+	model(studio) 	: "World model" : "models/w_models/weapons/w_minigun.mdl" : "You can change the model of the minigun via this string. But the sounds may not work."
+
+	MaxYaw(float)	: "Max yaw"		: "90"	: "Max yaw the gun can be turned. Can only be decreased!"
+	MaxPitch(float)	: "Max pitch"	: "60"	: "Max pitch the gun can be depressed. Can only be decreased!"
+	MinPitch(float)	: "Min pitch"	: "-30"	: "Min pitch the gun can be raised. Can only be decreased!"
+
+
+
 	//inputs
 	input SetBodyGroup(integer) : "Set the visible bodygroup, by index."
 	input TurnOn(void) : "Make the prop visible."
@@ -7496,33 +7524,62 @@
 @PointClass color(255 0 0) base(obsolete) iconsprite("editor/obsolete.vmt") = prop_minigun :
 	"Old L4D1 gatling entity, but is used as prop_mounted_machineun in L4D2. Use prop_minigun_l4d1 instead."
 [
-	obsolete(string) readonly : "!!!! Use prop_minigun_l4d1 !!!!" : : "This entity is obsolete in L4D2 and spawns as prop_mounted_machineun instead."
+	obsolete(string) readonly : "!!!! Use prop_minigun_l4d1 !!!!" : : "This entity is from early L4D2. They replaced this minigun with the 50cal in code. THEN they made prop_minigun_l4d1 which is the actual minigun model."
 ]
 
 
-//removed studiomodel restriction, allowing use of custom models if required.
 //Also removes prop_dynamic base because it has alot of unrelated keyvalues. added required keyvalues instead.
-@PointClass color(0 255 0)base(Parentname, Global, Targetname, Angles, EnableDisable) studioprop("models/w_models/weapons/50cal.mdl") = prop_mounted_machine_gun: "50 caliber mounted gun (+USE)"
+@PointClass color(0 255 0)base(Targetname, Global, Parentname, Angles, EnableDisable, Shadow, lightingorigin_base) studioprop("") = prop_mounted_machine_gun: "50 caliber mounted gun (+USE)"
 [
-//	model(studio) : "World model" : "models/w_models/weapons/50cal.mdl" : "Cannot be changed"
-	MaxYaw(float) : "Max yaw" : "90" : "Max yaw the gun can be turned."
-	MaxPitch(float) : "Max pitch" : "60" : "Max pitch the gun can be depressed."
-	MinPitch(float) : "Min pitch" : "-30" : "Min pitch the gun can be raised."
+	model(studio) readonly: "World model" : "models/w_models/weapons/50cal.mdl" : "You can NOT change the gun model, as the game forces the default 50cal gun model. But the game also complains if the map is compiled without this string existing."
+
+	MaxYaw(float)	: "Max yaw"		: "90"	: "Max yaw the gun can be turned. Can only be decreased!"
+	MaxPitch(float)	: "Max pitch"	: "60"	: "Max pitch the gun can be depressed. Can only be decreased!"
+	MinPitch(float)	: "Min pitch"	: "-30"	: "Min pitch the gun can be raised. Can only be decreased!"
+
 
 	//inputs
-	input SetBodyGroup(integer) : "Set the visible bodygroup, by index."
-	input TurnOn(void) : "Make the prop visible."
-	input TurnOff(void) : "Make the prop invisible."
+	input SetBodyGroup(integer)	: "Set the visible bodygroup, by index."
+	input TurnOn(void)			: "Make the prop visible."
+	input TurnOff(void)			: "Make the prop invisible."
 	// Outputs
-	output OnFireStart(void) : "Fired when the machine gun has starting firing."
-	output OnFireStop(void) : "Fired when the machine gun has stopped firing."
+	output OnFireStart(void)	: "Fired when the machine gun has starting firing."
+	output OnFireStop(void)		: "Fired when the machine gun has stopped firing."
 ]
 
 
-@PointClass base(prop_dynamic_base,EnableDisable) studioprop() = prop_health_cabinet : "Health Cabinet"
+@BaseClass = prop_health_cabinet_BASE : "Health Cabinet"
 [
-	model(studio) : "World model" : "models/props_interiors/medicalcabinet02.mdl"
-	HealthCount(integer) : "Number of pain pills" : 1 : "Number of pain pills/first aid kits inside (1-4)"
+	HealthCount(integer)	: "Amount of Pills / First Aid Kits"	: 1												: "Number of pain pills/first aid kits inside (1-4). Spawns First Aid Kirs, if above navmesh marked as CHECKPOINT or FINALE. Director may also swap out pills mid-level."
+	model(studio)			: "World model"							: "models/props_interiors/medicalcabinet02.mdl"	: "You may use any custom model here. But it must use the same attachment points as the regular cabient model."
+	skin(integer)			: "Skin"								: 0												: "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
+	body(integer)			: "Body"								: 0												: "Some models have multiple bodygroups. Set this to a number other than 0 to use that bodygroup instead of the default."
+	lightingorigin(target_destination) : "Lighting Origin" : "" : "Select a 'info_target' to sample lights from, instead the prop's own lighting origin."
+
+]
+
+// prop_dynamic_base = Modelscale, Parentname, Global, Angles, Studiomodel, BreakableProp, RenderFields, Glow
+@PointClass base(Targetname, Parentname, Global, Angles, prop_health_cabinet_BASE, FadeDistBase) studioprop() sphere(fademindist) sphere(fademaxdist) = prop_health_cabinet : "Health Cabinet. Spawns first aid kits when inside a saferoom navmesh, or when the director deems it useful."
+[
+
+	input Skin(integer) : "Changes the model skin to the specified number."
+	input DisableShadow(void) : "Turn shadow off."
+	input EnableShadow(void) : "Turn shadow on."
+	input AlternativeSorting(bool) : "Used to attempt to fix sorting problems when rendering. True activates, false deactivates"
+
+	input SetAnimation(string)			: "Force the prop to play an animation. The parameter should be the name of the animation."
+	input SetDefaultAnimation(string)	: "Set the Default Animation to the one specified in the parameter."
+	input SetPlaybackRate(float)		: "Set the playback rate for the animation."
+	input SetBodyGroup(integer)			: "Set the visible bodygroup, by index."
+	input TurnOn(void)					: "Make the prop visible."
+	input TurnOff(void)					: "Make the prop invisible."
+	input EnableCollision(void)			: "Enable collision on the prop."
+	input DisableCollision(void)		: "Disable collision on the prop."
+
+	// Outputs
+	output OnAnimationBegun(void)		: "Fired whenever a new animation has begun playing."
+	output OnAnimationDone(void)		: "Fired whenever an animation is complete."
+
 ]
 
 //Player Start with Helper Model and better model picker and stuffs
@@ -7727,7 +7784,7 @@
 ]
 
 //info_zombie_spawn with helper model
-@PointClass base(Parentname, Targetname, Angles) studio() = info_zombie_spawn :
+@PointClass base(Targetname, Parentname, Angles) studio() = info_zombie_spawn :
 	"An entity used to spawn a zombie"
 [
 	model(studio) : "Helper Model" : "models/infected/common_male_formal.mdl" : "ONLY for visual aid."
@@ -7754,7 +7811,7 @@
 	output OnSpawnTank(void) : "Fired when the spawner creates a Tank."
 ]
 
-@PointClass base(Parentname, Targetname, Angles, EnableDisable) = info_zombie_border :
+@PointClass base(Targetname, Parentname, Angles, EnableDisable) = info_zombie_border :
 	"No zombies will spawn behind this entity."
 [
 
@@ -7770,20 +7827,20 @@
 //--------------------------------------------------------------------------------------------------------
 // Weapons
 
-@BaseClass color(0 0 200) base(Targetname, Angles) = Weapon
+@BaseClass color(0 0 200) base(Targetname, Angles, lightingorigin_base) = Weapon
 [
 	output OnPlayerPickup(void) : "Fires when the player picks up this weapon"
 ]
 
 //weapon_spawn_single with better listing of keyvalues. such as distinguishing skin and weaponskin.
-@BaseClass color(0 255 0) base(Parentname, Global, Targetname, Angles, Studiomodel) = WeaponSpawnSingle
+@BaseClass color(0 255 0) base(Targetname, Global, Parentname, Angles, Studiomodel, lightingorigin_base) = WeaponSpawnSingle
 [
-	weaponskin(integer) : "Weapon Skin (Viewmodel)" 		: -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
-	skin(integer) 		: "Skin        (Worldmodel)"	: 0 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
-	glowrange(float) 	: "Glow Range" 						: 0 : "Set a custom glow range for this spawner. 0 means use the default range."
-	fademindist(float) 	: "Start Fade Dist"					: -1 : "Distance at which the weapon starts to fade. Even if dropped after being used. (<0 = subtract from fademaxdist)."
-	fademaxdist(float) 	: "End Fade Dist" 					: 0 : "Distance at which the weapon is invisible. Even if dropped after being used. (0 = don't fade out)."
-	solid(choices) 		: "Collisions" 						: 6 =
+	weaponskin(integer) : "Weapon Skin (Viewmodel)" 		: -1	: "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
+	skin(integer) 		: "Skin        (Worldmodel)"		: 0		: "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
+	glowrange(float) 	: "Glow Range" 						: 0		: "Set a custom glow range for this spawner. 0 means use the default range."
+	fademindist(float) 	: "Start Fade Dist"					: -1	: "Distance at which the weapon starts to fade. Even if dropped after being used. (<0 = subtract from fademaxdist)."
+	fademaxdist(float) 	: "End Fade Dist" 					: 0		: "Distance at which the weapon is invisible. Even if dropped after being used. (0 = don't fade out)."
+	solid(choices) 		: "Collisions" 						: 6		=
 	[
 		0: "Not Solid"
 		2: "Use Bounding Box"
@@ -7801,7 +7858,7 @@
 	]
 ]
 
-@BaseClass color(0 0 200) base(Parentname, Global, Targetname, Angles, Studiomodel) = WeaponSpawn
+@BaseClass color(0 0 200) base(Targetname, Global, Parentname, Angles, Studiomodel, lightingorigin_base) = WeaponSpawn
 [
 	count(integer) 		: "Count" 							: 5 : "How many weapons this spawnpoint gives before disappearing. Check the 'Infinite Items' Flag for having unlimited drops."
 	skin(integer) 		: "Skin        (Worldmodel)"	: 0 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
@@ -7827,7 +7884,7 @@
 	]
 ]
 //CARRIABLES 
- @BaseClass color(200 200 0) base(Targetname, Angles) = WeaponSpawnCarry
+ @BaseClass color(200 200 0) base(Targetname, Angles, lightingorigin_base) = WeaponSpawnCarry
 [
 	skin(integer) 		: "Skin        (Worldmodel)" : 0 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
 	weaponskin(integer) : "Weapon Skin (Viewmodel)" : -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
@@ -7894,7 +7951,7 @@
 // Left4Dead Guns -----------
 
 //@PointClass base(Targetname,Angles) = weapon_item_spawn
-@PointClass base(Targetname,Angles) studioprop() = weapon_item_spawn
+@PointClass base(Targetname,Angles, lightingorigin_base) studioprop() = weapon_item_spawn
 [
 	weaponskin(integer) : "Weapon Skin" : -1 : "Some weapons have multiple versions of their textures, called skins. Set this to a number other than -1 to make the given weapon use that skin instead of the default."
 	glowrange(float) : "Glow Range" : 0 : "Set a custom glow range for this spawner. 0 means use the default range."
@@ -7947,7 +8004,7 @@
 ]
 
 //Upgrade_spawn with helper model
-@PointClass base(Targetname, Angles)studioprop() = upgrade_spawn
+@PointClass base(Targetname, Angles, lightingorigin_base)studioprop() = upgrade_spawn
 [
 	disableshadows(choices) : "Disable Shadows" : 1 : "Used to disable dynamic shadows on this entity. Disabled by default, because often times shadows of gun on tables are found on the floor. Which looks weird" =
 	[
@@ -7972,17 +8029,17 @@
 	]	
 ]
 
-@PointClass base(Targetname,Angles) studioprop("models/props/terror/exploding_ammo.mdl") = upgrade_ammo_explosive
+@PointClass base(Targetname,Angles, lightingorigin_base) studioprop("models/props/terror/exploding_ammo.mdl") = upgrade_ammo_explosive
 [
 	count(integer) : "Count" : 4 : "Max number of upgrades given before disappearing."
 ]
 
-@PointClass base(Targetname,Angles) studioprop("models/props/terror/incendiary_ammo.mdl") = upgrade_ammo_incendiary
+@PointClass base(Targetname,Angles, lightingorigin_base) studioprop("models/props/terror/incendiary_ammo.mdl") = upgrade_ammo_incendiary
 [
 	count(integer) : "Count" : 4 : "Max number of upgrades given before disappearing."
 ]
 
-@PointClass base(Targetname,Angles) studioprop("models/w_models/Weapons/w_laser_sights.mdl") = upgrade_laser_sight []
+@PointClass base(Targetname,Angles, lightingorigin_base) studioprop("models/w_models/Weapons/w_laser_sights.mdl") = upgrade_laser_sight []
 
 
 @PointClass color(0 255 0) base(WeaponSpawn) studioprop("models/w_models/Weapons/w_pistol_b.mdl") 						= weapon_pistol_spawn : "Pistols" []
@@ -8022,7 +8079,7 @@
 //Useful Melee Spawner
 //Had to remove all bases and manually add keyvalues required because of the model choice browser.
 
-@PointClass color(0 255 0) base(Parentname, Global, Targetname, Angles) studioprop() = weapon_melee_spawn : "Melee Weapon"
+@PointClass color(0 255 0) base(Targetname, Global, Parentname, Angles, lightingorigin_base) studioprop() = weapon_melee_spawn : "Melee Weapon"
 [
 
 	melee_weapon(string) : "Melee Weapon" : "any" : "Options: 'Any' or a comma-delimited string of melee weapon script names. Leave blank for none.                              Valid names are: Golfclub, Fireaxe, Frying_pan, Machete, Baseball_bat, Crowbar, Cricket_bat, Tonfa, Katana, Electric_guitar, Knife, Pitchfork, Shovel - Or the weapon script name of a custom melee weapon."
@@ -8116,7 +8173,7 @@
 ]
 
 //Weapon_Spawn with helper model picker
-@PointClass color(255 255 0) base(Parentname, Global, Targetname, Angles) studioprop() = weapon_spawn : "Configurable Weapon Spawner"
+@PointClass color(255 255 0) base(Targetname, Global, Parentname, Angles, lightingorigin_base) studioprop() = weapon_spawn : "Configurable Weapon Spawner"
 [	
 	weapon_selection(choices) : "Selection" : "any_primary" : "Spawn the selected weapon or weapon category" =
 	[
@@ -8221,7 +8278,7 @@
 
 // Ammo ---------------------
 //weapon_ammo_spawn with model. Removed obsolete keyvalues added by "weaponspawn" base.
-@PointClass color(0 255 0) base(Parentname, Global, Targetname, Angles, Studiomodel) studioprop() = weapon_ammo_spawn : "Ammo Spawn Location" 
+@PointClass color(0 255 0) base(Targetname, Global, Parentname, Angles, Studiomodel, lightingorigin_base) studioprop() = weapon_ammo_spawn : "Ammo Spawn Location" 
 [
 	disableshadows(choices) : "Disable Shadows" : 1 : "Used to disable dynamic shadows on this entity. Disabled by default, because often times shadows of gun on tables are found on the floor. Which looks weird" =
 	[
@@ -8312,7 +8369,7 @@
 ]
 
 // Beam spotlight ---------------------
-@PointClass base(Parentname, Targetname, Angles, RenderFields) studio("models/editor/cone_helper_white_new.mdl") = beam_spotlight : 
+@PointClass base(Targetname, Parentname, Angles, RenderFields) studio("models/editor/cone_helper_white_new.mdl") = beam_spotlight : 
 	"An entity to draw a spotlight. Will draw a beam when the player views it side on, and a halo when it's facing towards the player. "+
 	"Unless the 'No Dynamic Light' spawnflag is checked, it will also create a dynamic light wherever the end of the spotlight rests." +
 	"This spotlight is entirely client side, it is not sync'd across clients."
@@ -8364,7 +8421,7 @@
 	input Disable(void) : "Stop attracting infected."
 ]
 
-@SolidClass base(Parentname, Global, Targetname, RenderFields, Inputfilter, EnableDisable, Shadow) = func_playerinfected_clip : 
+@SolidClass base(Targetname, Global, Parentname, RenderFields, Inputfilter, EnableDisable, Shadow) = func_playerinfected_clip : 
 	"Simple Clip brush that blocks player infected movement." 
 [
 	spawnflags(flags) =
@@ -8386,7 +8443,7 @@
 	]	
 ]
 
-@SolidClass base(Parentname, Global, Targetname, RenderFields, Inputfilter, EnableDisable, Shadow) = func_playerghostinfected_clip : 
+@SolidClass base(Targetname, Global, Parentname, RenderFields, Inputfilter, EnableDisable, Shadow) = func_playerghostinfected_clip : 
 	"Simple Clip brush that blocks player ghost infected movement." 
 [
 	spawnflags(flags) =
@@ -8429,7 +8486,7 @@
 
 
 //commentary_zombie_spawner with helper model
-@PointClass base(Parentname, Targetname, Angles) studio() = commentary_zombie_spawner :
+@PointClass base(Targetname, Parentname, Angles) studio() = commentary_zombie_spawner :
 	"Zombie Manual Spawning Point"
 [
 	model(studio) : "Helper Model" : "models/infected/hunter.mdl" : "ONLY for visual aid."
@@ -8451,7 +8508,7 @@
 
 
 
-@SolidClass base(Parentname, Targetname) = func_nav_connection_blocker : 
+@SolidClass base(Targetname, Parentname) = func_nav_connection_blocker : 
 	"A brush entity that prevents navigation mesh (on creation) connections to be made through its volume."
 [
 ]
@@ -8524,7 +8581,7 @@
 ]
 
 
-@SolidClass base(Parentname, Targetname, Origin, RenderFields,DamageFilter) = func_button_timed: 
+@SolidClass base(Targetname, Parentname, Origin, RenderFields,DamageFilter) = func_button_timed: 
 	"An entity that takes time to use."
 [
 	use_time(integer) : "Use Time" : 5 : ""
@@ -8629,7 +8686,7 @@
 ]
 
 
-@PointClass base(Parentname, Targetname, Angles, EnableDisable) studio("models/editor/cone_helper_new.mdl") = env_weaponfire : 
+@PointClass base(Targetname, Parentname, Angles, EnableDisable) studio("models/editor/cone_helper_new.mdl") = env_weaponfire : 
 	"Weapon fire"
 [
 	TargetArc(float) : "Target Arc" : "40" : "The arc that the entity will seach for targets (in degrees)"
@@ -8701,7 +8758,7 @@
 	output OnUseFinished(void) : "Fired when a player use is complete."	
 ]
 
-@PointClass base(Parentname, Targetname, Angles, Studiomodel) studioprop() = scripted_item_drop : 
+@PointClass base(Targetname, Parentname, Angles, Studiomodel) studioprop() = scripted_item_drop : 
 	"An item with basic physics that detects player touch."
 [
 ]
@@ -8761,7 +8818,7 @@
 @PointClass base(BasePropPhysics, RenderFields) studioprop() = prop_sphere : "Creates a perfect sphere."
 [
 ]
-@PointClass base(Parentname, Targetname, Angles) studioprop() = grenade_launcher_projectile : "Grenade projectile model, with smoke. "
+@PointClass base(Targetname, Parentname, Angles) studioprop() = grenade_launcher_projectile : "Grenade projectile model, with smoke. "
 [
 ]
 @PointClass base(Targetname) size(-8 -8 -8, 8 8 8) = point_surroundtest
@@ -8772,7 +8829,7 @@
 	output On4Speakers(void)	: "Fired if player is using 4 speakers."
 	output On51Speakers(void)	: "Fired if player is using 5.1 speakers."
 ]
-@PointClass base(Parentname, Targetname, Angles) size(-8 -8 -8, 8 8 8) = env_dusttrail : 
+@PointClass base(Targetname, Parentname, Angles) size(-8 -8 -8, 8 8 8) = env_dusttrail : 
 	"An entity that emits dust 'trails' upon spawning. Unfinished and lacks enabling/disabling functionality. Must be child of something that moves to create a trail."
 [
 	opacity(float) : "Opacity" : 255 : "The opacity of the dust trails."
@@ -8802,7 +8859,7 @@
 		3 : "Core Effect"
 	]
 ]
-@PointClass base(Parentname, Targetname) size(-16 -16 -16, 16 16 16) = env_funnel : 
+@PointClass base(Targetname, Parentname) size(-16 -16 -16, 16 16 16) = env_funnel : 
 	"HL1 Legacy: Large Portal Funnel. It creates many sprites which move toward a point (or from a point). This entity must be activated with the Use input. After it's Used, it is deleted from the map." 
 [
 	spawnflags(flags) =
@@ -8810,7 +8867,7 @@
 		1: "Reverse" : 0
 	]
 ]
-@PointClass base(Parentname, Targetname, EnableDisable) = env_gunfire : "Gunfire Effect, probably not coded properly in l4d2. Doesn't damage."
+@PointClass base(Targetname, Parentname, EnableDisable) = env_gunfire : "Gunfire Effect, probably not coded properly in l4d2. Doesn't damage."
 [
 	target(target_destination) : "Target" : "" : "Shoot at this target. REMEMBER - this is an effect only! It does not do damage!"
 
@@ -8854,7 +8911,7 @@
 		"AR2TRACER" : "AR2"
 	]
 ]
-@PointClass base(Parentname, Targetname) size(-8 -8 -8, 8 8 8) = env_tracer : 
+@PointClass base(Targetname, Parentname) size(-8 -8 -8, 8 8 8) = env_tracer : 
 	"An entity that fires a thin tracer between itself and a target, with a specified delay. The tracer does not follow or update the target. The tracer always fires at its original position, even if the target is killed."
 [
 	target(target_destination) : "Target" : : "The target to fire the tracer at. Must be 256 or more units away from the env_tracer."
@@ -8957,21 +9014,21 @@
 ]
 
 
-@PointClass base(Parentname, Targetname, Angles, Origin, Classname, LagCompensate) size(-8 -8 -8, 8 8 8) = env_rockettrail : "The flaming trail of the rpg_missile."
+@PointClass base(Targetname, Parentname, Angles, Origin, Classname, LagCompensate) size(-8 -8 -8, 8 8 8) = env_rockettrail : "The flaming trail of the rpg_missile."
 [
 
 ]
 
-//	@PointClass base(Parentname, Targetname, Origin, Angles, Classname, LagCompensate) size(-8 -8 -8, 8 8 8) = env_fire_trail : "The trail of fire created on a destroyed npc_helicopter. MISSING PARTICLE"
+//	@PointClass base(Targetname, Parentname, Origin, Angles, Classname, LagCompensate) size(-8 -8 -8, 8 8 8) = env_fire_trail : "The trail of fire created on a destroyed npc_helicopter. MISSING PARTICLE"
 //	[
 //	
 //	]
 
-//	@PointClass base(Parentname, Targetname, Angles) studioprop("models/w_models/weapons/w_he_grenade.mdl") = grenade_launcher_projectile : "Grenade projectile model, with smoke. "
+//	@PointClass base(Targetname, Parentname, Angles) studioprop("models/w_models/weapons/w_he_grenade.mdl") = grenade_launcher_projectile : "Grenade projectile model, with smoke. "
 //	[
 //	]
 
-//	@PointClass base(Parentname, Targetname, EnableDisable) = env_sporeexplosion : "Bugbait Spore Effect. Uses"
+//	@PointClass base(Targetname, Parentname, EnableDisable) = env_sporeexplosion : "Bugbait Spore Effect. Uses"
 //	[
 //		spawnrate(float) : "Spawn Rate (as percentage)" : "25" : "How dense the spore effect is"
 //	]
@@ -9099,6 +9156,8 @@
 	input TurnOff(void) : "Disable the controller." 
 ]
 
+
+
 // ----------------------------------------------------------------------------------------
 // FGD for the ++ compiler suite (vbsp++, vvis++, vrad++.)
 // No idea if they work in l4d2. But i merged its fgd with this.
@@ -9132,14 +9191,14 @@
 @PointClass base(Targetname, Angles, Light) lightprop("models/editor/light_projected.mdl") lightcone() sphere(_fifty_percent_distance) sphere(_zero_percent_distance) = light_projected :
 	"(tools++) An invisible and directional spotlight that projects a texture, similar to env_projectedtexture but it's baked into the lightmaps. May need tiny lightmap scale for it to work."
 [
-	texturename(material)				:	"Texture Name"				:	"effects/flashlight001" : "Texture to project. Scale is defined by the outer angle value of whatever it hits. Projected texture fills the cone's full bounds on impact, not just the circular area. Basically, imagine there's a square with the circle in it. THAT is the image scale."
+	texturename(material)				:	"Texture Name"					:	"effects/flashlight001" : "Texture to project. Scale is defined by the outer angle value of whatever it hits. Projected texture fills the cone's full bounds on impact, not just the circular area. Basically, imagine there's a square with the circle in it. THAT is the image scale."
 
-	target(target_destination)		:	"Entity to point at"	:							: "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
+	target(target_destination)		:	"Entity to point at"	:			: "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
 	_inner_cone(integer)			:	"Inner (bright) angle"	:	30
 	_cone(integer)					:	"Outer (fading) angle"	:	45
 	_exponent(integer)				:	"Focus"					:	1
-	_distance(integer)				:	"Maximum distance"		:	0						: "This is the distance that light is allowed to cast, in inches."
-	pitch(angle_negative_pitch)		:	"Pitch"					:	-87						: "if this is straight up or down, the image doesn't rotate the way you want. You need to be at least 3 degrees off, for it to appear properly rotated."
+	_distance(integer)				:	"Maximum distance"		:	0		: "This is the distance that light is allowed to cast, in inches."
+	pitch(angle_negative_pitch)		:	"Pitch"					:	-87		: "if this is straight up or down, the image doesn't rotate the way you want. You need to be at least 3 degrees off, for it to appear properly rotated."
 
 	spawnflags(Flags) =				[ 1 : "Initially dark" : 0 ]
 ]

@@ -289,7 +289,6 @@
 		"npc_strider"
 		"item_dynamic_resupply"
 		"npc_dog"
-		"env_global"
 	]
 ]
 @AutoVisGroup = "Entities"
